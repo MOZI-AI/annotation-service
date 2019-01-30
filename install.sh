@@ -2,7 +2,7 @@
 
 #Download the dataset files
 if [ ! -d ./datasets ]; then
-    wget -r --no-parent http://46.4.115.181/datasets/
+    wget -O datasets -r --no-parent http://46.4.115.181/datasets/
 
 else
     echo "Datasets folder exists"

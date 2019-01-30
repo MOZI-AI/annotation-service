@@ -4,11 +4,11 @@ import os
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-OPENCOG_DEPS_PATH = os.path.join(PROJECT_ROOT, "scm/opencog_deps")
+OPENCOG_DEPS_PATH = os.path.join(PROJECT_ROOT, "scheme/opencog_deps")
 
-DATASET_FOLDER = os.path.join(PROJECT_ROOT, "scm/datasets")
+DATASET_FOLDER = os.path.join(PROJECT_ROOT, "datasets")
 
-FUNCTIONS_FOLDER = os.path.join(PROJECT_ROOT, "scm/functions")
+FUNCTIONS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/functions")
 
 FUNCTION_PATHs = [os.path.join(FUNCTIONS_FOLDER, fn) for fn in os.listdir(FUNCTIONS_FOLDER) if
                   os.path.isfile(os.path.join(FUNCTIONS_FOLDER, fn))]
@@ -16,7 +16,7 @@ FUNCTION_PATHs = [os.path.join(FUNCTIONS_FOLDER, fn) for fn in os.listdir(FUNCTI
 DATASET_PATHs = [os.path.join(DATASET_FOLDER, dataset) for dataset in os.listdir(DATASET_FOLDER) if
                  os.path.isfile(os.path.join(DATASET_FOLDER, dataset))]
 
-ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scm/annotation_definition.yml")
+ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scheme/annotation_definition.yml")
 
 TEST_DATASET = os.path.join(DATASET_FOLDER, "sample_dataset.scm")
 
