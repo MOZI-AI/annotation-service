@@ -1,0 +1,19 @@
+{
+   "DAEMON_END_POINT": "http://46.4.115.181:8000",
+   "ETHEREUM_JSON_RPC_ENDPOINT": "https://kovan.infura.io",
+   "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
+   "REGISTRY_ADDRESS_KEY": "0xe331bf20044a5b24c1a744abc90c1fd711d2c08d",
+   "PASSTHROUGH_ENABLED": true,
+   "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
+   "ORGANIZATION_ID": "snet",
+   "SERVICE_ID": "annotation-service",
+   "PAYMENT_CHANNEL_STORAGE_SERVER": {
+       "DATA_DIR": "/opt/singnet/etcd/"
+   },
+   "LOG": {
+       "LEVEL": "debug",
+       "OUTPUT": {
+              "TYPE": "stdout"
+           }
+   }
+}

@@ -2,7 +2,7 @@
 
 #Download the dataset files
 if [ ! -d ./datasets ]; then
-    wget -r --no-parent http://144.76.153.5/datasets/
+    wget -r --no-parent http://46.4.115.181/datasets/
 
 else
     echo "Datasets folder exists"
@@ -19,7 +19,7 @@ if [ ! -d snet-daemon-v$snet_daemon_v ] ; then
 	ln snet-daemon-v$snet_daemon_v/snetd snetd
 	rm snet-daemon-v$snet_daemon_v-linux-amd64.tar.gz
 else
-	echo "Snet daemon exists"
+	echo "SNET daemon exists"
 fi
 
 python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. service_specs/annotation.proto

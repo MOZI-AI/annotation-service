@@ -6,3 +6,4 @@
 */__pycache__/*
 service_specs/annotation_pb2.py
 service_specs/annotation_pb2_grpc.py
+service_metadata.json

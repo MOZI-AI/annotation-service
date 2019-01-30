@@ -29,5 +29,5 @@ try:
     SERVICE_URL = os.environ["SERVICE_ADDR"]
 except KeyError:
     PRODUCTION_MODE = False
-    SERVICE_PORT = 5003
+    SERVICE_PORT = 3000
     SERVICE_URL = "localhost"
