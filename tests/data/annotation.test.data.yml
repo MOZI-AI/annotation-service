@@ -1,0 +1,22 @@
+annotations:
+  - annotation: 'gene_go_annotation'
+    filters:
+      - filter: 'namespace'
+        value : 'biological_process cellular_component'
+      - filter: 'get_entrez_id'
+        value : 'False'
+      - filter: 'parents'
+        value : '1'
+  - annotation: 'gene_pathway_annotation'
+    filters:
+      - filter: 'namespace'
+        value: 'smpdb reactome'
+      - filter: 'include_prot'
+        value: 'True'
+      - filter: 'include_small_molecule'
+        value: 'True'
+  - annotation: 'biogrid_interaction_annotation'
+
+genes:
+  - gene_name: 'SLC1A5'
+  - gene_name: 'SPARC'

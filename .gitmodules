@@ -1,0 +1,6 @@
+[submodule "react"]
+        path = react
+        url = https://github.com/MOZI-AI/annotation-service-ui.git
+[submodule "scheme"]
+        path = scheme
+        url = https://github.com/MOZI-AI/annotation-scheme.git

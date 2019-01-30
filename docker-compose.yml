@@ -1,0 +1,30 @@
+version: "3"
+services:
+  backend:
+    container_name: annotation-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3100:3100"
+      - "3000:3000"
+    environment:
+      - SCM_DIR=/root/scm_result
+#    links:
+#      - frontend
+    working_dir: /root/mozi_annotation_service/
+    command: bash -c "circusd --log-level debug circus.ini"
+
+  frontend:
+    container_name: annotation-ui
+    build:
+      context: ./react
+      dockerfile: Dockerfile
+      args:
+        - SERVER_ADDR=http://46.4.115.181:3100
+    ports:
+      - "3200:3200"
+    volumes:
+      - ./react:/root/mozi_annotation_ui/
+    working_dir: /root/mozi_annotation_ui/
+    command: bash -c "npm install && npm run-script build && serve -l 3200 -s build"

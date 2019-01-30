@@ -1,0 +1,8 @@
+.idea/
+*.log
+*.pyc
+/*/*.pyc
+.coverage
+*/__pycache__/*
+service_specs/annotation_pb2.py
+service_specs/annotation_pb2_grpc.py
