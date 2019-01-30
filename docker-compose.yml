@@ -10,8 +10,7 @@ services:
       - "3000:3000"
     environment:
       - SCM_DIR=/root/scm_result
-#    links:
-#      - frontend
+      - PROD_MODE=1
     working_dir: /root/mozi_annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
 

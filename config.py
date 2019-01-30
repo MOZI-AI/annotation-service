@@ -24,7 +24,7 @@ TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
 
 try:
-    PRODUCTION_MODE = os.environ["PROD_MODE"]
+    PRODUCTION_MODE = True if int(os.environ["PROD_MODE"]) == 1 else False
     SERVICE_PORT = os.environ["SERVICE_PORT"]
     SERVICE_URL = os.environ["SERVICE_ADDR"]
 except KeyError:
