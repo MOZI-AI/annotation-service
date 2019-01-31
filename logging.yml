@@ -38,7 +38,7 @@ handlers:
         encoding: utf8
 
 loggers:
-    mozi_snet:
+    annotation-service:
         level: INFO
         handlers: [info_file_handler, console_1, error_file_handler]
         propagate: no
