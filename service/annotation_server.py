@@ -5,7 +5,7 @@ import time
 from concurrent import futures
 from service_specs import annotation_pb2, annotation_pb2_grpc
 from utils import atomspace_setup
-from config import SERVICE_PORT, TEST_FOLDER, PROJECT_ROOT
+from config import SERVICE_PORT, setup_logging, PROJECT_ROOT
 from core.annotation import annotate
 import os
 import base64
@@ -73,6 +73,7 @@ def serve(port):
 
 
 if __name__ == '__main__':
+    setup_logging()
     server = serve(SERVICE_PORT)
     server.start()
     print("server started.")
