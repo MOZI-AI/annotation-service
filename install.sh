@@ -2,7 +2,9 @@
 
 #Download the dataset files
 if [ ! -d ./datasets ]; then
+    mkdir datasets
     wget -r --no-parent http://46.4.115.181/datasets/
+    mv 46.4.115.181/datasets/* datasets && rm -rf 46.4.115.181
 
 else
     echo "Datasets folder exists"
