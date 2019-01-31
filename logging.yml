@@ -1,0 +1,54 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+    simple:
+        format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    print:
+        format: "%(levelname)s - %(message)s"
+
+handlers:
+    console_1:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: simple
+        stream: ext://sys.stdout
+
+    console_2:
+        class: logging.StreamHandler
+        level: INFO
+        formatter: print
+        stream: ext://sys.stdout
+
+    info_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: INFO
+        formatter: simple
+        filename: info.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    error_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        formatter: simple
+        filename: errors.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+loggers:
+    mozi_snet:
+        level: INFO
+        handlers: [info_file_handler, console_1, error_file_handler]
+        propagate: no
+
+    client_log:
+        level: INFO
+        handlers: [console_2]
+        propagate: no
+
+
+root:
+    level: INFO
+    handlers: [console_1, info_file_handler, error_file_handler]

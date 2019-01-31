@@ -9,6 +9,7 @@ from config import SERVICE_PORT, TEST_FOLDER, PROJECT_ROOT
 from core.annotation import annotate
 import os
 import base64
+import logging
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
@@ -24,6 +25,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
     """
     Annotation Service gRPC server that implements annotation RPC function
     """
+    logger = logging.getLogger("annotation-service")
 
     def __init__(self, atomspace):
         """
@@ -43,6 +45,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         response, file_name = annotate(self.atomspace, request.annotations, request.genes)
 
         if file_name is None:
+            self.logger.warning("The following genes were not found in the atomspace %s", response)
             msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
             context.set_details(msg)
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
@@ -60,6 +63,8 @@ def serve(port):
     :param port: a port gRPC server will listen on.
     :return: gRPC server instance
     """
+    logger = logging.getLogger("annotation-service")
+    logger.info("Starting up the Server")
     atomspace = atomspace_setup.load_atomspace()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(atomspace), server)

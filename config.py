@@ -1,6 +1,8 @@
-__author__ = "Enku Wendwosen"
+__author__ = "Enku Wendwosen & Abdulrahman Semrie"
 
 import os
+import yaml
+import logging
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -31,3 +33,14 @@ except KeyError:
     PRODUCTION_MODE = False
     SERVICE_PORT = 3000
     SERVICE_URL = "localhost"
+
+
+def setup_logging(default_path='logging.yml', default_level=logging.INFO):
+    """Setup logging configuration
+    """
+    if os.path.exists(default_path):
+        with open(default_path, 'rt') as f:
+            config = yaml.safe_load(f.read())
+        logging.config.dictConfig(config)
+    else:
+        logging.basicConfig(level=default_level)

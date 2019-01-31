@@ -1,10 +1,11 @@
-__author__ = "Enku Wendwosen"
+__author__ = "Enku Wendwosen & Abdulrahman Semrie"
 
-
+import logging
 from opencog.atomspace import AtomSpace
 from opencog.scheme_wrapper import scheme_eval_h
 import config
-import sys
+
+logger = logging.getLogger("annotation-service")
 
 
 def load_atomspace():
@@ -13,10 +14,11 @@ def load_atomspace():
     :return: atomspace instance
     """
     atomspace = AtomSpace()
-    print("loading atomspace")
+    logger.info("Loading Atoms")
     scheme_eval_h(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
     atomspace = load_functions(atomspace)
     atomspace = load_datasets(atomspace)
+    logger.info("Atoms loaded!")
     return atomspace
 
 
@@ -26,15 +28,15 @@ def load_datasets(atomspace):
     :param atomspace: atomspace instance that will be loaded with datasets.
     :return: a loaded atomspace instance
     """
-    print("loading datasets")
+    logger.info("Loading datasets")
     if config.PRODUCTION_MODE:
+        logger.info("In Production Mode")
         for dataset in config.DATASET_PATHs:
-            print(dataset)
             scheme_eval_h(atomspace, '(primitive-load "{}")'.format(dataset))
 
         return atomspace
     else:
-        print(config.TEST_DATASET)
+        logger.info("In Dev Mode")
         scheme_eval_h(atomspace, '(primitive-load "{}")'.format(config.TEST_DATASET))
         return atomspace
 
@@ -45,10 +47,8 @@ def load_functions(atomspace):
     :param atomspace: atomspace instance taht will be loaded with functions
     :return: a loaded atomspace instance
     """
-    print("loading functions")
+    logger.info("loading functions")
     for fn in config.FUNCTION_PATHs:
-        print(fn)
         scheme_eval_h(atomspace, '(primitive-load "{}")'.format(fn))
 
-    sys.stdout.flush()
     return atomspace
