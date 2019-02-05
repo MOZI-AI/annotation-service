@@ -6,12 +6,12 @@ message Filter{
 }
 
 message Annotation{
-    string function_name = 1;
+    string functionName = 1;
     repeated Filter filters = 2;
 }
 
 message Gene{
-    string gene_name = 1;
+    string geneName = 1;
 }
 
 message AnnotationRequest{
