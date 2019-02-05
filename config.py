@@ -16,8 +16,11 @@ FUNCTIONS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/functions")
 FUNCTION_PATHs = [os.path.join(FUNCTIONS_FOLDER, fn) for fn in os.listdir(FUNCTIONS_FOLDER) if
                   os.path.isfile(os.path.join(FUNCTIONS_FOLDER, fn))]
 
-DATASET_PATHs = [os.path.join(DATASET_FOLDER, dataset) for dataset in os.listdir(DATASET_FOLDER) if
+try:
+    DATASET_PATHs = [os.path.join(DATASET_FOLDER, dataset) for dataset in os.listdir(DATASET_FOLDER) if
                  os.path.isfile(os.path.join(DATASET_FOLDER, dataset))]
+except FileNotFoundError: #For testing
+    DATASET_PATHs = "/home/root"
 
 ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scheme/annotation_definition.yml")
 

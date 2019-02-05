@@ -4,7 +4,7 @@ import grpc
 import time
 from concurrent import futures
 from service_specs import annotation_pb2, annotation_pb2_grpc
-from utils import atomspace_setup
+from utils.atomspace_setup import load_atomspace
 from config import SERVICE_PORT, setup_logging, PROJECT_ROOT
 from core.annotation import annotate
 import os
@@ -57,15 +57,15 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         return annotation_pb2.AnnotationResponse(graph=response, scm=scm_file)
 
 
-def serve(port):
+def serve(atomspace, port):
     """
     Starts a gRPC server that will listen on port
+    :param atomspace: The loaded atomspace
     :param port: a port gRPC server will listen on.
     :return: gRPC server instance
     """
     logger = logging.getLogger("annotation-service")
     logger.info("Starting up the Server")
-    atomspace = atomspace_setup.load_atomspace()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(atomspace), server)
     server.add_insecure_port("[::]:{port}".format(port=port))
@@ -74,7 +74,8 @@ def serve(port):
 
 if __name__ == '__main__':
     setup_logging()
-    server = serve(SERVICE_PORT)
+    atomspace = load_atomspace()
+    server = serve(atomspace, SERVICE_PORT)
     server.start()
     print("server started.")
     try:
