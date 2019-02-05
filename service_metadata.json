@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "display_name": "annotation-service",
+    "encoding": "proto",
+    "service_type": "grpc",
+    "payment_expiration_threshold": 40320,
+    "model_ipfs_hash": "QmQehYVfnKdX1mfSQw1sMgBuNiE3szakRomGb3ZH6wmam7",
+    "mpe_address": "0x39f31Ac7B393fE2C6660b95b878FEB16eA8f3156",
+    "pricing": {
+        "price_model": "fixed_price",
+        "price_in_cogs": 1
+    },
+    "groups": [
+        {
+            "group_name": "default_group",
+            "group_id": "hN8q/yzaPciDWZd1Yb+koqB8o1cTBDNUR3bscSo5K6U=",
+            "payment_address": "0xaceB1EaCA36061ff29Ddb7c963142abbFf23e508"
+        }
+    ],
+    "endpoints": [
+        {
+            "group_name": "default_group",
+            "endpoint": "46.4.115.181:8000"
+        }
+    ]
+}
