@@ -22,5 +22,9 @@
             "group_name": "default_group",
             "endpoint": "46.4.115.181:8000"
         }
-    ]
+    ],
+    "service_description": {
+        "url": "https://mozi-ai.github.io/annotation-service/",
+        "description": "Accepts list of human gene symbols, finds annotations from example databases and displays the results as a browser-based interactive graph visualization."
+    }
 }

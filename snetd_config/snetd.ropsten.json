@@ -1,0 +1,40 @@
+{
+   "DAEMON_END_POINT": "0.0.0.0:8000",
+   "ETHEREUM_JSON_RPC_ENDPOINT": "https://kovan.infura.io",
+   "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
+   "REGISTRY_ADDRESS_KEY": "0xe331bf20044a5b24c1a744abc90c1fd711d2c08d",
+   "PASSTHROUGH_ENABLED": true,
+   "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
+   "ORGANIZATION_ID": "snet",
+   "SERVICE_ID": "annotation-service",
+   "PAYMENT_CHANNEL_STORAGE_SERVER": {
+       "DATA_DIR": "/opt/singnet/etcd/"
+   },
+    "payment_channel_storage_server": {
+    "id": "storage-ropsten",
+    "host": "127.0.0.1",
+    "client_port": 2385,
+    "peer_port": 2386,
+    "token": "unique-token",
+    "cluster": "storage-ropsten=http://127.0.0.1:2386",
+    "data_dir": "etcd/storage-data-dir-ropsten.etcd",
+    "enabled": true
+  },
+
+  "payment_channel_storage_client": {
+    "connection_timeout": "5s",
+    "request_timeout": "3s",
+    "endpoints": ["http://127.0.0.1:2385"]
+  },
+
+  "log": {
+    "level": "debug",
+    "output": {
+      "current_link": "./snetd-ropsten.log",
+      "file_pattern": "./snetd-ropsten.%Y%m%d.log",
+      "rotation_count": 0,
+      "rotation_time_in_sec": 86400,
+      "type": "file"
+    }
+  }
+}

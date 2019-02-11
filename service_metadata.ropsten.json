@@ -1,0 +1,30 @@
+{
+    "version": 1,
+    "display_name": "annotation-service",
+    "encoding": "proto",
+    "service_type": "grpc",
+    "payment_expiration_threshold": 40320,
+    "model_ipfs_hash": "QmQehYVfnKdX1mfSQw1sMgBuNiE3szakRomGb3ZH6wmam7",
+    "mpe_address": "0x7E6366Fbe3bdfCE3C906667911FC5237Cc96BD08",
+    "pricing": {
+        "price_model": "fixed_price",
+        "price_in_cogs": 1
+    },
+    "groups": [
+        {
+            "group_name": "default_group",
+            "group_id": "qh/ueWMwFXqCBIpnx5CIDStBtjHzeo10tFlhy5AIxZM=",
+            "payment_address": "0xaceB1EaCA36061ff29Ddb7c963142abbFf23e508"
+        }
+    ],
+    "endpoints": [
+        {
+            "group_name": "default_group",
+            "endpoint": "http://46.4.115.181:8002"
+        }
+    ],
+    "service_description": {
+        "url": "https://mozi-ai.github.io/annotation-service/",
+        "description": "Accepts list of human gene symbols, finds annotations from example databases and displays the results as a browser-based interactive graph visualization."
+    }
+}
