@@ -14,8 +14,8 @@
     "client_port": 2383,
     "peer_port": 2384,
     "token": "unique-token",
-    "cluster": "storage-kovan=http://127.0.0.1:2384",
-    "data_dir": "etcd/storage-data-dir-kovan.etcd",
+    "cluster": "storage-ropsten=http://127.0.0.1:2384",
+    "data_dir": "etcd/storage-data-dir-ropsten.etcd",
     "enabled": true
   },
 
@@ -28,8 +28,8 @@
   "log": {
     "level": "debug",
     "output": {
-      "current_link": "./snetd-kovan.log",
-      "file_pattern": "./snetd-kovan.%Y%m%d.log",
+      "current_link": "./snetd-ropsten.log",
+      "file_pattern": "./snetd-ropsten.%Y%m%d.log",
       "rotation_count": 0,
       "rotation_time_in_sec": 86400,
       "type": "file"
