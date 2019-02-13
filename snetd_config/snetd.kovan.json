@@ -7,9 +7,7 @@
    "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
    "ORGANIZATION_ID": "snet",
    "SERVICE_ID": "annotation-service",
-   "PAYMENT_CHANNEL_STORAGE_SERVER": {
-       "DATA_DIR": "/opt/singnet/etcd/"
-   },
+
     "payment_channel_storage_server": {
     "id": "storage-ropsten",
     "host": "127.0.0.1",
