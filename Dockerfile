@@ -42,17 +42,24 @@ WORKDIR $HOME
 
 RUN mkdir /root/scm_result
 
+WORKDIR $HOME
+
+#setup grpc proxy
+RUN wget -O grpc-proxy https://github.com/improbable-eng/grpc-web/releases/download/0.6.3/grpcwebproxy-0.6.3-linux-x86_64
+RUN chmod 755 grpc-proxy
+
 # Setup Directories
 ENV CODE $HOME/mozi_annotation_service
 RUN mkdir $CODE
 
-COPY . $CODE
+COPY requirements.txt $CODE/requirements.txt
 
 WORKDIR $CODE
 RUN pip install -r requirements.txt
 
-RUN wget -O grpc-proxy https://github.com/improbable-eng/grpc-web/releases/download/0.6.3/grpcwebproxy-0.6.3-linux-x86_64
-RUN chmod 755 grpc-proxy
-RUN chmod 755 install.sh && ./install.sh
+WORKDIR $HOME
+COPY install.sh $HOME/install
+RUN chmod 755 install && ./install
+
 
 EXPOSE 3000
