@@ -20,7 +20,7 @@ def run(stub, annotation_file):
         annotations = config['annotations']
         for a in annotations:
             annotation = annotation_pb2.Annotation()
-            annotation.function_name = a["annotation"]
+            annotation.functionName = a["annotation"]
             if 'filters' in a:
                 for f in a['filters']:
                     annotation.filters.add(
@@ -34,7 +34,7 @@ def run(stub, annotation_file):
 
         for gene in config['genes']:
             request.genes.add(
-                gene_name=gene['gene_name']
+                geneName=gene['gene_name']
             )
         return stub.Annotate(request)
 

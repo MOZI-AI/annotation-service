@@ -21,14 +21,14 @@ def generate_scheme_function(annotations, genes):
                     filters += f.value
                 else:
                     filters += ' \"' + f.value + '\" '
-            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a.function_name,filters=filters)
+            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a.functionName,filters=filters)
         else:
-            annotations_comp += '( {fn_name} )'.format(fn_name=a.function_name)
+            annotations_comp += '( {fn_name} )'.format(fn_name=a.functionName)
     annotations_comp += ')'
 
     genes_comp = '(genes "'
     for gene in genes:
-        genes_comp += '{gene}'.format(gene=gene.gene_name) if genes_comp == '(genes "' else ' {gene}'.format(gene=gene.gene_name)
+        genes_comp += '{gene}'.format(gene=gene.geneName) if genes_comp == '(genes "' else ' {gene}'.format(gene=gene.geneName)
     genes_comp += '")'
     scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
 
