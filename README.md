@@ -48,3 +48,25 @@ Includes mostly metabolic pathways with proteins and small molecules.
 5. [BIOGRID](BIOGRID-ORGANISM-Homo_sapiens-3.5.166.tab2.txt):
 
 Contains experimentally verified protein-protein interactions
+
+### Running
+
+1. Clone the Project
+
+```git clone --recursive https://github.com/MOZI-AI/annotation-service.git``` 
+
+2. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVER_ADDR` to `http://localhost` 
+
+```
+$ export SERVER_ADDR=<ADDR>
+$ export SERVER_PORT=<PORT>
+``` 
+
+3. Start the docker
+
+```docker-compose up```
+
+3.  You should be able to access the annotation service UI at `http://$SERVER_ADDR:$SERVER_PORT`. 
+
+If you would like to run in production mode, which will load large datasets into the atompspace, you can change line number 15 in `docker-compose.yml` to `1`
+If you don't want to run the snet kovan network, you can comment lines 18-40 in `circus.ini` file.
