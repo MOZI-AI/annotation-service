@@ -53,20 +53,23 @@ Contains experimentally verified protein-protein interactions
 
 1. Clone the Project
 
-```git clone --recursive https://github.com/MOZI-AI/annotation-service.git``` 
+    ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
 
-2. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVER_ADDR` to `http://localhost` 
+2. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVER_ADDR` to `http://localhost`
 
-```
-$ export SERVER_ADDR=<ADDR>
-$ export SERVER_PORT=<PORT>
-``` 
+
+        $ export SERVER_ADDR=<ADDR>
+
+        $ export SERVER_PORT=<PORT>
+
 
 3. Start the docker
 
-```docker-compose up```
+        docker-compose up
 
-3.  You should be able to access the annotation service UI at `http://$SERVER_ADDR:$SERVER_PORT`. 
+3.  You should be able to access the annotation service UI at
+
+        http://$SERVER_ADDR:$SERVER_PORT
 
 If you would like to run in production mode, which will load large datasets into the atompspace, you can change line number 15 in `docker-compose.yml` to `1`
 If you don't want to run the snet kovan network, you can comment lines 18-40 in `circus.ini` file.

@@ -14,8 +14,6 @@ services:
       - SCM_DIR=/root/scm_result
       - PROD_MODE=0
       - SERVICE_PORT=3000
-    volumes:
-      - .:/root/mozi_annotation_service/
     working_dir: /root/mozi_annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
     links:

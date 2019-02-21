@@ -6,7 +6,7 @@
    "PASSTHROUGH_ENABLED": true,
    "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
    "ORGANIZATION_ID": "snet",
-   "SERVICE_ID": "annotation-service",
+   "SERVICE_ID": "gene-annotation-service",
 
   "payment_channel_storage_server": {
     "id": "storage-ropsten",
