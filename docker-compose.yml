@@ -12,7 +12,7 @@ services:
       - "8002:8002"
     environment:
       - SCM_DIR=/root/scm_result
-      - PROD_MODE=0
+      - PROD_MODE=1
       - SERVICE_PORT=3000
     working_dir: /root/mozi_annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
