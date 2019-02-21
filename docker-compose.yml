@@ -28,6 +28,6 @@ services:
     volumes:
       - ./react:/root/mozi_annotation_ui/
     environment:
-      - SERVICE_ADDR=$SERVER_ADDR
+      - SERVICE_ADDR=$SERVICE_ADDR
     working_dir: /root/mozi_annotation_ui/
     command: bash -c "npm install && npm run-script build && serve -l 3200 -s build"

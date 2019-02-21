@@ -48,8 +48,8 @@ RUN chmod 755 grpc-proxy
 
 #Download Datasets
 RUN mkdir datasets
-RUN wget -r --no-parent http://46.4.115.181/datasets/
-RUN mv 46.4.115.181/datasets/* datasets && rm -rf 46.4.115.181
+RUN wget -r --no-parent https://mozi.ai/datasets/
+RUN mv mozi.ai/datasets/* datasets && rm -rf mozi.ai
 RUN rm datasets/index.html
 
 #Install snet daemon
