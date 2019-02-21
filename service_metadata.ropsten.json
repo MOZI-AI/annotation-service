@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "display_name": "annotation-service",
+    "display_name": "gene-annotation-service",
     "encoding": "proto",
     "service_type": "grpc",
     "payment_expiration_threshold": 40320,
