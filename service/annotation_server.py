@@ -52,8 +52,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
 
         scm_file = read_file(os.path.join(PROJECT_ROOT, file_name))
-
-        os.remove(file_name)
+        os.remove(os.path.join(PROJECT_ROOT, file_name))
         return annotation_pb2.AnnotationResponse(graph=response, scm=scm_file)
 
 

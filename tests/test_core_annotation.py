@@ -19,13 +19,13 @@ class TestCoreAnnotation(unittest.TestCase):
             annotations = config['annotations']
             for a in annotations:
                 self.single_annotation_request.annotations.add(
-                    function_name=a['annotation']
+                    functionName=a['annotation']
                 )
 
             genes = config['genes']
             for gene in genes:
                 self.single_annotation_request.genes.add(
-                    gene_name=gene['gene_name']
+                    geneName=gene['gene_name']
                 )
 
         self.multiple_annotation_request = AnnotationRequest()
@@ -35,13 +35,13 @@ class TestCoreAnnotation(unittest.TestCase):
             annotations = config['annotations']
             for a in annotations:
                 self.multiple_annotation_request.annotations.add(
-                    function_name=a['annotation']
+                    functionName=a['annotation']
                 )
 
             genes = config['genes']
             for gene in genes:
                 self.multiple_annotation_request.genes.add(
-                    gene_name=gene['gene_name']
+                    geneName=gene['gene_name']
                 )
 
     @patch('utils.atomspace_setup.load_atomspace')

@@ -3,7 +3,6 @@ import unittest
 from unittest.mock import patch, MagicMock
 
 import grpc
-
 from config import SERVICE_URL, SERVICE_PORT, PROJECT_ROOT
 from service.annotation_client import run
 from service.annotation_server import serve
@@ -25,14 +24,18 @@ class TestAnnotationServer(unittest.TestCase):
         self.channel = grpc.insecure_channel('{url}:{port}'.format(url=SERVICE_URL, port=SERVICE_PORT))
         self.stub = AnnotateStub(self.channel)
         self.test_annotation_file = os.path.join(PROJECT_ROOT, 'tests/data/annotation.test.data.yml')
+        self.test_file_name = "test_file"
+        self.test_file = open(os.path.join(PROJECT_ROOT,self.test_file_name),'w')
 
     def tearDown(self):
+        self.test_file.close()
         pass
 
     def test_annotation(self):
-        with patch('service.annotation_server.annotate', return_value=('1:(scheme)', "file name")):
+        with patch('service.annotation_server.annotate', return_value=('(scheme)', self.test_file_name)):
             response = run(self.stub, self.test_annotation_file)
             self.assertEqual(response.graph, "(scheme)")
+            self.assertTrue(not os.path.exists(self.test_file_name))
 
 
 if __name__ == "__main__":
