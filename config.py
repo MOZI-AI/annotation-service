@@ -6,13 +6,12 @@ import logging
 import logging.config
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-ROOT = "/root"
 
-OPENCOG_DEPS_PATH = os.path.join(ROOT, PROJECT_ROOT, "scheme/opencog_deps")
+OPENCOG_DEPS_PATH = os.path.join(PROJECT_ROOT, "scheme/opencog_deps")
 
-DATASET_FOLDER = os.path.join(ROOT, "datasets")
+DATASET_FOLDER = os.path.join(PROJECT_ROOT, "datasets")
 
-FUNCTIONS_FOLDER = os.path.join(ROOT, PROJECT_ROOT, "scheme/functions")
+FUNCTIONS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/functions")
 
 FUNCTION_PATHs = [os.path.join(FUNCTIONS_FOLDER, fn) for fn in os.listdir(FUNCTIONS_FOLDER) if
                   os.path.isfile(os.path.join(FUNCTIONS_FOLDER, fn))]
@@ -28,11 +27,11 @@ try:
 except FileNotFoundError: #For testing
     DATASET_PATHs = "/home/root"
 
-ANNOTATIONS_YML = os.path.join(ROOT, PROJECT_ROOT, "scheme/annotation_definition.yml")
+ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scheme/annotation_definition.yml")
 
-TEST_DATASET = os.path.join(ROOT, DATASET_FOLDER, "sample_dataset.scm")
+TEST_DATASET = os.path.join(DATASET_FOLDER, "sample_dataset.scm")
 
-TEST_FOLDER = os.path.join(ROOT, PROJECT_ROOT, "tests/data")
+TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
 
 try:

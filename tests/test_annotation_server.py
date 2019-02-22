@@ -8,6 +8,7 @@ from service.annotation_client import run
 from service.annotation_server import serve
 from service_specs.annotation_pb2_grpc import AnnotateStub
 
+
 class TestAnnotationServer(unittest.TestCase):
 
     @classmethod
