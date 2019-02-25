@@ -20,7 +20,7 @@
     "endpoints": [
         {
             "group_name": "default_group",
-            "endpoint": "http://46.4.115.181:8002"
+            "endpoint": "https://mozi.ai/gene-annotation-ropsten"
         }
     ],
     "service_description": {
