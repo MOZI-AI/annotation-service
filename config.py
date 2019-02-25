@@ -16,7 +16,7 @@ FUNCTIONS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/functions")
 FUNCTION_PATHs = [os.path.join(FUNCTIONS_FOLDER, fn) for fn in os.listdir(FUNCTIONS_FOLDER) if
                   os.path.isfile(os.path.join(FUNCTIONS_FOLDER, fn))]
 
-HELPERS_FOLDER = os.path.join(ROOT, PROJECT_ROOT, "scheme/helpers")
+HELPERS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/helpers")
 
 HELPER_PATHs = [os.path.join(HELPERS_FOLDER, fn) for fn in os.listdir(HELPERS_FOLDER) if
                   os.path.isfile(os.path.join(HELPERS_FOLDER, fn))]
@@ -29,7 +29,7 @@ except FileNotFoundError: #For testing
 
 ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scheme/annotation_definition.yml")
 
-TEST_DATASET = os.path.join(DATASET_FOLDER, "sample_dataset.scm")
+TEST_DATASET = os.path.join(PROJECT_ROOT, "scheme/tests/sample_dataset.scm")
 
 TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
