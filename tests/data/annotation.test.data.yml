@@ -18,5 +18,5 @@ annotations:
   - annotation: 'biogrid_interaction_annotation'
 
 genes:
-  - gene_name: 'SLC1A5'
-  - gene_name: 'SPARC'
+  - geneName: 'SLC1A5'
+  - geneName: 'SPARC'
