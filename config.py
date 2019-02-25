@@ -29,7 +29,7 @@ except FileNotFoundError: #For testing
 
 ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scheme/annotation_definition.yml")
 
-TEST_DATASET = os.path.join(DATASET_FOLDER, "sample_dataset.scm")
+TEST_DATASET = os.path.join(PROJECT_ROOT, "scheme/tests/sample_dataset.scm")
 
 TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
