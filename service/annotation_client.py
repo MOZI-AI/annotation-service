@@ -34,7 +34,7 @@ def run(stub, annotation_file):
 
         for gene in config['genes']:
             request.genes.add(
-                geneName=gene['gene_name']
+                geneName=gene['geneName']
             )
         return stub.Annotate(request)
 
