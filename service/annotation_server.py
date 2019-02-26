@@ -64,7 +64,7 @@ def serve(atomspace, port):
     :return: gRPC server instance
     """
     logger = logging.getLogger("annotation-service")
-    logger.info("Starting up the Server")
+    logger.info("Starting up the Server...")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(atomspace), server)
     server.add_insecure_port("[::]:{port}".format(port=port))
@@ -74,11 +74,14 @@ def serve(atomspace, port):
 if __name__ == '__main__':
     setup_logging()
     atomspace = load_atomspace()
+    logger = logging.getLogger("annotation-service")
+    logger.info("Starting up the Server")
     server = serve(atomspace, SERVICE_PORT)
     server.start()
-    print("server started.")
+    logger.info("Server started.")
     try:
         while True:
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)
+        logger.info("Stopping Server...")
