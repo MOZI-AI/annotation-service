@@ -18,6 +18,10 @@ services:
     command: bash -c "circusd --log-level debug circus.ini"
     links:
       - frontend
+
+    volumes:
+      - /etc:/etc
+
   frontend:
     container_name: annotation-ui
     build:

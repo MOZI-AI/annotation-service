@@ -8,6 +8,9 @@
    "ORGANIZATION_ID": "snet",
    "SERVICE_ID": "gene-annotation-service",
 
+   "ssl_cert": "/etc/letsencrypt/live/mozi.ai/fullchain.pem",
+   "ssl_key": "/etc/letsencrypt/live/mozi.ai/privkey.pem",
+
     "payment_channel_storage_server": {
     "id": "storage-kovan",
     "host": "127.0.0.1",
@@ -28,11 +31,7 @@
   "log": {
     "level": "debug",
     "output": {
-      "current_link": "./snetd-kovan.log",
-      "file_pattern": "./snetd-kovan.%Y%m%d.log",
-      "rotation_count": 0,
-      "rotation_time_in_sec": 86400,
-      "type": "file"
+      "type": "stdout"
     }
   }
 }

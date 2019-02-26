@@ -20,7 +20,7 @@
     "endpoints": [
         {
             "group_name": "default_group",
-            "endpoint": "https://mozi.ai/gene-annotation-kovan"
+            "endpoint": "https://mozi.ai:8000"
         }
     ],
     "service_description": {
