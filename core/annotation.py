@@ -44,6 +44,7 @@ def annotate(atomspace, annotations, genes):
     :return: a string response directly from the scheme_eval response decoded in utf-8
     """
     scheme_function, genes = generate_scheme_function(annotations, genes)
+
     gene_result = scheme_eval(atomspace, genes).decode('utf-8')
     print(gene_result)
 
