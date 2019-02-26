@@ -24,7 +24,7 @@
         }
     ],
     "service_description": {
-        "url": "https://mozi-ai.github.io/annotation-service/",
-        "description": "Accepts list of human gene symbols, finds annotations from example databases and displays the results as a browser-based interactive graph visualization."
+        "url": "https://github.com/MOZI-AI/annotation-service",
+        "description": "Annotates a Human gene set with Gene Ontology terms, Reactome pathway memberships, and BioGRID protein interactions"
     }
 }
