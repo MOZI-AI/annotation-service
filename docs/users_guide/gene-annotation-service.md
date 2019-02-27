@@ -10,11 +10,11 @@
 
 1. **Gene Ontology Annotation**:
 
-	Find list of [Gene Ontology (GO)](http://geneontology.org/) terms that the gene is a member of, it can also traverse to `n` number of parent GO's.
+	Find list of [Gene Ontology (GO)](http://geneontology.org/) terms that the gene is a member of, it can also return `n` number of parent GO terms.
 
 2. **Pathway Annotation**:
 
-	Finds the [Small Molecule Pathway Database (SMPDB)](http://smpdb.ca/) and [Reactome](https://reactome.org/) pathways ID's for a given list of genes and the small molecules and Proteins in the selected pathways.
+	Finds the [Reactome](https://reactome.org/) pathways ID's including a given list of genes and the small molecules and proteins in the selected pathways.
 
 3. **Protein Interaction Annotation**:
 
@@ -24,11 +24,11 @@
 
 1. [Gene Ontology](http://www.berkeleybop.org/ontologies/go.obo):
 
-Three sets of concepts describing biological processes, chemical functions, and cellular locations associated with gene products, organized as directed acyclic graphs.
+Three sets of concepts describing biological processes, chemical functions, and cellular locations associated with gene products, organized as directed acyclic graphs
 
 2.  [GO annotation](http://geneontology.org/gene-associations/gene_association.goa_ref_human.gz):
 
-Assigns human gene symbols to GO and their corresponding GO term
+Assigns human gene symbols to relevant concepts (GO terms) in the Gene Ontology
 (Gene ID (gene symbol) and GO ID)
 
 
@@ -37,14 +37,10 @@ Assigns human gene symbols to GO and their corresponding GO term
 Curated metabolic and signaling pathways
 
 
-4. [SMPDB](http://smpdb.ca/downloads/smpdb_proteins.csv.zip):
 
-Includes mostly metabolic pathways with proteins and small molecules.
+4. [BIOGRID](BIOGRID-ORGANISM-Homo_sapiens-3.5.166.tab2.txt):
 
-
-5. [BIOGRID](BIOGRID-ORGANISM-Homo_sapiens-3.5.166.tab2.txt):
-
-Contains experimentally verified protein-protein interactions
+Contains experimentally verified and computationally predicted protein-protein interactions
 
 
 ## Getting Started
