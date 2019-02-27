@@ -24,7 +24,7 @@
         }
     ],
     "service_description": {
-        "url": "https://github.com/MOZI-AI/annotation-service",
+        "url": "https://mozi-ai.github.io/annotation-service",
         "description": "Annotates a Human gene set with Gene Ontology terms, Reactome pathway memberships, and BioGRID protein interactions"
     }
 }
