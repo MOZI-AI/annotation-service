@@ -19,7 +19,7 @@ RUN pyenv global general
 
 ENV PYTHONPATH /usr/local/lib/python3.5/dist-packages:$PYTHONPATH
 
-RUN git clone https://github.com/enku-io/agi-bio.git
+RUN git clone https://github.com/opencog/agi-bio.git
 WORKDIR agi-bio
 RUN mkdir build
 WORKDIR build
