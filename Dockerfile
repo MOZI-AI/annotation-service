@@ -1,4 +1,6 @@
 FROM moziai/backend-deps:latest
+MAINTAINER Enkusellasie Wendwosen <enku@singularitynet.io>
+
 WORKDIR $HOME
 #create scheme result page
 RUN mkdir /root/scm_result
