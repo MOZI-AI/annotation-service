@@ -1,4 +1,4 @@
-
+FROM moziai/backend-deps:latest
 WORKDIR $HOME
 #create scheme result page
 RUN mkdir /root/scm_result
