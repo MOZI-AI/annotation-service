@@ -1,4 +1,4 @@
-FROM moziai/backend-deps:latest
+FROM moziai/backend-deps:stable-eio
 MAINTAINER Enkusellasie Wendwosen <enku@singularitynet.io>
 
 WORKDIR $HOME
