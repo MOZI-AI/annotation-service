@@ -31,3 +31,6 @@ services:
          - SERVER_ADDR=$SERVICE_ADDR
     ports:
       - "$SERVER_PORT:80"
+
+  redis:
+    image: redis

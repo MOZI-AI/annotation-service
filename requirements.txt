@@ -4,3 +4,5 @@ pyyaml
 codecov
 pandas
 circus
+celery
+flask_socketio
