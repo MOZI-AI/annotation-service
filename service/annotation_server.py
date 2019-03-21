@@ -1,16 +1,18 @@
-__author__ = "Enku Wendwosen"
+__author__ = "Enku Wendwosen<enku@singularitynet.io>"
 
 import grpc
 import time
 from concurrent import futures
 from service_specs import annotation_pb2, annotation_pb2_grpc
 from utils.atomspace_setup import load_atomspace
-from config import SERVICE_PORT, setup_logging, PROJECT_ROOT
+from config import SERVICE_PORT, setup_logging, PROJECT_ROOT , MOZI_URI
+from task.task_runner import start_annotation
+from utils.url_encoder import encode
 from core.annotation import annotate
 import os
 import base64
 import logging
-
+import uuid
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 
@@ -19,6 +21,25 @@ def read_file(location):
         content = fp.read()
 
     return base64.b64encode(content)
+
+def parse_payload(annotations,genes):
+    annotation_payload = []
+    for a in annotations:
+        annotation = dict()
+        annotation["function_name"] =  a.functionName
+        if not (a.filters is None):
+            filters = []
+            for f in a.filters:
+                filters.append({"filter":f.filter,"value":f.value})
+
+            annotation["filters"] = filters
+            annotation_payload.append(annotation)
+    genes_payload = []
+    for g in genes:
+        genes_payload.append({"gene_name" : g.geneName})
+
+    return { "annotations" : annotation_payload, "genes" : genes_payload }
+
 
 
 class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
@@ -41,25 +62,41 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         :param context: gRPC context
         :return:
         """
+
+        session_id = uuid.uuid4()
+        mnemonic = encode(session_id)
+
         try:
-            response, file_name = annotate(self.atomspace, request.annotations, request.genes)
-
-            if file_name is None:
-                self.logger.warning("The following genes were not found in the atomspace %s", response)
-                msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
-                context.set_details(msg)
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
-
-            scm_file = read_file(os.path.join(PROJECT_ROOT, file_name))
-            os.remove(os.path.join(PROJECT_ROOT, file_name))
-            return annotation_pb2.AnnotationResponse(graph=response, scm=scm_file)
+            # TODO: Implement a separate EAGER task for checking genes
+            start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = parse_payload(request.annotations,request.genes))
+            url = "{MOZI_URL}/result/{mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
+            return annotation_pb2.AnnotationResponse(result=url)
 
         except Exception as ex:
             logger.error("Error: " + str(ex.__traceback__))
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details("Error occurred in while trying to perform request: " + ex.__str__())
-            return annotation_pb2.AnnotationResponse(graph="", scm="")
+            return annotation_pb2.AnnotationResponse(result="url")
+
+        # try:
+        #     response, file_name = annotate(self.atomspace, request.annotations, request.genes)
+        #
+        #     if file_name is None:
+        #         self.logger.warning("The following genes were not found in the atomspace %s", response)
+        #         msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
+        #         context.set_details(msg)
+        #         context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+        #         return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
+        #
+        #     scm_file = read_file(os.path.join(PROJECT_ROOT, file_name))
+        #     os.remove(os.path.join(PROJECT_ROOT, file_name))
+        #     return annotation_pb2.AnnotationResponse(graph=response, scm=scm_file)
+        #
+        # except Exception as ex:
+        #     logger.error("Error: " + str(ex.__traceback__))
+        #     context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+        #     context.set_details("Error occurred in while trying to perform request: " + ex.__str__())
+        #     return annotation_pb2.AnnotationResponse(graph="", scm="")
 
 
 def serve(atomspace, port):

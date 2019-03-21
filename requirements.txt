@@ -5,4 +5,9 @@ codecov
 pandas
 circus
 celery
-flask_socketio
+python-socketio
+pymongo
+redis
+flask
+flask-cors
+gunicorn

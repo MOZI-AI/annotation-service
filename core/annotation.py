@@ -14,21 +14,21 @@ def generate_scheme_function(annotations, genes):
 
     annotations_comp = '(list '
     for a in annotations:
-        if not (a.filters is None):
+        if not (a["filters"] is None):
             filters = ""
-            for f in a.filters:
-                if f.filter == 'parents':
-                    filters += f.value
+            for f in a["filters"]:
+                if f["filter"] == 'parents':
+                    filters += f["value"]
                 else:
-                    filters += ' \"' + f.value + '\" '
-            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a.functionName,filters=filters)
+                    filters += ' \"' + f["value"] + '\" '
+            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a["function_name"],filters=filters)
         else:
             annotations_comp += '( {fn_name} )'.format(fn_name=a.functionName)
     annotations_comp += ')'
 
     genes_comp = '(genes "'
     for gene in genes:
-        genes_comp += '{gene}'.format(gene=gene.geneName) if genes_comp == '(genes "' else ' {gene}'.format(gene=gene.geneName)
+        genes_comp += '{gene}'.format(gene=gene["gene_name"]) if genes_comp == '(genes "' else ' {gene}'.format(gene=gene["gene_name"])
     genes_comp += '")'
     scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
 
