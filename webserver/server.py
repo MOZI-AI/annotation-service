@@ -41,7 +41,7 @@ def send_result(mnemonic):
     if session:
         if session.status == 2 and not session.expired:
             td = timedelta(days=EXPIRY_SPAN)
-            time_to_expire = td.total_seconds() - (time.time() - session.end_time)
+            time_to_expire = td.total_seconds() + session.end_time
             return jsonify({"status": session.status,"start_time": session.start_time, "end_time": session.end_time,"result":session.result,"annotations":session.annotations,"genes":session.genes,"expire_time":time_to_expire,"status_message":session.message}), 200
         elif session.expired:
             return jsonify({"response": "Session has expired."}), 400
