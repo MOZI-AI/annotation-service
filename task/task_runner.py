@@ -3,7 +3,7 @@ __author__ = "Enku Wendwosen<enku@singularitynet.io>"
 from config import CELERY_OPTS,REDIS_URI, PROJECT_ROOT,MONGODB_URI, DB_NAME, setup_logging
 from celery import Celery, current_app
 from celery.bin import worker
-from core.annotation import annotate
+from core.annotation import annotate , check_gene_availability
 from utils.atomspace_setup import load_atomspace
 import logging
 # import socketio
@@ -24,6 +24,12 @@ def read_file(location):
         content = fp.read()
 
     return base64.b64encode(content)
+
+@celery.task(name="task.task_runner.check_genes")
+def check_genes(**kwargs):
+    logger = logging.getLogger("annotation-service")
+    return check_gene_availability(atomspace , kwargs["payload"]["genes"])
+
 
 @celery.task(name="task.task_runner.start_annotation")
 def start_annotation(**kwargs):

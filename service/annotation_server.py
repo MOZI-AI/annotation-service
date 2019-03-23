@@ -6,7 +6,7 @@ from concurrent import futures
 from service_specs import annotation_pb2, annotation_pb2_grpc
 from utils.atomspace_setup import load_atomspace
 from config import SERVICE_PORT, setup_logging, PROJECT_ROOT , MOZI_URI
-from task.task_runner import start_annotation
+from task.task_runner import start_annotation,check_genes
 from utils.url_encoder import encode
 from core.annotation import annotate
 import os
@@ -68,9 +68,19 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
 
         try:
             # TODO: Implement a separate EAGER task for checking genes
-            start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = parse_payload(request.annotations,request.genes))
-            url = "{MOZI_URL}/result/{mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
-            return annotation_pb2.AnnotationResponse(result=url)
+            payload = parse_payload(request.annotations, request.genes)
+            response , check = check_genes(payload = payload)
+
+            if check:
+                start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = payload)
+                url = "{MOZI_URL}/result?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
+                return annotation_pb2.AnnotationResponse(result=url)
+            else:
+                self.logger.warning("The following genes were not found in the atomspace %s", response)
+                msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
+                context.set_details(msg)
+                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
 
         except Exception as ex:
             logger.error("Error: " + str(ex.__traceback__))
