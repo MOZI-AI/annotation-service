@@ -67,7 +67,6 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         mnemonic = encode(session_id)
 
         try:
-            # TODO: Implement a separate EAGER task for checking genes
             payload = parse_payload(request.annotations, request.genes)
             response , check = check_genes(payload = payload)
 
