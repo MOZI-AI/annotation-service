@@ -5,10 +5,13 @@
 
 ## Gene Annotation service
 
-- Accepts list of human [HGNC](https://www.genenames.org/tools/search/#!/genes) gene symbols, finds annotations from example databases and displays the results as a browser-based interactive graph visualization.
+- Accepts list of human [HGNC](https://www.genenames.org/tools/search/#!/genes) gene symbols, finds annotations from selected databases, and displays the results as a browser-based interactive graph visualization.
+
+- Current annotation sources include [Gene Ontology](http://geneontology.org), [Reactome](http://reactome.org) pathway database, and [BioGRID](http://thebiogrid.org) protein-protein interaction database.
 
 - Results can be downloaded as a JSON file viewable in cytoscape, a set of plain text tables, and an opencog atomese scheme file.
 
+!["gene annotation UI screenshot"](gene-annotation_Screen-Shot-2019-03-14.jpg?raw=true "gene annotation UI screenshot")
 
 ### Local Setup
 
