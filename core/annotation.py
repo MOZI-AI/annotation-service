@@ -3,8 +3,7 @@ __author__ = "Enku Wendwosen"
 from opencog.scheme_wrapper import scheme_eval
 
 
-def generate_scheme_function(annotations, genes):
-
+def generate_annotate_function(annotations):
     """
     Generates scheme functions by concatenating annotations and genes
     :param annotations: a list containing annotations
@@ -14,25 +13,41 @@ def generate_scheme_function(annotations, genes):
 
     annotations_comp = '(list '
     for a in annotations:
-        if not (a.filters is None):
+        if not (a["filters"] is None):
             filters = ""
-            for f in a.filters:
-                if f.filter == 'parents':
-                    filters += f.value
+            for f in a["filters"]:
+                if f["filter"] == 'parents':
+                    filters += f["value"]
                 else:
-                    filters += ' \"' + f.value + '\" '
-            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a.functionName,filters=filters)
+                    filters += ' \"' + f["value"] + '\" '
+            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a["function_name"], filters=filters)
         else:
             annotations_comp += '( {fn_name} )'.format(fn_name=a.functionName)
     annotations_comp += ')'
 
+    scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
+    return scheme_function
+
+
+def generate_gene_function(genes):
     genes_comp = '(genes "'
     for gene in genes:
-        genes_comp += '{gene}'.format(gene=gene.geneName) if genes_comp == '(genes "' else ' {gene}'.format(gene=gene.geneName)
+        genes_comp += '{gene}'.format(gene=gene["gene_name"]) if genes_comp == '(genes "' else ' {gene}'.format(
+            gene=gene["gene_name"])
     genes_comp += '")'
-    scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
+    return genes_comp
 
-    return scheme_function, genes_comp
+
+def check_gene_availability(atomspace, genes):
+    genes = generate_gene_function(genes)
+
+    gene_result = scheme_eval(atomspace, genes).decode('utf-8')
+    print(gene_result)
+
+    if int(gene_result[0]) == 1:
+        return gene_result[2:], False
+
+    return gene_result , True
 
 
 def annotate(atomspace, annotations, genes):
@@ -43,14 +58,7 @@ def annotate(atomspace, annotations, genes):
     :param genes: a list of genes.
     :return: a string response directly from the scheme_eval response decoded in utf-8
     """
-    scheme_function, genes = generate_scheme_function(annotations, genes)
-
-    gene_result = scheme_eval(atomspace, genes).decode('utf-8')
-    print(gene_result)
-
-    if int(gene_result[0]) == 1:
-        return gene_result[2:], None
-
+    scheme_function = generate_annotate_function(annotations)
     print("doing annotation " + scheme_function)
     response = scheme_eval(atomspace, scheme_function).decode('utf-8')
     file_name = scheme_eval(atomspace, "(write-to-file)").decode("utf-8").rstrip()

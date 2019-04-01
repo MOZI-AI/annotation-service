@@ -20,8 +20,7 @@ message AnnotationRequest{
 }
 
 message AnnotationResponse{
-    string graph = 1;
-    string scm = 2;
+    string result = 1;
 }
 
 service Annotate{

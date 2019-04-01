@@ -4,3 +4,9 @@ pyyaml
 codecov
 pandas
 circus
+celery
+pymongo
+redis
+flask
+flask-cors
+gunicorn

@@ -1,0 +1,32 @@
+FROM opencog/opencog-dev:cli
+MAINTAINER Enkusellasie Wendwosen <enku@singularitynet.io>
+
+#Run apt-get in NONINTERACTIVE mode
+ENV DEBIAN_FRONTEND noninteractive
+
+ENV HOME /root
+WORKDIR $HOME
+
+RUN git clone https://github.com/enku-io/agi-bio.git
+WORKDIR agi-bio
+RUN mkdir build
+WORKDIR build
+RUN \
+    cmake .. && \
+    make && \
+    make install
+
+
+WORKDIR $HOME
+RUN git clone https://github.com/Habush/guile-json.git
+WORKDIR guile-json
+RUN \
+    apt-get install -y dh-autoreconf && \
+    autoreconf -vif && \
+    ./configure  && \
+    make && \
+    make install
+
+WORKDIR $HOME
+RUN mkdir $HOME/code
+WORKDIR $HOME/code
