@@ -87,26 +87,6 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             context.set_details("Error occurred in while trying to perform request: " + ex.__str__())
             return annotation_pb2.AnnotationResponse(result="url")
 
-        # try:
-        #     response, file_name = annotate(self.atomspace, request.annotations, request.genes)
-        #
-        #     if file_name is None:
-        #         self.logger.warning("The following genes were not found in the atomspace %s", response)
-        #         msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
-        #         context.set_details(msg)
-        #         context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-        #         return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
-        #
-        #     scm_file = read_file(os.path.join(PROJECT_ROOT, file_name))
-        #     os.remove(os.path.join(PROJECT_ROOT, file_name))
-        #     return annotation_pb2.AnnotationResponse(graph=response, scm=scm_file)
-        #
-        # except Exception as ex:
-        #     logger.error("Error: " + str(ex.__traceback__))
-        #     context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-        #     context.set_details("Error occurred in while trying to perform request: " + ex.__str__())
-        #     return annotation_pb2.AnnotationResponse(graph="", scm="")
-
 
 def serve(atomspace, port):
     """

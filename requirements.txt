@@ -5,7 +5,6 @@ codecov
 pandas
 circus
 celery
-python-socketio
 pymongo
 redis
 flask
