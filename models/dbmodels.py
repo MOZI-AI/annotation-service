@@ -19,6 +19,7 @@ class Session:
         self.genes = genes
         self.result = None
         self.result_file = None
+        self.csv_file = None
         self.expired = False
 
     def save(self, db):
@@ -70,6 +71,7 @@ class Session:
             session.end_time = result["end_time"]
             session.result = result["result"]
             session.result_file = result["result_file"]
+            session.csv_file = result["csv_file"]
             session.expired = result["expired"]
             session.annotations = result['annotations']
             session.genes = result['genes']

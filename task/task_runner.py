@@ -12,6 +12,8 @@ import os
 import pymongo
 import time
 from models.dbmodels import Session
+from utils.scm2csv.scm2csv import to_csv
+from opencog.scheme_wrapper import scheme_eval
 
 celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
 atomspace = load_atomspace()
@@ -34,14 +36,15 @@ def check_genes(**kwargs):
 @celery.task(name="task.task_runner.start_annotation")
 def start_annotation(**kwargs):
     logger = logging.getLogger("annotation-service")
+    atomspaces = load_atomspace()
     db = pymongo.MongoClient(MONGODB_URI)[DB_NAME]
     session = Session(id=kwargs["session_id"],mnemonic=kwargs["mnemonic"],annotations=kwargs["payload"]["annotations"],genes=kwargs["payload"]["genes"])
     session.save(db)
     session.status = 1
     session.start_time = time.time()
     session.update_session(db)
-
-    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"])
+    print(scheme_eval(atomspace,"(count-all)").decode("utf-8"))
+    response, file_name = annotate(atomspaces, kwargs["payload"]["annotations"])
 
     if file_name is None:
         logger.warning("The following genes were not found in the atomspace %s", response)
@@ -54,6 +57,8 @@ def start_annotation(**kwargs):
         session.status = 2
         session.result = response
         session.result_file = scm_file
+        print(scm_file)
+        session.csv_file = to_csv(scm_file)
         session.update_session(db)
 
     except Exception as ex:

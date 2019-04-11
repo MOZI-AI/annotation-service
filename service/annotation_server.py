@@ -69,6 +69,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         try:
             payload = parse_payload(request.annotations, request.genes)
             response , check = check_genes(payload = payload)
+            self.logger.warning(response)
 
             if check:
                 start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = payload)
@@ -79,7 +80,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
                 msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
                 context.set_details(msg)
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
+                return annotation_pb2.AnnotationResponse(result=msg)
 
         except Exception as ex:
             logger.error("Error: " + str(ex.__traceback__))

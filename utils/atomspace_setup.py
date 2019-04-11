@@ -15,9 +15,11 @@ def load_atomspace():
     """
     atomspace = AtomSpace()
     logger.info("Loading Atoms")
+    print("loading atoms")
     scheme_eval_h(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
     atomspace = load_functions(atomspace)
     atomspace = load_datasets(atomspace)
+    print("done")
     logger.info("Atoms loaded!")
     return atomspace
 
@@ -47,6 +49,10 @@ def load_functions(atomspace):
     :param atomspace: atomspace instance taht will be loaded with functions
     :return: a loaded atomspace instance
     """
+    logger.info("loading helper functions")
+    for fn in config.HELPER_PATHs:
+        scheme_eval_h(atomspace, '(primitive-load "{}")'.format(fn))
+
     logger.info("loading functions")
     for fn in config.FUNCTION_PATHs:
         scheme_eval_h(atomspace, '(primitive-load "{}")'.format(fn))
