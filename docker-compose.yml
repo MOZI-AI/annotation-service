@@ -6,10 +6,9 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "5000:3003"
-      - "3002:3002"
-      - "3001:3001"
-      - "3000:3000"
+      - "3002:3002" # Web Server
+      - "3001:3001" # GRPC Proxy Server
+      - "3000:3000" # GRPC Server
       - "8000:8000"
       - "8002:8002"
     environment:

@@ -1,7 +1,7 @@
 __author__ = "Enku Wendwosen"
 
 from opencog.scheme_wrapper import scheme_eval
-
+import logging
 
 def generate_annotate_function(annotations):
     """
@@ -39,10 +39,12 @@ def generate_gene_function(genes):
 
 
 def check_gene_availability(atomspace, genes):
+    logger = logging.getLogger("annotation-service")
     genes = generate_gene_function(genes)
-
+    logger.warning("checking genes : " + genes)
+    logger.warning(genes)
     gene_result = scheme_eval(atomspace, genes).decode('utf-8')
-    print(gene_result)
+    logger.warning("result : " + gene_result)
 
     if int(gene_result[0]) == 1:
         return gene_result[2:], False
@@ -50,7 +52,7 @@ def check_gene_availability(atomspace, genes):
     return gene_result , True
 
 
-def annotate(atomspace, annotations, genes):
+def annotate(atomspace, annotations):
     """
     Performs annotation according to a list of annotations given on a list of genes
     :param atomspace: the atomspace that contains the loaded knowledge bases where the annotations will be performed from
@@ -58,10 +60,12 @@ def annotate(atomspace, annotations, genes):
     :param genes: a list of genes.
     :return: a string response directly from the scheme_eval response decoded in utf-8
     """
+    logger = logging.getLogger("annotation-service")
     scheme_function = generate_annotate_function(annotations)
-    print("doing annotation " + scheme_function)
+    logger.warning("doing annotation " + scheme_function)
     response = scheme_eval(atomspace, scheme_function).decode('utf-8')
+    logger.warning(response)
     file_name = scheme_eval(atomspace, "(write-to-file)").decode("utf-8").rstrip()
-    print("saving result in file : " + file_name)
+    logger.warning("saving result in file : " + file_name)
 
     return response, file_name
