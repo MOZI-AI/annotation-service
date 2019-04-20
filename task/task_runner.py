@@ -36,7 +36,6 @@ def check_genes(**kwargs):
 @celery.task(name="task.task_runner.start_annotation")
 def start_annotation(**kwargs):
     logger = logging.getLogger("annotation-service")
-    atomspaces = load_atomspace()
     db = pymongo.MongoClient(MONGODB_URI)[DB_NAME]
     session = Session(id=kwargs["session_id"],mnemonic=kwargs["mnemonic"],annotations=kwargs["payload"]["annotations"],genes=kwargs["payload"]["genes"])
     session.save(db)
@@ -44,7 +43,7 @@ def start_annotation(**kwargs):
     session.start_time = time.time()
     session.update_session(db)
     print(scheme_eval(atomspace,"(count-all)").decode("utf-8"))
-    response, file_name = annotate(atomspaces, kwargs["payload"]["annotations"])
+    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"])
 
     if file_name is None:
         logger.warning("The following genes were not found in the atomspace %s", response)
