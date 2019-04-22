@@ -37,7 +37,7 @@ services:
       - "3003:80"
 
   result-ui:
-    container_name: result-ui
+    container_name: annotation-result-ui
     build:
       context: ./annotation-result-ui
       dockerfile: Dockerfile
