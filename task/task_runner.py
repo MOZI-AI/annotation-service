@@ -6,7 +6,6 @@ from celery.bin import worker
 from core.annotation import annotate , check_gene_availability
 from utils.atomspace_setup import load_atomspace
 import logging
-# import socketio
 import base64
 import os
 import pymongo
@@ -15,9 +14,9 @@ from models.dbmodels import Session
 from utils.scm2csv.scm2csv import to_csv
 from opencog.scheme_wrapper import scheme_eval
 
-celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
+# celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
 atomspace = load_atomspace()
-celery.conf.update(CELERY_OPTS)
+# celery.conf.update(CELERY_OPTS)
 setup_logging()
 # sio = socketio.RedisManager(REDIS_URI, write_only=True)
 
@@ -27,13 +26,13 @@ def read_file(location):
 
     return base64.b64encode(content)
 
-@celery.task(name="task.task_runner.check_genes")
+# @celery.task(name="task.task_runner.check_genes")
 def check_genes(**kwargs):
     logger = logging.getLogger("annotation-service")
     return check_gene_availability(atomspace , kwargs["payload"]["genes"])
 
 
-@celery.task(name="task.task_runner.start_annotation")
+# @celery.task(name="task.task_runner.start_annotation")
 def start_annotation(**kwargs):
     logger = logging.getLogger("annotation-service")
     db = pymongo.MongoClient(MONGODB_URI)[DB_NAME]
@@ -59,6 +58,7 @@ def start_annotation(**kwargs):
         print(scm_file)
         session.csv_file = to_csv(scm_file)
         session.update_session(db)
+        return True
 
     except Exception as ex:
         msg = "Error: " + str(ex.__traceback__)
@@ -66,6 +66,7 @@ def start_annotation(**kwargs):
         session.update_session(db)
         session.message = msg
         logger.error(msg)
+        return False
 
     finally:
         session.end_time = time.time()

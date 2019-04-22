@@ -72,9 +72,15 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             self.logger.warning(response)
 
             if check:
-                start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = payload)
-                url = "{MOZI_URL}/result?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
-                return annotation_pb2.AnnotationResponse(result=url)
+                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload, atomspace=self.atomspace)
+                if response:
+                    url = "{MOZI_URL}/?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
+                    return annotation_pb2.AnnotationResponse(result=url)
+                else:
+                    msg = "an internal error occured. please try again"
+                    context.set_details(msg)
+                    context.set_code(grpc.StatusCode.INTERNAL)
+                    return annotation_pb2.AnnotationResponse(result=msg)
             else:
                 self.logger.warning("The following genes were not found in the atomspace %s", response)
                 msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
