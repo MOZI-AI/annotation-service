@@ -32,8 +32,8 @@ services:
     build:
       context: ./react
       dockerfile: Dockerfile
-    environment:
-      - SERVICE_ADDR=$SERVICE_ADDR
+    args:
+      - SERVER_ADDR=$SERVICE_ADDR
     ports:
       - "3003:80" #annotation ui port
 
@@ -42,8 +42,8 @@ services:
     build:
       context: ./annotation-result-ui
       dockerfile: Dockerfile
-    environment:
-      - SERVICE_ADDR=$SERVICE_ADDR
+    args:
+      - SERVER_ADDR=$SERVICE_ADDR
     ports:
       - "3004:80"#annotation result ui port
 
