@@ -9,6 +9,7 @@
 [submodule "annotation-result-ui"]
 	path = annotation-result-ui
 	url = https://github.com/MOZI-AI/annotation-result-ui.git
+	branch = master
 [submodule "scm2csv"]
 	path = utils/scm2csv
 	url = https://github.com/MOZI-AI/scheme2csv.git
