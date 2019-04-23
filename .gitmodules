@@ -13,3 +13,4 @@
 [submodule "scm2csv"]
 	path = utils/scm2csv
 	url = https://github.com/MOZI-AI/scheme2csv.git
+	branch = master
