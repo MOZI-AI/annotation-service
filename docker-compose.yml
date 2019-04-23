@@ -17,6 +17,7 @@ services:
       - SERVICE_PORT=3000
       - REDIS_URI =redis://redis:6379/0
       - MONGODB_URI=mongodb://mongo:27017/
+      - SERVICE_ADDR=$SERVICE_ADDR
     working_dir: /root/mozi_annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
     links:
