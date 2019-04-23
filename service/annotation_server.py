@@ -5,7 +5,7 @@ import time
 from concurrent import futures
 from service_specs import annotation_pb2, annotation_pb2_grpc
 from utils.atomspace_setup import load_atomspace
-from config import SERVICE_PORT, setup_logging, PROJECT_ROOT , MOZI_URI
+from config import SERVICE_PORT, setup_logging, PROJECT_ROOT , MOZI_RESULT_URI
 from task.task_runner import start_annotation,check_genes
 from utils.url_encoder import encode
 from core.annotation import annotate
@@ -74,7 +74,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             if check:
                 response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload, atomspace=self.atomspace)
                 if response:
-                    url = "{MOZI_URL}/?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
+                    url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI,mnemonic=mnemonic)
                     return annotation_pb2.AnnotationResponse(result=url)
                 else:
                     msg = "an internal error occured. please try again"
