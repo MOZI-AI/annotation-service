@@ -73,7 +73,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
 
             if check:
                 start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = payload)
-                url = "{MOZI_URL}/result?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
+                url = "{MOZI_URL}/?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
                 return annotation_pb2.AnnotationResponse(result=url)
             else:
                 self.logger.warning("The following genes were not found in the atomspace %s", response)
