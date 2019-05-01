@@ -45,7 +45,7 @@ services:
       args:
         - SERVER_ADDR=$SERVICE_ADDR
     ports:
-      - "3004:80"#annotation result ui port
+      - "3004:80" #annotation result ui port
 
   redis:
     image: redis

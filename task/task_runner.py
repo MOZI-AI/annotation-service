@@ -41,7 +41,7 @@ def start_annotation(**kwargs):
     session.status = 1
     session.start_time = time.time()
     session.update_session(db)
-    print(scheme_eval(atomspace,"(count-all)").decode("utf-8"))
+    print("when executing atoms:" +scheme_eval(atomspace,"(count-all)").decode("utf-8"))
     response, file_name = annotate(atomspace, kwargs["payload"]["annotations"])
 
     if file_name is None:

@@ -48,12 +48,12 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
     """
     logger = logging.getLogger("annotation-service")
 
-    def __init__(self, atomspace):
+    def __init__(self):
         """
         constructor
         :param atomspace: atomspace that has a loaded list of knowledge bases
         """
-        self.atomspace = atomspace
+        # self.atomspace = atomspace
 
     def Annotate(self, request, context):
         """
@@ -72,7 +72,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             self.logger.warning(response)
 
             if check:
-                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload, atomspace=self.atomspace)
+                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload)
                 if response:
                     url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI,mnemonic=mnemonic)
                     return annotation_pb2.AnnotationResponse(result=url)
@@ -95,7 +95,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             return annotation_pb2.AnnotationResponse(result="url")
 
 
-def serve(atomspace, port):
+def serve( port):
     """
     Starts a gRPC server that will listen on port
     :param atomspace: The loaded atomspace
@@ -105,17 +105,17 @@ def serve(atomspace, port):
     logger = logging.getLogger("annotation-service")
     logger.info("Starting up the Server...")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(atomspace), server)
+    annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(), server)
     server.add_insecure_port("[::]:{port}".format(port=port))
     return server
 
 
 if __name__ == '__main__':
     setup_logging()
-    atomspace = load_atomspace()
+    # atomspace = load_atomspace()
     logger = logging.getLogger("annotation-service")
     logger.info("Starting up the Server")
-    server = serve(atomspace, SERVICE_PORT)
+    server = serve( SERVICE_PORT)
     server.start()
     logger.info("Server started.")
     try:

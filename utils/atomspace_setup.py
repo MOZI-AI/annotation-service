@@ -2,7 +2,7 @@ __author__ = "Enku Wendwosen & Abdulrahman Semrie"
 
 import logging
 from opencog.atomspace import AtomSpace
-from opencog.scheme_wrapper import scheme_eval_h
+from opencog.scheme_wrapper import scheme_eval_h, scheme_eval
 import config
 
 logger = logging.getLogger("annotation-service")
@@ -17,8 +17,11 @@ def load_atomspace():
     logger.info("Loading Atoms")
     print("loading atoms")
     scheme_eval_h(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
+    print("initial atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     atomspace = load_functions(atomspace)
+    print("after functions atoms:" +scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     atomspace = load_datasets(atomspace)
+    print("after datasets:" +scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     print("done")
     logger.info("Atoms loaded!")
     return atomspace
