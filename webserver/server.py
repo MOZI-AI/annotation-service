@@ -7,7 +7,7 @@ from models.dbmodels import Session
 from flask import Flask, send_file, jsonify
 from flask_cors import CORS
 import pymongo
-from config import MONGODB_URI, DB_NAME, EXPIRY_SPAN, PROJECT_ROOT, CSV_TEST_FOLDER
+from config import MONGODB_URI, DB_NAME, EXPIRY_SPAN, PROJECT_ROOT, CSV_TEST_FOLDER, CSV_FOLDER
 from datetime import timedelta
 import zipfile
 import uuid
@@ -45,7 +45,8 @@ def send_result(mnemonic):
             td = timedelta(days=EXPIRY_SPAN)
             time_to_expire = td.total_seconds() + session.end_time
             #TODO: change test csv to one from DB.
-            return jsonify({"status": session.status,"start_time": session.start_time, "end_time": session.end_time,"result":session.result,"annotations":session.annotations,"genes":session.genes,"expire_time":time_to_expire,"status_message":session.message,"csv_files":[{"displayName":"BIOGRID","fileName":"biogrid_annotation.csv"},{"displayName":"GO","fileName":"gene_go_annotation.csv"},{"displayName":"PATHWAY","fileName":"gene_pathway_annotation.csv"}]}), 200
+            # [{"displayName":"BIOGRID","fileName":"biogrid_annotation.csv"},{"displayName":"GO","fileName":"gene_go_annotation.csv"},{"displayName":"PATHWAY","fileName":"gene_pathway_annotation.csv"}]
+            return jsonify({"status": session.status,"start_time": session.start_time, "end_time": session.end_time,"result":session.result,"annotations":session.annotations,"genes":session.genes,"expire_time":time_to_expire,"status_message":session.message,"csv_files":session.csv_file}), 200
         elif session.expired:
             return jsonify({"response": "Session has expired."}), 400
         elif session.status != 2:
@@ -72,7 +73,7 @@ def send_result_file(mnemonic):
 @app.route("/csv_file/<file_name>",methods=["GET"])
 def send_csv_files(file_name):
 
-    path = os.path.join(CSV_TEST_FOLDER,file_name)
+    path = os.path.join(CSV_FOLDER,file_name)
     if os.path.exists(path):
         return send_file(path,as_attachment=True),200
     else:

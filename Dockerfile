@@ -7,6 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 WORKDIR $HOME
 #create scheme result page
 RUN mkdir /root/scm_result
+RUN mkdir /root/csv_result
 
 ENV CODE $HOME/mozi_annotation_service
 RUN mkdir $CODE

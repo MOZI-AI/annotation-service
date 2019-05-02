@@ -41,7 +41,7 @@ def start_annotation(**kwargs):
     session.status = 1
     session.start_time = time.time()
     session.update_session(db)
-    print("when executing atoms:" +scheme_eval(atomspace,"(count-all)").decode("utf-8"))
+    logger.warning("when executing atoms:" +scheme_eval(atomspace,"(count-all)").decode("utf-8"))
     response, file_name = annotate(atomspace, kwargs["payload"]["annotations"])
 
     if file_name is None:
@@ -55,8 +55,9 @@ def start_annotation(**kwargs):
         session.status = 2
         session.result = response
         session.result_file = scm_file
-        print(scm_file)
-        session.csv_file = to_csv(scm_file)
+        csv_file = to_csv(scm_file)
+        logger.warning(csv_file)
+        session.csv_file = csv_file
         session.update_session(db)
         return True
 
