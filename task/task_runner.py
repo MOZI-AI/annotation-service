@@ -42,8 +42,8 @@ def start_annotation(**kwargs):
     session.start_time = time.time()
     session.update_session(db)
     logger.warning("when executing atoms:" +scheme_eval(atomspace,"(count-all)").decode("utf-8"))
-    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"])
-
+    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"])
+    logger.info("Filename: " + file_name)
     if file_name is None:
         logger.warning("The following genes were not found in the atomspace %s", response)
         msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
@@ -55,9 +55,9 @@ def start_annotation(**kwargs):
         session.status = 2
         session.result = response
         session.result_file = scm_file
-        csv_file = to_csv(scm_file)
-        logger.warning(csv_file)
-        session.csv_file = csv_file
+        #csv_file = to_csv(scm_file)
+        #logger.warning(csv_file)
+        #session.csv_file = csv_file
         session.update_session(db)
         return True
 

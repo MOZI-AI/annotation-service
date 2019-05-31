@@ -68,7 +68,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
 
         try:
             payload = parse_payload(request.annotations, request.genes)
-            response , check = check_genes(payload = payload)
+            response, check = check_genes(payload = payload)
             self.logger.warning(response)
 
             if check:
