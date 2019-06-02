@@ -89,7 +89,7 @@ The **query.json** file has the gene symbol(s) and the annotations you want to u
 
     {
         "annotations": [{
-            "functionName": "gene_go_annotation",
+            "functionName": "gene-go-annotation",
             "filters": [{
                 "filter": "namespace",
                 "value": "biological_process cellular_component molecular_function"
@@ -99,7 +99,7 @@ The **query.json** file has the gene symbol(s) and the annotations you want to u
                 "value": "0"
             }]
         }, {
-            "functionName": "biogrid_interaction_annotation",
+            "functionName": "biogrid-interaction-annotation",
             "filters": []
         }],
         "genes": [{
