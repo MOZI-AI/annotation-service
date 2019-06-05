@@ -57,7 +57,6 @@ except KeyError:
 
 
 
-
 DB_NAME = "snet_annotation"
 
 EXPIRY_SPAN = 7
