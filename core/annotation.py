@@ -1,9 +1,9 @@
 __author__ = "Enku Wendwosen"
 
 from opencog.scheme_wrapper import scheme_eval
+import logging
 
-
-def generate_annotate_function(annotations):
+def generate_annotate_function(annotations, genes_list):
     """
     Generates scheme functions by concatenating annotations and genes
     :param annotations: a list containing annotations
@@ -20,34 +20,35 @@ def generate_annotate_function(annotations):
                     filters += f["value"]
                 else:
                     filters += ' \"' + f["value"] + '\" '
-            annotations_comp += '( {fn_name} {filters})'.format(fn_name=a["function_name"], filters=filters)
+            annotations_comp += '( {fn_name} {genes} {filters})'.format(fn_name=a["function_name"], genes=genes_list,  filters=filters)
         else:
-            annotations_comp += '( {fn_name} )'.format(fn_name=a.functionName)
+            annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
     annotations_comp += ')'
-
-    scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
+    scheme_function = '(define result (append (list (gene-info (mapSymbol {genes}))) {annotation_fns}))'.format(genes=genes_list, annotation_fns=annotations_comp)
+    #scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
     return scheme_function
 
-
 def generate_gene_function(genes):
-    genes_comp = '(genes "'
+    genes_comp = '(list '
     for gene in genes:
-        genes_comp += '{gene}'.format(gene=gene["gene_name"]) if genes_comp == '(genes "' else ' {gene}'.format(
-            gene=gene["gene_name"])
-    genes_comp += '")'
+        genes_comp += '"{gene}" '.format(gene=gene["gene_name"])     
+    genes_comp += ')'
     return genes_comp
 
 
 def check_gene_availability(atomspace, genes):
+    logger = logging.getLogger("annotation-service")
     genes = generate_gene_function(genes)
-
-    gene_result = scheme_eval(atomspace, genes).decode('utf-8')
-    print(gene_result)
+    logger.info("checking genes : " + genes)
+    logger.info(genes)
+    genes_fn = "(genes {gene_list})".format(gene_list=genes)
+    gene_result = scheme_eval(atomspace, genes_fn).decode('utf-8')
+    logger.warning("result : " + gene_result[0])
 
     if int(gene_result[0]) == 1:
         return gene_result[2:], False
 
-    return gene_result , True
+    return gene_result, True
 
 
 def annotate(atomspace, annotations, genes):
@@ -58,10 +59,16 @@ def annotate(atomspace, annotations, genes):
     :param genes: a list of genes.
     :return: a string response directly from the scheme_eval response decoded in utf-8
     """
-    scheme_function = generate_annotate_function(annotations)
-    print("doing annotation " + scheme_function)
-    response = scheme_eval(atomspace, scheme_function).decode('utf-8')
+    logger = logging.getLogger("annotation-service")
+    genes_list = generate_gene_function(genes)
+    scheme_function = generate_annotate_function(annotations, genes_list)
+    logger.info("Scheme Func: " + scheme_function)
+    scheme_eval(atomspace, scheme_function)
+    parse_function = "(parse result {genes_list})".format(genes_list=genes_list) 
+    logger.info("doing annotation " + parse_function)
+    response = scheme_eval(atomspace, parse_function).decode("utf-8")
+    #logger.info(response)
     file_name = scheme_eval(atomspace, "(write-to-file)").decode("utf-8").rstrip()
-    print("saving result in file : " + file_name)
+    logger.warning("saving result in file : " + file_name)
 
     return response, file_name

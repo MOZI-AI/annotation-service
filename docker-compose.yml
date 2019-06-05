@@ -6,9 +6,9 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "3002:3002"
-      - "3001:3001"
-      - "3000:3000"
+      - "3002:3002" # Web Server
+      - "3001:3001" # GRPC Proxy Server
+      - "3000:3000" # GRPC Server
       - "8000:8000"
       - "8002:8002"
     environment:
@@ -17,24 +17,35 @@ services:
       - SERVICE_PORT=3000
       - REDIS_URI =redis://redis:6379/0
       - MONGODB_URI=mongodb://mongo:27017/
+      - SERVICE_ADDR=$SERVICE_ADDR
     working_dir: /root/mozi_annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
     links:
       - frontend
+      - result-ui
 
     volumes:
       - /etc:/etc
-#      - .:/root/mozi_annotation_service
 
   frontend:
     container_name: annotation-ui
     build:
       context: ./react
       dockerfile: Dockerfile
-    environment:
-      - SERVICE_ADDR=$SERVICE_ADDR
+      args:
+        - SERVER_ADDR=$SERVICE_ADDR
     ports:
-      - "$SERVER_PORT:80"
+      - "3003:80" #annotation ui port
+
+  result-ui:
+    container_name: annotation-result-ui
+    build:
+      context: ./annotation-result-ui
+      dockerfile: Dockerfile
+      args:
+        - SERVER_ADDR=$SERVICE_ADDR
+    ports:
+      - "3004:80" #annotation result ui port
 
   redis:
     image: redis

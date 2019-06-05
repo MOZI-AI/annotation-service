@@ -1,6 +1,16 @@
 [submodule "react"]
         path = react
-        url = https://github.com/MOZI-AI/annotation-service-ui.git
+        url = https://github.com/yisehak-awm/annotation-service-ui.git 
+	branch = result-link
 [submodule "scheme"]
         path = scheme
-        url = https://github.com/MOZI-AI/annotation-scheme.git
+        url = https://github.com/tanksha/annotation-scheme.git 
+	branch = development
+[submodule "annotation-result-ui"]
+	path = annotation-result-ui
+	url = https://github.com/MOZI-AI/annotation-result-ui.git
+	branch = master
+[submodule "scm2csv"]
+	path = utils/scm2csv
+	url = https://github.com/MOZI-AI/scheme2csv.git
+	branch = master

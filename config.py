@@ -27,6 +27,10 @@ TEST_DATASET = os.path.join(PROJECT_ROOT, "scheme/tests/sample_dataset.scm")
 
 TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
+CSV_TEST_FOLDER = os.path.join(TEST_FOLDER,"csv")
+
+CSV_FOLDER = "/root/csv_result"
+
 try:
     DATASET_PATHs = [os.path.join(DATASET_FOLDER, dataset) for dataset in os.listdir(DATASET_FOLDER) if
                  os.path.isfile(os.path.join(DATASET_FOLDER, dataset))]
@@ -41,15 +45,17 @@ try:
     SERVICE_PORT = os.environ["SERVICE_PORT"]
     REDIS_URI = os.environ["REDIS_URI"]
     MONGODB_URI = os.environ["MONGODB_URI"]
+    MOZI_RESULT_URI = "http://" + os.environ["SERVICE_ADDR"] + ":3004"
+    SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
 except KeyError:
     PRODUCTION_MODE = False
     MONGODB_URI = "http://localhost:27017"
     SERVICE_PORT = 3000
     REDIS_URI = "redis://localhost:6379/0"
+    MOZI_RESULT_URI = "http://localhost:3004"
+    SERVICE_URL = "localhost"
 
-SERVICE_URL = "localhost"
 
-MOZI_URI = "http://localhost:3002"
 
 DB_NAME = "snet_annotation"
 

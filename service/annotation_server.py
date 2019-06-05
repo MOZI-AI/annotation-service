@@ -5,7 +5,7 @@ import time
 from concurrent import futures
 from service_specs import annotation_pb2, annotation_pb2_grpc
 from utils.atomspace_setup import load_atomspace
-from config import SERVICE_PORT, setup_logging, PROJECT_ROOT , MOZI_URI
+from config import SERVICE_PORT, setup_logging, PROJECT_ROOT , MOZI_RESULT_URI
 from task.task_runner import start_annotation,check_genes
 from utils.url_encoder import encode
 from core.annotation import annotate
@@ -48,12 +48,12 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
     """
     logger = logging.getLogger("annotation-service")
 
-    def __init__(self, atomspace):
+    def __init__(self):
         """
         constructor
         :param atomspace: atomspace that has a loaded list of knowledge bases
         """
-        self.atomspace = atomspace
+        # self.atomspace = atomspace
 
     def Annotate(self, request, context):
         """
@@ -68,18 +68,25 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
 
         try:
             payload = parse_payload(request.annotations, request.genes)
-            response , check = check_genes(payload = payload)
+            response, check = check_genes(payload = payload)
+            self.logger.warning(response)
 
             if check:
-                start_annotation.delay(session_id = session_id, mnemonic= mnemonic, payload = payload)
-                url = "{MOZI_URL}/result?id={mnemonic}".format(MOZI_URL=MOZI_URI,mnemonic=mnemonic)
-                return annotation_pb2.AnnotationResponse(result=url)
+                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload)
+                if response:
+                    url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI,mnemonic=mnemonic)
+                    return annotation_pb2.AnnotationResponse(result=url)
+                else:
+                    msg = "an internal error occured. please try again"
+                    context.set_details(msg)
+                    context.set_code(grpc.StatusCode.INTERNAL)
+                    return annotation_pb2.AnnotationResponse(result=msg)
             else:
                 self.logger.warning("The following genes were not found in the atomspace %s", response)
                 msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
                 context.set_details(msg)
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                return annotation_pb2.AnnotationResponse(graph=msg, scm_file="")
+                return annotation_pb2.AnnotationResponse(result=msg)
 
         except Exception as ex:
             logger.error("Error: " + str(ex.__traceback__))
@@ -88,7 +95,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             return annotation_pb2.AnnotationResponse(result="url")
 
 
-def serve(atomspace, port):
+def serve( port):
     """
     Starts a gRPC server that will listen on port
     :param atomspace: The loaded atomspace
@@ -98,17 +105,17 @@ def serve(atomspace, port):
     logger = logging.getLogger("annotation-service")
     logger.info("Starting up the Server...")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(atomspace), server)
+    annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(), server)
     server.add_insecure_port("[::]:{port}".format(port=port))
     return server
 
 
 if __name__ == '__main__':
     setup_logging()
-    atomspace = load_atomspace()
+    # atomspace = load_atomspace()
     logger = logging.getLogger("annotation-service")
     logger.info("Starting up the Server")
-    server = serve(atomspace, SERVICE_PORT)
+    server = serve( SERVICE_PORT)
     server.start()
     logger.info("Server started.")
     try:
