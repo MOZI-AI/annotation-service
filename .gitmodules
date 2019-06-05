@@ -1,10 +1,10 @@
 [submodule "react"]
         path = react
-        url = https://github.com/yisehak-awm/annotation-service-ui.git 
+	url = https://github.com/MOZI-AI/annotation-service-ui.git
 	branch = result-link
 [submodule "scheme"]
         path = scheme
-        url = https://github.com/tanksha/annotation-scheme.git 
+	url = https://github.com/MOZI-AI/annotation-scheme.git
 	branch = development
 [submodule "annotation-result-ui"]
 	path = annotation-result-ui
