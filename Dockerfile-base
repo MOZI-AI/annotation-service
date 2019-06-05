@@ -60,15 +60,6 @@ RUN \
     make install
 
 
-WORKDIR $HOME
-ENV SNET_DAEMON_V 0.1.8
-RUN mkdir snet-daemon-v$SNET_DAEMON_V
-RUN wget https://github.com/singnet/snet-daemon/releases/download/v$SNET_DAEMON_V/snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
-RUN tar -xzf snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz -C snet-daemon-v$SNET_DAEMON_V --strip-components 1
-RUN ln snet-daemon-v$SNET_DAEMON_V/snetd snetd
-RUN rm snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
-
-
 #setup grpc proxy
 WORKDIR $HOME
 ENV GRPC_PROXY_V 0.9.1

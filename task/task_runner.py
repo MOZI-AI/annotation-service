@@ -60,8 +60,6 @@ def start_annotation(**kwargs):
         except Exception as ex:
             csv_file = ""
             logger.error("CSV parser had an error: " + str(ex.__traceback__))
-        # csv_file = to_csv(scm_file)
-        csv_file = ""
         logger.info(csv_file)
         session.csv_file = csv_file
         session.update_session(db)
