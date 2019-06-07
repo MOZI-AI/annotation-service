@@ -5,7 +5,7 @@
 [submodule "scheme"]
         path = scheme
 	url = https://github.com/MOZI-AI/annotation-scheme.git
-	branch = development
+	branch = master 
 [submodule "annotation-result-ui"]
 	path = annotation-result-ui
 	url = https://github.com/MOZI-AI/annotation-result-ui.git
