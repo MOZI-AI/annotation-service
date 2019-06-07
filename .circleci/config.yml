@@ -34,7 +34,7 @@ jobs:
                         cd ~/snet
                         if [ ! -d "annotation-service" ]; then
                             # clone the repo if it doesn't exist
-                            git clone --recursive https://github.com/enku-io/annotation-service.git
+                            git clone --recursive https://github.com/MOZI-AI/annotation-service.git
                         else
                             git checkout -- .
                             git pull
