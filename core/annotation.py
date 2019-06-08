@@ -64,10 +64,12 @@ def annotate(atomspace, annotations, genes):
     scheme_function = generate_annotate_function(annotations, genes_list)
     logger.info("Scheme Func: " + scheme_function)
     scheme_eval(atomspace, scheme_function)
+    res = scheme_eval(atomspace, "result").decode("utf-8")
+    logger.info("Scheme Result:\n {0}".format(res))
     parse_function = "(parse result {genes_list})".format(genes_list=genes_list) 
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
-    #logger.info(response)
+    logger.info("JSON Result:\n " + response)
     file_name = scheme_eval(atomspace, "(write-to-file)").decode("utf-8").rstrip()
     logger.warning("saving result in file : " + file_name)
 

@@ -66,6 +66,9 @@ CELERY_OPTS = {'CELERY_BROKER_URL': REDIS_URI, 'CELERY_RESULT_BACKEND': REDIS_UR
 def setup_logging(default_path='logging.yml', default_level=logging.INFO):
     """Setup logging configuration
     """
+    LOG_DIR = "/opt/annotation-service/log"
+    if not os.path.exists(LOG_DIR):
+        os.makedirs(LOG_DIR)
     if os.path.exists(default_path):
         with open(default_path, 'rt') as f:
             config = yaml.safe_load(f.read())
