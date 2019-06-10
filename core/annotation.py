@@ -62,7 +62,7 @@ def annotate(atomspace, annotations, genes, session_id):
     genes_list = generate_gene_function(genes)
     scheme_function = generate_annotate_function(annotations, genes_list)
     logger.info("Scheme Func: " + scheme_function)
-    parse_function = "(parse {scheme_func} {session} {genes_list})".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
+    parse_function = "(parse {scheme_func} \"{session}\" {genes_list})".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
     logger.info("JSON Result:\n " + response)
