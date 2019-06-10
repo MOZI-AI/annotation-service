@@ -24,8 +24,7 @@ def generate_annotate_function(annotations, genes_list):
         else:
             annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
     annotations_comp += ')'
-    scheme_function = '(define result (append (list (gene-info (mapSymbol {genes}))) {annotation_fns}))'.format(genes=genes_list, annotation_fns=annotations_comp)
-    #scheme_function = '(do_annotation {fns})'.format(fns=annotations_comp)
+    scheme_function = '(append (list (gene-info (mapSymbol {genes}))) {annotation_fns})'.format(genes=genes_list, annotation_fns=annotations_comp)
     return scheme_function
 
 def generate_gene_function(genes):
@@ -51,7 +50,7 @@ def check_gene_availability(atomspace, genes):
     return gene_result, True
 
 
-def annotate(atomspace, annotations, genes):
+def annotate(atomspace, annotations, genes, session_id):
     """
     Performs annotation according to a list of annotations given on a list of genes
     :param atomspace: the atomspace that contains the loaded knowledge bases where the annotations will be performed from
@@ -63,14 +62,11 @@ def annotate(atomspace, annotations, genes):
     genes_list = generate_gene_function(genes)
     scheme_function = generate_annotate_function(annotations, genes_list)
     logger.info("Scheme Func: " + scheme_function)
-    scheme_eval(atomspace, scheme_function)
-    res = scheme_eval(atomspace, "result").decode("utf-8")
-    logger.info("Scheme Result:\n {0}".format(res))
-    parse_function = "(parse result {genes_list})".format(genes_list=genes_list) 
+    parse_function = "(parse {scheme_func} {session} {genes_list})".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
     logger.info("JSON Result:\n " + response)
-    file_name = scheme_eval(atomspace, "(write-to-file)").decode("utf-8").rstrip()
-    logger.warning("saving result in file : " + file_name)
+    file_name = "scheme/result/{session}.scm".format(session=session_id)
+    logger.info("saving result in file : " + file_name)
 
     return response, file_name

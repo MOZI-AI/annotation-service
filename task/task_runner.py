@@ -42,7 +42,7 @@ def start_annotation(**kwargs):
     session.start_time = time.time()
     session.update_session(db)
     logger.warning("when executing atoms:" +scheme_eval(atomspace,"(count-all)").decode("utf-8"))
-    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"])
+    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"], session.mnemonic)
     logger.info("Filename: " + file_name)
     if file_name is None:
         logger.warning("The following genes were not found in the atomspace %s", response)

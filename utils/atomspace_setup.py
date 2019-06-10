@@ -2,7 +2,8 @@ __author__ = "Enku Wendwosen & Abdulrahman Semrie"
 
 import logging
 from opencog.atomspace import AtomSpace
-from opencog.scheme_wrapper import scheme_eval, scheme_eval
+from opencog.scheme_wrapper import scheme_eval
+
 import config
 
 logger = logging.getLogger("annotation-service")
