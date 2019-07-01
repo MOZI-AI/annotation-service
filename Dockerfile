@@ -1,4 +1,4 @@
-FROM moziai/backend-deps:beta-v1.2
+FROM moziai/backend-deps:beta-v1.3
 MAINTAINER Enkusellasie Wendwosen <enku@singularitynet.io>
 
 #Run apt-get in NONINTERACTIVE mode

@@ -11,7 +11,7 @@ def generate_annotate_function(annotations, genes_list):
     :return: a concatenated string which is a scheme function containing the list of genes and annotations.
     """
 
-    annotations_comp = '(list '
+    annotations_comp = ''
     for a in annotations:
         if not (a["filters"] is None):
             filters = ""
@@ -23,8 +23,7 @@ def generate_annotate_function(annotations, genes_list):
             annotations_comp += '( {fn_name} {genes} {filters})'.format(fn_name=a["function_name"], genes=genes_list,  filters=filters)
         else:
             annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
-    annotations_comp += ')'
-    scheme_function = '(append (list (gene-info (mapSymbol {genes}))) {annotation_fns})'.format(genes=genes_list, annotation_fns=annotations_comp)
+    scheme_function = '(list (gene-info {genes}) {annotation_fns})'.format(genes=genes_list, annotation_fns=annotations_comp)
     return scheme_function
 
 def generate_gene_function(genes):
@@ -40,7 +39,7 @@ def check_gene_availability(atomspace, genes):
     genes = generate_gene_function(genes)
     logger.info("checking genes : " + genes)
     logger.info(genes)
-    genes_fn = "(genes {gene_list})".format(gene_list=genes)
+    genes_fn = "(find-genes {gene_list})".format(gene_list=genes)
     gene_result = scheme_eval(atomspace, genes_fn).decode('utf-8')
     logger.warning("result : " + gene_result[0])
 
@@ -62,7 +61,7 @@ def annotate(atomspace, annotations, genes, session_id):
     genes_list = generate_gene_function(genes)
     scheme_function = generate_annotate_function(annotations, genes_list)
     logger.info("Scheme Func: " + scheme_function)
-    parse_function = "(parse {scheme_func} \"{session}\" {genes_list})".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
+    parse_function = "(annotate-genes {genes_list} \"{session}\" (delay {scheme_func}))".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
     logger.info("JSON Result:\n " + response)

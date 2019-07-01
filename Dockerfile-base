@@ -50,7 +50,7 @@ RUN \
 
 
 WORKDIR $HOME
-RUN git clone https://github.com/MOZI-AI/guile-json.git
+RUN git clone https://github.com/Habush/guile-json.git
 WORKDIR guile-json
 RUN \
     apt-get install -y dh-autoreconf && \
@@ -59,7 +59,12 @@ RUN \
     make && \
     make install
 
-
+WORKDIR $HOME
+RUN git clone https://git.savannah.nongnu.org/git/nyacc.git && \
+	cd nyacc && \
+	./configure && \
+	make && \
+	make install
 #setup grpc proxy
 WORKDIR $HOME
 ENV GRPC_PROXY_V 0.9.1
