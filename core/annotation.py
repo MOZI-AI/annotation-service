@@ -64,7 +64,6 @@ def annotate(atomspace, annotations, genes, session_id):
     parse_function = "(annotate-genes {genes_list} \"{session}\" (delay {scheme_func}))".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
-    logger.info("JSON Result:\n " + response)
     file_name = "scheme/result/{session}.scm".format(session=session_id)
     logger.info("saving result in file : " + file_name)
 
