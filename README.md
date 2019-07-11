@@ -15,11 +15,8 @@
 
 ### Local Setup
 
-1. Clone the Project
-
-    ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
     
-2. Download Datasets
+1. Download Datasets
 
     ```
     wget -r --no-parent https://mozi.ai/datasets/
@@ -27,8 +24,10 @@
     rm -rf mozi.ai
     rm datasets/index.html
     ```
-    
-3. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVICE_ADDR` to `localhost`
+
+
+
+2. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVICE_ADDR` to `localhost`
 
 
         $ export SERVICE_ADDR=<ADDR>
@@ -38,9 +37,13 @@
         $ export DATASET=<directory dataset were downloaded>
 
 
-4. Start the docker
+3. Clone the Project
 
-        docker-compose up
+    ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
+
+4. Go the project directory and Start the services
+
+        docker-compose up --build
 
 5.  You should be able to access the annotation service UI at
 
