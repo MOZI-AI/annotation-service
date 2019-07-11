@@ -11,13 +11,10 @@ RUN mkdir /root/csv_result
 
 ENV CODE $HOME/mozi_annotation_service
 RUN mkdir $CODE
-WORKDIR $CODE
 
-#Download Datasets
+#create dataset dir
+WORKDIR $HOME
 RUN mkdir datasets
-RUN wget -r --no-parent https://mozi.ai/datasets/
-RUN mv mozi.ai/datasets/* datasets && rm -rf mozi.ai
-RUN rm datasets/index.html
 
 WORKDIR $CODE
 ENV SNET_DAEMON_V 0.1.8
