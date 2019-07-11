@@ -16,9 +16,11 @@
 ### Local Setup
 
     
-1. Download Datasets
+1. Create `datasets` folder in your home directory and download the Datasets
 
     ```
+    cd $HOME
+    mkdir datasets 
     wget -r --no-parent https://mozi.ai/datasets/
     mv mozi.ai/datasets/* datasets
     rm -rf mozi.ai
@@ -34,7 +36,7 @@
 
         $ export SERVER_PORT=<PORT>
         
-        $ export DATASET=<directory dataset were downloaded>
+        $ export DATASET=$HOME/datasets
 
 
 3. Clone the Project
