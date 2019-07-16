@@ -27,9 +27,15 @@
     rm datasets/index.html
     ```
 
+2. Create `results` folder in your home directory and define a `RESULT_DIR` environment variable that points to the directory. This is where the scheme results will be stored. 
 
+    ```
+    cd $HOME
+    mkdir results 
+    export RESULT_DIR=$HOME/results
+    ```
 
-2. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVICE_ADDR` to `localhost`
+3. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVICE_ADDR` to `localhost`
 
 
         $ export SERVICE_ADDR=<ADDR>
@@ -39,15 +45,15 @@
         $ export DATASET=$HOME/datasets
 
 
-3. Clone the Project
+4. Clone the Project
 
     ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
 
-4. Go the project directory and Start the services
+5. Go the project directory and Start the services
 
         docker-compose up --build
 
-5.  You should be able to access the annotation service UI at
+6.  You should be able to access the annotation service UI at
 
         http://$SERVICE_ADDR:$SERVER_PORT
 
