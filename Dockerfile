@@ -1,5 +1,5 @@
-FROM moziai/backend-deps:beta-v1.3
-MAINTAINER Enkusellasie Wendwosen <enku@singularitynet.io>
+FROM moziai/backend-deps:beta-v1.4
+MAINTAINER Enkusellasie Wendwosen <enku@singularitynet.io> and Abdulrahman Semrie <xabush@singularitynet.io>
 
 #Run apt-get in NONINTERACTIVE mode
 ENV DEBIAN_FRONTEND noninteractive
