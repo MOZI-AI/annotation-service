@@ -1,26 +1,6 @@
 version: 2
 
 jobs:
-    build:
-        machine: true
-        environment:
-            - container: annotation-service
-
-        working_directory: ~/mozi_annotation_service
-        steps:
-            - checkout
-            - run:
-                  name: Pull Submodules
-                  command: |
-                    git submodule init
-                    git submodule update --remote
-            - run:
-                  name: Start the containers
-                  command: |
-                    export SERVER_PORT=3200
-                    export SERVICE_ADDR=http://46.4.115.181
-                    docker-compose up -d
-
     deploy:
         machine: true
         steps:
@@ -41,16 +21,15 @@ jobs:
                         fi
                         export SERVER_PORT=3200
                         export SERVICE_ADDR=http://46.4.115.181
+                        export DATASET=/opt/snet/datasets
+                        export RESULT_DIR=/opt/snet/results
                         cd annotation-service;
                         docker-compose stop; # stop the containers if they are runnning
                         docker-compose build;
-                        docker-compose up -d;
+                        docker-compose up;
                       EOF
 workflows:
     version: 2
     build_and_deploy:
         jobs:
-            - build
-            - deploy:
-                  requires:
-                      - build
+            - deploy
