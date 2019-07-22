@@ -27,7 +27,8 @@ services:
     volumes:
       - /etc:/etc
       - $HOME/.mozi/prod:/opt
-      - $DATASET:/root/datasets
+      - $DATASET:/root/mozi_annotation_service/datasets
+      - $RESULT_DIR:/root/mozi_annotation_service/scheme/result
 
   frontend:
     container_name: annotation-ui
