@@ -31,7 +31,7 @@ jobs:
                   name: Deploy over SSH
                   command: |
                       ssh $SSH_USER@$SERVER bash << EOF
-                        cd ~/snet
+                        cd /opt/snet
                         if [ ! -d "annotation-service" ]; then
                             # clone the repo if it doesn't exist
                             git clone --recursive https://github.com/MOZI-AI/annotation-service.git
