@@ -20,7 +20,7 @@ jobs:
                             git pull
                         fi
                         export SERVER_PORT=3200
-                        export SERVICE_ADDR=http://46.4.115.181
+                        export SERVICE_ADDR=mozi.ai
                         export DATASET=/opt/snet/datasets
                         export RESULT_DIR=/opt/snet/results
                         cd annotation-service;
