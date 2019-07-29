@@ -2,7 +2,7 @@ grpcio
 grpcio-tools
 pyyaml
 codecov
-pandas
+pandas==0.24.2
 circus
 celery
 pymongo
