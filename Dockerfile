@@ -29,8 +29,17 @@ COPY requirements.txt $CODE/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . $CODE
+
+# Install the annotation scheme dependencies
+RUN autoreconf -vif && \
+    ./configure  && \
+    make && \
+    make install
+
 COPY install.sh $CODE/install
 RUN chmod 755 install && ./install
+
+WORKDIR $CODE/scheme
 
 
 EXPOSE 3000

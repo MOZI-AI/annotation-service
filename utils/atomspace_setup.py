@@ -19,8 +19,6 @@ def load_atomspace():
     print("loading atoms")
     scheme_eval(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
     print("initial atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
-    atomspace = load_functions(atomspace)
-    print("after functions atoms:" +scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     atomspace = load_datasets(atomspace)
     print("after datasets:" +scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     print("done")
@@ -45,20 +43,3 @@ def load_datasets(atomspace):
         logger.info("In Dev Mode")
         scheme_eval(atomspace, '(primitive-load "{}")'.format(config.TEST_DATASET))
         return atomspace
-
-
-def load_functions(atomspace):
-    """
-    loads annotation functions from scm/functions directory to atomspace
-    :param atomspace: atomspace instance taht will be loaded with functions
-    :return: a loaded atomspace instance
-    """
-    logger.info("loading helper functions")
-    for fn in config.HELPER_PATHs:
-        scheme_eval(atomspace, '(primitive-load "{}")'.format(fn))
-
-    logger.info("loading functions")
-    for fn in config.FUNCTION_PATHs:
-        scheme_eval(atomspace, '(primitive-load "{}")'.format(fn))
-
-    return atomspace
