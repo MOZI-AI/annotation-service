@@ -1,12 +1,10 @@
-grpcio
 grpcio-tools
 pyyaml
-codecov
 pandas==0.24.2
 circus
-celery
 pymongo
 redis
 flask
 flask-cors
 gunicorn
+celery

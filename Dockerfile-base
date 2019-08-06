@@ -8,7 +8,7 @@ WORKDIR $HOME
 
 RUN git clone https://github.com/opencog/atomspace.git
 WORKDIR atomspace
-RUN git checkout e463209c43594b60050c013c94261c1a6604035e
+#RUN git checkout e463209c43594b60050c013c94261c1a6604035e
 RUN mkdir build
 WORKDIR build
 RUN \
@@ -65,10 +65,17 @@ RUN git clone https://git.savannah.nongnu.org/git/nyacc.git && \
 	./configure && \
 	make && \
 	make install
+
 #setup grpc proxy
+
 WORKDIR $HOME
+
 ENV GRPC_PROXY_V 0.9.1
 RUN apt-get install unzip
 RUN wget -O grpc-proxy.zip https://github.com/improbable-eng/grpc-web/releases/download/v$GRPC_PROXY_V/grpcwebproxy-v$GRPC_PROXY_V-linux-x86_64.zip
 RUN unzip grpc-proxy.zip && mv dist/grpcwebproxy-v$GRPC_PROXY_V-linux-x86_64 ./ && mv grpcwebproxy-v$GRPC_PROXY_V-linux-x86_64 grpc-proxy && rm grpc-proxy.zip
 RUN chmod 755 grpc-proxy
+
+WORKDIR $HOME
+
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/opencog

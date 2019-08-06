@@ -11,15 +11,6 @@ OPENCOG_DEPS_PATH = os.path.join(PROJECT_ROOT, "scheme/opencog_deps")
 
 DATASET_FOLDER = os.path.join(PROJECT_ROOT, "datasets")
 
-FUNCTIONS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/functions")
-
-FUNCTION_PATHs = [os.path.join(FUNCTIONS_FOLDER, fn) for fn in os.listdir(FUNCTIONS_FOLDER) if
-                  os.path.isfile(os.path.join(FUNCTIONS_FOLDER, fn))]
-
-HELPERS_FOLDER = os.path.join(PROJECT_ROOT, "scheme/helpers")
-
-HELPER_PATHs = [os.path.join(HELPERS_FOLDER, fn) for fn in os.listdir(HELPERS_FOLDER) if
-                  os.path.isfile(os.path.join(HELPERS_FOLDER, fn))]
 
 ANNOTATIONS_YML = os.path.join(PROJECT_ROOT, "scheme/annotation_definition.yml")
 
