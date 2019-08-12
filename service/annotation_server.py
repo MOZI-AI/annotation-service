@@ -76,7 +76,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
 
         try:
             pid = os.getpid()
-            logger.info("Current PID: " + str(pid))
+            self.logger.info("Current PID: " + str(pid))
             payload = parse_payload(request.annotations, request.genes)
             response, check = check_genes(payload=payload)
             self.logger.warning(response)
@@ -99,7 +99,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
                 return annotation_pb2.AnnotationResponse(result=msg)
 
         except Exception as ex:
-            logger.error("Error: " + str(ex.__traceback__))
+            self.logger.error("Error: " + str(ex.__traceback__))
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details("Error occurred in while trying to perform request: " + ex.__str__())
             return annotation_pb2.AnnotationResponse(result="url")
