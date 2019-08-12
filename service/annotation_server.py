@@ -120,7 +120,7 @@ def _reserve_port():
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT) == 0:
         raise RuntimeError("Failed to set SO_REUSEPORT.")
-    sock.bind(('', 3000))
+    sock.bind(('', int(SERVICE_PORT)))
     try:
         yield sock.getsockname()[1]
     finally:
@@ -148,9 +148,6 @@ def _run_server(bind_address):
 
 if __name__ == '__main__':
     setup_logging()
-    logger = logging.getLogger("annotation-service")
-    logger.info("Starting up the Server")
-
     with _reserve_port() as port:
         address = "0.0.0.0:{}".format(port)
         workers = []

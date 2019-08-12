@@ -3,6 +3,7 @@ __author__ = "Enku Wendwosen F"
 from opencog.scheme_wrapper import scheme_eval
 import logging
 
+
 def generate_annotate_function(annotations, genes_list):
     """
     Generates scheme functions by concatenating annotations and genes
@@ -20,16 +21,19 @@ def generate_annotate_function(annotations, genes_list):
                     filters += f["value"]
                 else:
                     filters += ' \"' + f["value"] + '\" '
-            annotations_comp += '( {fn_name} {genes} {filters})'.format(fn_name=a["function_name"], genes=genes_list,  filters=filters)
+            annotations_comp += '( {fn_name} {genes} {filters})'.format(fn_name=a["function_name"], genes=genes_list,
+                                                                        filters=filters)
         else:
             annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
-    scheme_function = '(list (gene-info {genes}) {annotation_fns})'.format(genes=genes_list, annotation_fns=annotations_comp)
+    scheme_function = '(list (gene-info {genes}) {annotation_fns})'.format(genes=genes_list,
+                                                                           annotation_fns=annotations_comp)
     return scheme_function
+
 
 def generate_gene_function(genes):
     genes_comp = '(list '
     for gene in genes:
-        genes_comp += '"{gene}" '.format(gene=gene["gene_name"])     
+        genes_comp += '"{gene}" '.format(gene=gene["gene_name"])
     genes_comp += ')'
     return genes_comp
 
@@ -61,7 +65,8 @@ def annotate(atomspace, annotations, genes, session_id):
     genes_list = generate_gene_function(genes)
     scheme_function = generate_annotate_function(annotations, genes_list)
     logger.info("Scheme Func: " + scheme_function)
-    parse_function = "(annotate-genes {genes_list} \"{session}\" (delay {scheme_func}))".format(scheme_func=scheme_function, session=session_id ,genes_list=genes_list)
+    parse_function = "(annotate-genes {genes_list} \"{session}\" (delay {scheme_func}))".format(
+        scheme_func=scheme_function, session=session_id, genes_list=genes_list)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
     file_name = "scheme/result/{session}.scm".format(session=session_id)

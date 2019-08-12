@@ -35,38 +35,36 @@ def check_genes(**kwargs):
 # @celery.task(name="task.task_runner.start_annotation")
 def start_annotation(**kwargs):
     logger = logging.getLogger("annotation-service")
+    session = Session(id=kwargs["session_id"], mnemonic=kwargs["mnemonic"],
+                      annotations=kwargs["payload"]["annotations"], genes=kwargs["payload"]["genes"])
     db = pymongo.MongoClient(MONGODB_URI)[DB_NAME]
-    session = Session(id=kwargs["session_id"],mnemonic=kwargs["mnemonic"],annotations=kwargs["payload"]["annotations"],genes=kwargs["payload"]["genes"])
-    session.save(db)
-    session.status = 1
-    session.start_time = time.time()
-    session.update_session(db)
-    logger.warning("when executing atoms:" +scheme_eval(atomspace,"(count-all)").decode("utf-8"))
-    response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"], session.mnemonic)
-    logger.info("Filename: " + file_name)
-    if file_name is None:
-        logger.warning("The following genes were not found in the atomspace %s", response)
-        msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
-        raise ValueError(msg)
     try:
+        session.save(db)
+        session.status = 1
+        session.start_time = time.time()
+        session.update_session(db)
+        logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
+        response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
+                                       session.mnemonic)
+        logger.info("Filename: " + file_name)
+        if file_name is None:
+            logger.warning("The following genes were not found in the atomspace %s", response)
+            msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
+            raise ValueError(msg)
         scm_file = os.path.join(PROJECT_ROOT,file_name)
         # TODO: Implement file cleanup
         # os.remove(os.path.join(PROJECT_ROOT, file_name))
         session.status = 2
         session.result = response
         session.result_file = scm_file
-        try:
-            csv_file = to_csv(scm_file)
-        except Exception as ex:
-            csv_file = ""
-            logger.error("CSV parser had an error: " + str(ex.__traceback__))
+        csv_file = to_csv(scm_file)
         logger.info(csv_file)
         session.csv_file = csv_file
         session.update_session(db)
         return True
 
     except Exception as ex:
-        msg = "Error: " + str(ex.__traceback__)
+        msg = "Error: " + ex.__str__()
         session.status = -1
         session.update_session(db)
         session.message = msg
