@@ -7,4 +7,5 @@ redis
 flask
 flask-cors
 gunicorn
+openpyxl
 celery
