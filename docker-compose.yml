@@ -22,7 +22,6 @@ services:
     command: bash -c "circusd --log-level debug circus.ini"
     links:
       - frontend
-      - result-ui
 
     volumes:
       - /etc:/etc
@@ -31,24 +30,15 @@ services:
       - $RESULT_DIR:/root/result/scheme
 
   frontend:
-    container_name: annotation-ui
+    container_name: ui
     build:
-      context: ./react
+      context: ./ui
       dockerfile: Dockerfile
       args:
-        - SERVER_ADDR=$SERVICE_ADDR
+        - GRPC_ADDR=$GRPC_ADDR
+        - RESULT_ADDR=$RESULT_ADDR
     ports:
       - "3003:80" #annotation ui port
-
-  result-ui:
-    container_name: annotation-result-ui
-    build:
-      context: ./annotation-result-ui
-      dockerfile: Dockerfile
-      args:
-        - SERVER_ADDR=$SERVICE_ADDR
-    ports:
-      - "3004:80" #annotation result ui port
 
   redis:
     image: redis
