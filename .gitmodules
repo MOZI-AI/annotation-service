@@ -6,3 +6,6 @@
 	path = utils/scm2csv
 	url = https://github.com/MOZI-AI/scheme2csv.git
 	branch = master
+[submodule "ui"]
+	path = ui
+	url = https://github.com/MOZI-AI/annotation-UI
