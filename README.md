@@ -35,12 +35,14 @@
     export RESULT_DIR=$HOME/results
     ```
 
-3. Define the following Environment variables. `$SERVER_ADDR` and `$SERVER_PORT`. If running on a local machine set `$SERVICE_ADDR` to `localhost`
+3. Define the following Environment variables.
 
 
-        $ export SERVICE_ADDR=<ADDR>
+        $ export SERVICE_ADDR=localhost
 
-        $ export SERVER_PORT=<PORT>
+        $ export GRPC_ADDR=http://localhost:3001
+
+        $ export RESULT_DIR=http://localhost:3002
         
         $ export DATASET=$HOME/datasets
 

@@ -1,5 +1,5 @@
 [submodule "scheme"]
-        path = scheme
+     path = scheme
 	url = https://github.com/MOZI-AI/annotation-scheme.git
 	branch = master 
 [submodule "scm2csv"]

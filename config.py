@@ -36,7 +36,7 @@ try:
     SERVICE_PORT = os.environ["SERVICE_PORT"]
     REDIS_URI = os.environ["REDIS_URI"]
     MONGODB_URI = os.environ["MONGODB_URI"]
-    MOZI_RESULT_URI = "http://" + os.environ["SERVICE_ADDR"] + ":3004"
+    MOZI_RESULT_URI = os.environ["SERVICE_ADDR"]
     SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
 except KeyError:
     PRODUCTION_MODE = False
