@@ -37,7 +37,7 @@ def check_status(mnemonic):
         return jsonify({"response": "Session not found"}), 404
 
 
-@app.route("/result/<mnemonic>", methods=["GET"])
+@app.route("/<mnemonic>", methods=["GET"])
 def send_result(mnemonic):
     session = Session.get_session(db, mnemonic=mnemonic)
 
