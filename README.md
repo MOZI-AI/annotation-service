@@ -57,7 +57,7 @@
 
 6.  You should be able to access the annotation service UI at
 
-        http://$SERVICE_ADDR:$SERVER_PORT
+        http://localhost:3003
 
 If you would like to run in production mode, which will load large datasets into the atompspace, you can change line number 15 in `docker-compose.yml` to `1`
 If you don't want to run the [snet daemon](https://github.com/singnet/snet-daemon), you can comment lines 18-40 in `circus.ini` file.
