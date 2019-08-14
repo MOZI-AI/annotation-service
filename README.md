@@ -42,7 +42,7 @@
 
         $ export GRPC_ADDR=http://localhost:3001
 
-        $ export RESULT_DIR=http://localhost:3002
+        $ export RESULT_ADDR=http://localhost:3002
         
         $ export DATASET=$HOME/datasets
 
