@@ -9,7 +9,7 @@ import contextlib
 import multiprocessing
 import socket
 
-import grpc
+import traceback
 import os
 
 import grpc
@@ -99,7 +99,7 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
                 return annotation_pb2.AnnotationResponse(result=msg)
 
         except Exception as ex:
-            self.logger.error("Error: " + str(ex.__traceback__))
+            self.logger.exception(traceback.format_exc())
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details("Error occurred in while trying to perform request: " + ex.__str__())
             return annotation_pb2.AnnotationResponse(result="url")
