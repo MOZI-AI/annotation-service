@@ -1,8 +1,6 @@
 __author__ = "Enku Wendwosen<enku@singularitynet.io>"
 
-from config import CELERY_OPTS,REDIS_URI, PROJECT_ROOT,MONGODB_URI, DB_NAME, setup_logging
-from celery import Celery, current_app
-from celery.bin import worker
+from config import CELERY_OPTS, RESULT_DIR, PROJECT_ROOT,MONGODB_URI, DB_NAME, setup_logging
 from core.annotation import annotate , check_gene_availability
 from utils.atomspace_setup import load_atomspace
 import logging
@@ -43,6 +41,9 @@ def start_annotation(**kwargs):
         session.status = 1
         session.start_time = time.time()
         session.update_session(db)
+        path = os.path.join(RESULT_DIR, session.mnemonic)
+        if not os.path.exists(path):
+            os.makedirs(path)
         logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
         response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
                                        session.mnemonic)
@@ -51,13 +52,13 @@ def start_annotation(**kwargs):
             logger.warning("The following genes were not found in the atomspace %s", response)
             msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
             raise ValueError(msg)
-        scm_file = os.path.join(PROJECT_ROOT,file_name)
-        # TODO: Implement file cleanup
-        # os.remove(os.path.join(PROJECT_ROOT, file_name))
         session.status = 2
-        session.result = response
-        session.result_file = scm_file
-        csv_file = to_csv(scm_file)
+        file = os.path.join(path, "{session}.json".format(session=session.mnemonic))
+        with open(file, "w") as f:
+            f.write(response)
+        session.result = file
+        session.results_file = file_name
+        csv_file = to_csv(session.mnemonic, file_name)
         logger.info(csv_file)
         session.csv_file = csv_file
         session.update_session(db)
@@ -74,3 +75,4 @@ def start_annotation(**kwargs):
     finally:
         session.end_time = time.time()
         session.update_session(db)
+

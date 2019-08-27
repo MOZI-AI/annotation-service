@@ -20,7 +20,7 @@ TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
 CSV_TEST_FOLDER = os.path.join(TEST_FOLDER,"csv")
 
-CSV_FOLDER = "/root/csv_result"
+RESULT_DIR = "/root/result/"
 
 try:
     DATASET_PATHs = [os.path.join(DATASET_FOLDER, dataset) for dataset in os.listdir(DATASET_FOLDER) if

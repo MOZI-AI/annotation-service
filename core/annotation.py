@@ -69,7 +69,7 @@ def annotate(atomspace, annotations, genes, session_id):
         scheme_func=scheme_function, session=session_id, genes_list=genes_list)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
-    file_name = "/root/result/scheme/{session}.scm".format(session=session_id)
+    file_name = "/root/result/{session}/{session}.scm".format(session=session_id)
     logger.info("saving result in file : " + file_name)
 
     return response, file_name
