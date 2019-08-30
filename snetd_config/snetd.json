@@ -1,0 +1,23 @@
+{
+  "DAEMON_END_POINT": "0.0.0.0:8000",
+  "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
+  "PASSTHROUGH_ENABLED": true,
+  "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
+  "ORGANIZATION_ID": "snet",
+  "SERVICE_ID": "gene-annotation-service",
+  "ssl_cert": "/etc/letsencrypt/live/mozi.ai/fullchain.pem",
+  "ssl_key": "/etc/letsencrypt/live/mozi.ai/privkey.pem",
+  "payent_channel_cert_path": "/ssl/client.pem",
+  "payent_channel_ca_path": "/ssl/ca.pem",
+  "payent_channel_key_path": "/ssl/client-key.pem",
+  "free_call_signer_address": "0x3Bb9b2499c283cec176e7C707Ecb495B7a961ebf",
+  "blockchain_network_selected": "main",
+  "metering_end_point": "https://mainnet-marketplace.singularitynet.io/metering",
+  "pvt_key_for_metering": "adc2b3ba3f8880323d6112ea490528217d1b42139723b6e907f08b71c9d2d008",
+  "log": {
+    "level": "debug",
+    "output": {
+      "type": "stdout"
+    }
+  }
+}

@@ -17,7 +17,7 @@ WORKDIR $HOME
 RUN mkdir datasets
 
 WORKDIR $CODE
-ENV SNET_DAEMON_V 1.0.0
+ENV SNET_DAEMON_V 2.0.2
 RUN mkdir snet-daemon-v$SNET_DAEMON_V
 RUN wget https://github.com/singnet/snet-daemon/releases/download/v$SNET_DAEMON_V/snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
 RUN tar -xzf snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz -C snet-daemon-v$SNET_DAEMON_V --strip-components 1
