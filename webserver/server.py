@@ -11,6 +11,15 @@ from config import MONGODB_URI, DB_NAME, EXPIRY_SPAN, RESULT_DIR
 from datetime import timedelta
 import zipfile
 import uuid
+import glob
+from config import setup_logging
+import logging
+
+setup_logging()
+
+logger = logging.getLogger("annotation-service")
+
+
 
 app = Flask(__name__)
 CORS(app)
@@ -41,8 +50,7 @@ def get_status(mnemonic):
 
 @app.route("/<mnemonic>", methods=["GET"])
 def send_result(mnemonic):
-    session = Session.get_session(db, mnemonic=mnemonic)
-    path = os.path.join(RESULT_DIR, mnemonic, "{session}.json".format(session=session.mnemonic))
+    path = os.path.join(RESULT_DIR, mnemonic, "{session}.json".format(session=mnemonic))
     if os.path.exists(path):
         return send_file(path, as_attachment=True), 200
     else:
@@ -52,10 +60,18 @@ def send_result(mnemonic):
 @app.route("/result_file/<mnemonic>", methods=["GET"])
 def send_result_file(mnemonic):
     session = Session.get_session(db, mnemonic=mnemonic)
-    path = os.path.join(RESULT_DIR, mnemonic, "{session}.scm".format(session=session.mnemonic))
     if session:
         if session.status == 2 and not session.expired:
-            return send_file(path, as_attachment=True, mimetype="application/x-lisp"), 200
+            path = "{result}{id}/*.scm".format(result=RESULT_DIR, id=mnemonic)
+            files = glob.glob(path)
+            logger.info(files)
+            z_path = "{result}{id}/{id}.zip".format(result=RESULT_DIR, id=mnemonic)
+            zFile = zipfile.ZipFile(z_path, "w")
+            # zFile.write(os.path.join(RESULT_DIR, mnemonic, "{session}.json".format(session=mnemonic)), arcname=mnemonic, compress_type=zipfile.ZIP_STORED)
+            for file in files:
+                zFile.write(file, arcname=os.path.basename(file),compress_type=zipfile.ZIP_DEFLATED)
+            zFile.close()
+            return send_file(z_path, as_attachment=True, mimetype="application/x-lisp"), 200
         elif session.expired:
             return jsonify({"response": "Session has expired."}), 400
         elif session.status != 2:

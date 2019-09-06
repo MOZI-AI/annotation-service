@@ -4,7 +4,7 @@ from opencog.scheme_wrapper import scheme_eval
 import logging
 
 
-def generate_annotate_function(annotations, genes_list):
+def generate_annotate_function(annotations, genes_list, session_id):
     """
     Generates scheme functions by concatenating annotations and genes
     :param annotations: a list containing annotations
@@ -21,12 +21,10 @@ def generate_annotate_function(annotations, genes_list):
                     filters += f["value"]
                 else:
                     filters += ' \"' + f["value"] + '\" '
-            annotations_comp += '( {fn_name} {genes} {filters})'.format(fn_name=a["function_name"], genes=genes_list,
-                                                                        filters=filters)
+            annotations_comp += '( {fn_name} {genes} {filters} \"{session}\")'.format(fn_name=a["function_name"], genes=genes_list,filters=filters, session=session_id)
         else:
             annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
-    scheme_function = '(list (gene-info {genes}) {annotation_fns})'.format(genes=genes_list,
-                                                                           annotation_fns=annotations_comp)
+    scheme_function = '(parallel (gene-info {genes} \"{session}\") {annotation_fns})'.format(genes=genes_list, session=session_id ,annotation_fns=annotations_comp)
     return scheme_function
 
 
@@ -63,7 +61,7 @@ def annotate(atomspace, annotations, genes, session_id):
     """
     logger = logging.getLogger("annotation-service")
     genes_list = generate_gene_function(genes)
-    scheme_function = generate_annotate_function(annotations, genes_list)
+    scheme_function = generate_annotate_function(annotations, genes_list, session_id)
     logger.info("Scheme Func: " + scheme_function)
     parse_function = "(annotate-genes {genes_list} \"{session}\" (delay {scheme_func}))".format(
         scheme_func=scheme_function, session=session_id, genes_list=genes_list)
