@@ -58,9 +58,9 @@ def start_annotation(**kwargs):
             f.write(response)
         session.result = file
         session.results_file = file_name
-        csv_file = to_csv(session.mnemonic, file_name)
-        logger.info(csv_file)
-        session.csv_file = csv_file
+        #csv_file = to_csv(session.mnemonic, file_name)
+        #logger.info(csv_file)
+        session.csv_file = ""
         session.update_session(db)
         return True
 

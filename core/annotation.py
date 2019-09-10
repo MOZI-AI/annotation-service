@@ -21,7 +21,7 @@ def generate_annotate_function(annotations, genes_list, session_id):
                     filters += f["value"]
                 else:
                     filters += ' \"' + f["value"] + '\" '
-            annotations_comp += '( {fn_name} {genes} {filters} \"{session}\")'.format(fn_name=a["function_name"], genes=genes_list,filters=filters, session=session_id)
+            annotations_comp += '( {fn_name} {genes} {filters} #:id \"{session}\")'.format(fn_name=a["function_name"], genes=genes_list,filters=filters, session=session_id)
         else:
             annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
     scheme_function = '(parallel (gene-info {genes} \"{session}\") {annotation_fns})'.format(genes=genes_list, session=session_id ,annotation_fns=annotations_comp)
