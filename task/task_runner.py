@@ -60,7 +60,7 @@ def start_annotation(**kwargs):
         session.results_file = file_name
         csv_file = to_csv(session.mnemonic)
         logger.info(csv_file)
-        session.csv_file = ""
+        session.csv_file = csv_file
         session.update_session(db)
         return True
 
