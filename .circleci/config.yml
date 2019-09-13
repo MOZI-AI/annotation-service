@@ -22,13 +22,12 @@ jobs:
                         export GRPC_ADDR=https://annotation.mozi.ai/grpc
                         export RESULT_ADDR=https://annotation.mozi.ai/web
                         export SERVICE_ADDR=mozi.ai
-                        export DATASET=/opt/snet/datasets
-                        export RESULT_DIR=/opt/snet/results
+                        export DATASET=/var/www/datasets
+                        export RESULT_DIR=/opt/snet/annotation-result
                         cd annotation-service;
                         docker-compose stop; # stop the containers if they are runnning
                         sed -ri 's/^(\s*)(-\sPROD_MODE=0\s*$)/\1- PROD_MODE=1/' docker-compose.yml #switch to Production Mode
-                        docker-compose build;
-                        docker-compose up -d;
+                        docker-compose up -d --build;
                       EOF
 workflows:
     version: 2

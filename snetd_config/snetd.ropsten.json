@@ -1,32 +1,22 @@
 {
-   "DAEMON_END_POINT": "0.0.0.0:8002",
-   "ETHEREUM_JSON_RPC_ENDPOINT": "https://ropsten.infura.io",
-   "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
-   "REGISTRY_ADDRESS_KEY": "0x5156fde2ca71da4398f8c76763c41bc9633875e4",
-   "PASSTHROUGH_ENABLED": true,
-   "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
-   "ORGANIZATION_ID": "snet",
-   "SERVICE_ID": "gene-annotation-service",
-   "ssl_cert": "/etc/letsencrypt/live/mozi.ai/fullchain.pem",
-   "ssl_key": "/etc/letsencrypt/live/mozi.ai/privkey.pem",
-
-  "payment_channel_storage_server": {
-    "id": "storage-ropsten",
-    "host": "127.0.0.1",
-    "client_port": 2383,
-    "peer_port": 2384,
-    "token": "unique-token",
-    "cluster": "storage-ropsten=http://127.0.0.1:2384",
-    "data_dir": "etcd/storage-data-dir-ropsten.etcd",
-    "enabled": true
-  },
-
-  "payment_channel_storage_client": {
-    "connection_timeout": "5s",
-    "request_timeout": "3s",
-    "endpoints": ["http://127.0.0.1:2383"]
-  },
-
+  "DAEMON_END_POINT": "0.0.0.0:8002",
+  "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
+  "PASSTHROUGH_ENABLED": true,
+  "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
+  "ORGANIZATION_ID": "snet",
+  "SERVICE_ID": "gene-annotation-service",
+  "ssl_cert": "/etc/letsencrypt/live/mozi.ai/fullchain.pem",
+  "ssl_key": "/etc/letsencrypt/live/mozi.ai/privkey.pem",
+  "payent_channel_cert_path": "/ssl/client.pem",
+  "payent_channel_ca_path": "/ssl/ca.pem",
+  "payent_channel_key_path": "/ssl/client-key.pem",
+  "free_call_signer_address": "0x3Bb9b2499c283cec176e7C707Ecb495B7a961ebf",
+  "blockchain_network_selected": "ropsten",
+  "metering_end_point": "https://ropsten-marketplace.singularitynet.io/metering",
+  "pvt_key_for_metering":"adc2b3ba3f8880323d6112ea490528217d1b42139723b6e907f08b71c9d2d008",
+  "ethereum_json_rpc_endpoint": "https://ropsten.infura.io/v3/e7732e1f679e461b9bb4da5653ac3fc2",
+  "burst_size": 1,
+  "rate_limit_per_minute": 0.5,
   "log": {
     "level": "debug",
     "output": {
