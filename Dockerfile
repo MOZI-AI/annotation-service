@@ -36,7 +36,8 @@ WORKDIR $CODE/scheme
 RUN autoreconf -vif && \
     ./configure  && \
     make && \
-    make install
+    make install && \
+    make check
 
 WORKDIR $CODE
 COPY install.sh $CODE/install

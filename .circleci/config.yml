@@ -18,6 +18,7 @@ jobs:
                         else
                             git checkout -- .
                             git pull
+                            git submodule update
                         fi
                         export GRPC_ADDR=https://annotation.mozi.ai/grpc
                         export RESULT_ADDR=https://annotation.mozi.ai/web

@@ -1,4 +1,4 @@
-__author__ = "Enku Wendwosen F"
+__author__ = "Enku Wendwosen"
 
 from opencog.scheme_wrapper import scheme_eval
 import logging
