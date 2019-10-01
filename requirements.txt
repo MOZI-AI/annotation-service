@@ -9,3 +9,5 @@ flask-cors
 gunicorn
 openpyxl
 celery
+flask-socketio
+eventlet

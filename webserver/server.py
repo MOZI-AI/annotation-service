@@ -1,17 +1,21 @@
 import time
 
-__author__ = 'Enku Wendwosen<enku@singularitynet.io>'
+__author__ = 'Abdulrahman Semrie<xabush@singularitynet.io> & Enku Wendwosen<enku@singularitynet.io>'
+
+import eventlet
+eventlet.monkey_patch()
 
 import os
 from models.dbmodels import Session
 from flask import Flask, send_file, jsonify
 from flask_cors import CORS
 import pymongo
-from config import MONGODB_URI, DB_NAME, EXPIRY_SPAN, RESULT_DIR
+from config import MONGODB_URI, DB_NAME, EXPIRY_SPAN, RESULT_DIR,REDIS_URI
 from datetime import timedelta
 import zipfile
 import uuid
 import glob
+from flask_socketio import SocketIO, emit
 from config import setup_logging
 import logging
 
@@ -25,7 +29,7 @@ app = Flask(__name__)
 CORS(app)
 
 db = pymongo.MongoClient(MONGODB_URI)[DB_NAME]
-
+sio = SocketIO(app, message_queue=REDIS_URI, cors_allowed_origins="*")
 
 @app.route("/status/<mnemonic>", methods=["GET"])
 def get_status(mnemonic):
@@ -89,6 +93,10 @@ def send_csv_files(mnemonic, file_name):
     else:
         return jsonify({"response": "File not found"}), 404
 
+@sio.on("status")
+def status(st):
+    logger.info("Received Status" + st)
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="80")
+    sio.run(app, host="0.0.0.0", port="80")

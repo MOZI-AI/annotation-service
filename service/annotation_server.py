@@ -56,13 +56,6 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
     """
     logger = logging.getLogger("annotation-service")
 
-    def __init__(self):
-        """
-        constructor
-        :param atomspace: atomspace that has a loaded list of knowledge bases
-        """
-        # self.atomspace = atomspace
-
     def Annotate(self, request, context):
         """
         Implements Annnotation gRPC function
@@ -78,25 +71,9 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             pid = os.getpid()
             self.logger.info("Current PID: " + str(pid))
             payload = parse_payload(request.annotations, request.genes)
-            response, check = check_genes(payload=payload)
-            self.logger.warning(response)
-
-            if check:
-                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload)
-                if response:
-                    url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI, mnemonic=mnemonic)
-                    return annotation_pb2.AnnotationResponse(result=url)
-                else:
-                    msg = "an internal error occured. please try again"
-                    context.set_details(msg)
-                    context.set_code(grpc.StatusCode.INTERNAL)
-                    return annotation_pb2.AnnotationResponse(result=msg)
-            else:
-                self.logger.warning("The following genes were not found in the atomspace %s", response)
-                msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
-                context.set_details(msg)
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                return annotation_pb2.AnnotationResponse(result=msg)
+            check_genes.delay(payload=payload,session_id=session_id, mnemonic=mnemonic)
+            url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI, mnemonic=mnemonic)
+            return annotation_pb2.AnnotationResponse(result=url)
 
         except Exception as ex:
             self.logger.exception(traceback.format_exc())
