@@ -13,12 +13,16 @@ def generate_annotate_function(annotations, genes_list, session_id):
     """
 
     annotations_comp = ''
+    logger = logging.getLogger("annotation-service")
+    logger.info(annotations)
     for a in annotations:
         if not (a["filters"] is None):
             filters = ""
             for f in a["filters"]:
                 if f["filter"] == 'parents':
                     filters += f["value"]
+                elif f["filter"] == "biogrid":
+                    filters += "#:biogrid {0} ".format(f["value"])
                 else:
                     filters += ' \"' + f["value"] + '\" '
             annotations_comp += '( {fn_name} {genes} {filters} #:id \"{session}\")'.format(fn_name=a["function_name"], genes=genes_list,filters=filters, session=session_id)

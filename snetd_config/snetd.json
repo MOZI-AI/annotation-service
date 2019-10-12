@@ -3,7 +3,7 @@
   "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
   "PASSTHROUGH_ENABLED": true,
   "PASSTHROUGH_ENDPOINT": "http://localhost:3000",
-  "ORGANIZATION_ID": "snet",
+  "ORGANIZATION_ID": "mozi",
   "SERVICE_ID": "gene-annotation-service",
   "ssl_cert": "/etc/letsencrypt/live/mozi.ai/fullchain.pem",
   "ssl_key": "/etc/letsencrypt/live/mozi.ai/privkey.pem",
@@ -15,7 +15,7 @@
   "metering_end_point": "https://mainnet-marketplace.singularitynet.io/metering",
   "pvt_key_for_metering": "adc2b3ba3f8880323d6112ea490528217d1b42139723b6e907f08b71c9d2d008",
   "burst_size": 1,
-  "rate_limit_per_minute": 0.2,
+  "rate_limit_per_minute": 0.5,
   "log": {
     "level": "debug",
     "output": {

@@ -11,6 +11,7 @@ import time
 from models.dbmodels import Session
 from utils.scm2csv.scm2csv import to_csv
 from opencog.scheme_wrapper import scheme_eval
+from utils.multi_level import multi_level_layout
 
 # celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
 atomspace = load_atomspace()
@@ -57,6 +58,8 @@ def start_annotation(**kwargs):
         with open(file, "w") as f:
             f.write(response)
         session.result = file
+        logger.info("Applying Multi-level Layout")
+        multi_level_layout(file)
         session.results_file = file_name
         csv_file = to_csv(session.mnemonic)
         logger.info(csv_file)
