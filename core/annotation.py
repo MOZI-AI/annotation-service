@@ -67,8 +67,8 @@ def annotate(atomspace, annotations, genes, session_id):
     genes_list = generate_gene_function(genes)
     scheme_function = generate_annotate_function(annotations, genes_list, session_id)
     logger.info("Scheme Func: " + scheme_function)
-    parse_function = "(annotate-genes {genes_list} \"{session}\" (delay {scheme_func}))".format(
-        scheme_func=scheme_function, session=session_id, genes_list=genes_list)
+    parse_function = "(annotate-genes \"{session}\" (delay {scheme_func}))".format(
+        scheme_func=scheme_function, session=session_id)
     logger.info("doing annotation " + parse_function)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
     file_name = "/root/result/{session}/{session}.scm".format(session=session_id)
