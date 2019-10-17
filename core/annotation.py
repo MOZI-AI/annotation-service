@@ -2,34 +2,8 @@ __author__ = "Enku Wendwosen"
 
 from opencog.scheme_wrapper import scheme_eval
 import logging
-
-
-def generate_annotate_function(annotations, genes_list, session_id):
-    """
-    Generates scheme functions by concatenating annotations and genes
-    :param annotations: a list containing annotations
-    :param genes: a list containing genes
-    :return: a concatenated string which is a scheme function containing the list of genes and annotations.
-    """
-
-    annotations_comp = ''
-    logger = logging.getLogger("annotation-service")
-    logger.info(annotations)
-    for a in annotations:
-        if not (a["filters"] is None):
-            filters = ""
-            for f in a["filters"]:
-                if f["filter"] == 'parents':
-                    filters += f["value"]
-                elif f["filter"] == "biogrid":
-                    filters += "#:biogrid {0} ".format(f["value"])
-                else:
-                    filters += ' \"' + f["value"] + '\" '
-            annotations_comp += '( {fn_name} {genes} {filters} #:id \"{session}\")'.format(fn_name=a["function_name"], genes=genes_list,filters=filters, session=session_id)
-        else:
-            annotations_comp += '( {fn_name} {genes})'.format(fn_name=a.functionName, genes=genes_list)
-    scheme_function = '(parallel (gene-info {genes} \"{session}\") {annotation_fns})'.format(genes=genes_list, session=session_id ,annotation_fns=annotations_comp)
-    return scheme_function
+import json
+from array import array
 
 
 def generate_gene_function(genes):
@@ -55,6 +29,13 @@ def check_gene_availability(atomspace, genes):
     return gene_result, True
 
 
+def convert_to_byte_str(s):
+    arr = array('b')
+    arr.frombytes(s.encode())
+    ls = " ".join(str(x) for x in arr)
+    return "'({0})".format(ls)
+
+
 def annotate(atomspace, annotations, genes, session_id):
     """
     Performs annotation according to a list of annotations given on a list of genes
@@ -65,13 +46,9 @@ def annotate(atomspace, annotations, genes, session_id):
     """
     logger = logging.getLogger("annotation-service")
     genes_list = generate_gene_function(genes)
-    scheme_function = generate_annotate_function(annotations, genes_list, session_id)
-    logger.info("Scheme Func: " + scheme_function)
-    parse_function = "(annotate-genes \"{session}\" (delay {scheme_func}))".format(
-        scheme_func=scheme_function, session=session_id)
-    logger.info("doing annotation " + parse_function)
+    parse_function = "(annotate-genes {genes} \"{session}\" {request})".format(
+        genes=genes_list, request=convert_to_byte_str(json.dumps(annotations)), session=session_id)
     response = scheme_eval(atomspace, parse_function).decode("utf-8")
     file_name = "/root/result/{session}/{session}.scm".format(session=session_id)
     logger.info("saving result in file : " + file_name)
-
     return response, file_name
