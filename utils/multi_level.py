@@ -40,7 +40,7 @@ def multi_level_layout(path):
     nx.set_node_attributes(graph, position, "position")
 
     for node in graph_dict["nodes"]:
-        node["position"] = graph.node[node["data"]["id"]]["position"]
+        node["position"] = graph.nodes[node["data"]["id"]]["position"]
 
     for edge in graph_dict["edges"]:
         edge["data"]["id"] = str(uuid.uuid4())
