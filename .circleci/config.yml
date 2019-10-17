@@ -15,7 +15,9 @@ jobs:
                         if [ ! -d "annotation-service" ]; then
                             # clone the repo if it doesn't exist
                             git clone --recursive https://github.com/MOZI-AI/annotation-service.git
+                            cd annotation-service
                         else
+                            cd annotation-service
                             git checkout -- .
                             git pull
                             git submodule init
