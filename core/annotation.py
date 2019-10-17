@@ -31,7 +31,7 @@ def check_gene_availability(atomspace, genes):
 
 def convert_to_byte_str(s):
     arr = array('b')
-    arr.frombytes(s.encode())
+    arr.fromstring(s)
     ls = " ".join(str(x) for x in arr)
     return "'({0})".format(ls)
 
@@ -45,6 +45,7 @@ def annotate(atomspace, annotations, genes, session_id):
     :return: a string response directly from the scheme_eval response decoded in utf-8
     """
     logger = logging.getLogger("annotation-service")
+    logger.info(annotations)
     genes_list = generate_gene_function(genes)
     parse_function = "(annotate-genes {genes} \"{session}\" {request})".format(
         genes=genes_list, request=convert_to_byte_str(json.dumps(annotations)), session=session_id)
