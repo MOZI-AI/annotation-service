@@ -6,7 +6,17 @@ jobs:
         steps:
             - add_ssh_keys:
                   fingerprints:
-                    - "69:b8:f5:ab:d4:05:bb:02:09:57:9e:7f:0c:e1:74:81"        
+                    - "a7:ad:aa:89:31:ab:4e:fd:89:c4:b4:7a:df:bb:e0:c41"   
+            - run:
+                name: Setup Environment Variables
+                command: |
+                        echo "export GRPC_ADDR=$GRPC_ADDR" >> $BASH_ENV
+                        echo "export RESULT_ADDR=$SERVICE_ADDR" >> $BASH_ENV
+                        echo "export SERVICE_ADDR=$SERVICE_ADDR" >> $BASH_ENV
+                        echo "export DATASET=$DATASET" >> $BASH_ENV
+                        echo "export RESULT_DIR=$RESULT_DIR" >> $BASH_ENV
+                        echo "export SNET_CERT=$SNET_CERT" >> $BASH_ENV
+                        echo "export SSL_CERT=$SSL_CERT" >> $BASH_ENV
             - run:
                   name: Deploy over SSH
                   command: |
@@ -23,12 +33,6 @@ jobs:
                             git submodule init
                             git submodule update --remote
                         fi
-                        export GRPC_ADDR=https://annotation.mozi.ai/grpc
-                        export RESULT_ADDR=https://annotation.mozi.ai/web
-                        export SERVICE_ADDR=mozi.ai
-                        export DATASET=/var/www/datasets
-                        export RESULT_DIR=/opt/snet/annotation-result
-                        cd annotation-service;
                         docker-compose stop; # stop the containers if they are runnning
                         sed -ri 's/^(\s*)(-\sPROD_MODE=0\s*$)/\1- PROD_MODE=1/' docker-compose.yml #switch to Production Mode
                         docker-compose up -d --build;
