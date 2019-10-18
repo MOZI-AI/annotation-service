@@ -24,11 +24,11 @@ services:
       - frontend
 
     volumes:
-      - /etc:/etc
-      - /opt/snet/cfssl:/ssl
-      - $HOME/.mozi/prod:/opt
-      - $DATASET:/root/mozi_annotation_service/datasets
-      - $RESULT_DIR:/root/result
+     - $SSL_CERT:/etc
+     - $SNET_CERT:/ssl
+     - $HOME/.mozi/prod:/opt
+     - $DATASET:/root/mozi_annotation_service/datasets
+     - $RESULT_DIR:/root/result
 
   frontend:
     container_name: ui
@@ -37,7 +37,7 @@ services:
       dockerfile: Dockerfile
       args:
         - GRPC_ADDR=$GRPC_ADDR
-        - RESULT_ADDR=$RESULT_ADDR
+        - RESULT_ADDR=$SERVICE_ADDR
     ports:
       - "3003:80" #annotation ui port
 
