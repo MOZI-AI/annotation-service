@@ -14,6 +14,7 @@ import uuid
 import glob
 from config import setup_logging
 import logging
+import json
 
 setup_logging()
 
@@ -86,6 +87,16 @@ def send_csv_files(mnemonic, file_name):
     path = os.path.join(RESULT_DIR, mnemonic, file_name.lower() + ".csv")
     if os.path.exists(path):
         return send_file(path, as_attachment=True), 200
+    else:
+        return jsonify({"response": "File not found"}), 404
+
+@app.route("/summary/<mnemonic>/", methods=["GET"])
+def send_csv_files(mnemonic):
+    path = os.path.join(RESULT_DIR, mnemonic, "summary.json")
+    if os.path.exists(path):
+        with open(path, "r") as s:
+            summary = json.load(s)
+            return jsonify(summary), 200
     else:
         return jsonify({"response": "File not found"}), 404
 
