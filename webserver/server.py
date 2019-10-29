@@ -90,8 +90,9 @@ def send_csv_files(mnemonic, file_name):
     else:
         return jsonify({"response": "File not found"}), 404
 
-@app.route("/summary/<mnemonic>/", methods=["GET"])
-def send_csv_files(mnemonic):
+
+@app.route("/summary/<mnemonic>", methods=["GET"])
+def send_summary(mnemonic):
     path = os.path.join(RESULT_DIR, mnemonic, "summary.json")
     if os.path.exists(path):
         with open(path, "r") as s:
