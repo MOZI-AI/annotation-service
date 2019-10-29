@@ -10,3 +10,4 @@ gunicorn
 openpyxl
 celery
 networkx
+jsonlib
