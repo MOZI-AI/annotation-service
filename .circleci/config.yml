@@ -33,6 +33,7 @@ jobs:
                         git submodule update --remote
                         docker-compose stop; # stop the containers if they are runnning
                         sed -ri 's/^(\s*)(-\sPROD_MODE=0\s*$)/\1- PROD_MODE=1/' docker-compose.yml #switch to Production Mode
+                        source ~/.bashrc
                         docker-compose up -d --build;
                       EOF
 workflows:
