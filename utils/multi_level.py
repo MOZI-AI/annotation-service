@@ -29,11 +29,19 @@ def multi_level_layout(path):
         data = edge["data"]
         graph.add_edge(data["source"], data["target"])
 
-    G, level = generate_coarser_graph(graph, 0)
-    pos = nx.spring_layout(G, scale=6000, k=380)
+    graph_size = len(graph)
+    if graph_size >= 600:
+        graph_scale = 6000
+        node_space = 380
+    else:
+        graph_scale = 4000
+        node_space = 300
 
-    FG, position = generate_finer_graph(G, level - 1, pos)
-    position = nx.spring_layout(FG, scale=6000, pos=position, k=380)
+    G, level = generate_coarser_graph(graph, 0)
+    pos = nx.spring_layout(G, scale=graph_scale, k=node_space)
+
+    FG, position = generate_finer_graph(G, level - 1, pos, graph_scale, node_space)
+    position = nx.spring_layout(FG, scale=graph_scale, pos=position, k=node_space)
     for k, v in position.items():
         position[k] = {"x": v[0], "y": v[1]}
 
@@ -142,7 +150,7 @@ def generate_coarser_graph(G, level):
     return generate_coarser_graph(G, level + 1)
 
 
-def generate_finer_graph(G, level, position):
+def generate_finer_graph(G, level, position, scale, k):
     if level < 0: return G, position
     for n in col[level]:
         cn1, cn2 = col[level][n][0], col[level][n][1]
@@ -154,5 +162,5 @@ def generate_finer_graph(G, level, position):
             G.add_edge(c1, c2, group="edges")
 
     G.remove_nodes_from(col[level].keys())
-    nPos = nx.spring_layout(G, scale=6000, pos=position, k=380)
-    return generate_finer_graph(G, level - 1, nPos)
+    nPos = nx.spring_layout(G, scale=scale, pos=position, k=k)
+    return generate_finer_graph(G, level - 1, nPos, scale, k)
