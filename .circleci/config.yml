@@ -7,16 +7,16 @@ jobs:
             - add_ssh_keys:
                   fingerprints:
                     - "a7:ad:aa:89:31:ab:4e:fd:89:c4:b4:7a:df:bb:e0:c41"   
-            - run:
-                name: Setup Environment Variables
-                command: |
-                        echo "export GRPC_ADDR=$GRPC_ADDR" >> $BASH_ENV
-                        echo "export RESULT_ADDR=$SERVICE_ADDR" >> $BASH_ENV
-                        echo "export SERVICE_ADDR=$SERVICE_ADDR" >> $BASH_ENV
-                        echo "export DATASET=$DATASET" >> $BASH_ENV
-                        echo "export RESULT_DIR=$RESULT_DIR" >> $BASH_ENV
-                        echo "export SNET_CERT=$SNET_CERT" >> $BASH_ENV
-                        echo "export SSL_CERT=$SSL_CERT" >> $BASH_ENV
+#            - run:
+#                name: Setup Environment Variables
+#                command: |
+#                        echo "export GRPC_ADDR=$GRPC_ADDR" >> $BASH_ENV
+#                        echo "export RESULT_ADDR=$SERVICE_ADDR" >> $BASH_ENV
+#                        echo "export SERVICE_ADDR=$SERVICE_ADDR" >> $BASH_ENV
+#                        echo "export DATASET=$DATASET" >> $BASH_ENV
+#                        echo "export RESULT_DIR=$RESULT_DIR" >> $BASH_ENV
+#                        echo "export SNET_CERT=$SNET_CERT" >> $BASH_ENV
+#                        echo "export SSL_CERT=$SSL_CERT" >> $BASH_ENV
             - run:
                   name: Deploy over SSH
                   command: |
@@ -41,3 +41,6 @@ workflows:
     build_and_deploy:
         jobs:
             - deploy
+                filters:
+                    branches:
+                        only: master
