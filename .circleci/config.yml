@@ -10,13 +10,13 @@ jobs:
             - run:
                 name: Setup Environment Variables
                 command: |
-                        echo "export GRPC_ADDR=$GRPC_ADDR" >> $BASH_ENV
-                        echo "export RESULT_ADDR=$SERVICE_ADDR" >> $BASH_ENV
-                        echo "export SERVICE_ADDR=$SERVICE_ADDR" >> $BASH_ENV
-                        echo "export DATASET=$DATASET" >> $BASH_ENV
-                        echo "export RESULT_DIR=$RESULT_DIR" >> $BASH_ENV
-                        echo "export SNET_CERT=$SNET_CERT" >> $BASH_ENV
-                        echo "export SSL_CERT=$SSL_CERT" >> $BASH_ENV
+                        "export GRPC_ADDR=$GRPC_ADDR" >> $GRPC_ADDR
+                        "export RESULT_ADDR=$SERVICE_ADDR" >> $RESULT_ADDR
+                        "export SERVICE_ADDR=$SERVICE_ADDR" >> $SERVICE_ADDR
+                        "export DATASET=$DATASET" >> $DATASET
+                        "export RESULT_DIR=$RESULT_DIR" >> $RESULT_DIR
+                        "export SNET_CERT=$SNET_CERT" >> $SNET_CERT
+                        "export SSL_CERT=$SSL_CERT" >> $SSL_CERT
             - run:
                   name: Deploy over SSH
                   command: |

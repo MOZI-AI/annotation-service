@@ -11,9 +11,9 @@
 
 - Results can be downloaded as a JSON file viewable in cytoscape, a set of plain text tables, and an opencog atomese scheme file.
 
-!["gene annotation UI screenshot"](gene-annotation_Screen-Shot-2019-03-14.jpg?raw=true "gene annotation UI screenshot")
+!["gene annotation UI screenshot"](gene-annotation-screenshot.png?raw=true "gene annotation UI screenshot")
 
-### Local Setup
+### Local Setup & Development
 
     
 1. Create `datasets` folder in your home directory and download the Datasets
@@ -47,9 +47,11 @@
         $ export DATASET=$HOME/datasets
 
 
-4. Clone the Project
+4. Clone the Project and checkout to the development branch.
 
     ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
+
+    ```git checkout development```
 
 5. Go the project directory and Start the services
 
@@ -60,4 +62,3 @@
         http://localhost:3003
 
 If you would like to run in production mode, which will load large datasets into the atompspace, you can change line number 15 in `docker-compose.yml` to `1`
-If you don't want to run the [snet daemon](https://github.com/singnet/snet-daemon), you can comment lines 18-40 in `circus.ini` file.
