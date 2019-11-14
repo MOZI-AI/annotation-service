@@ -8,16 +8,6 @@ jobs:
                   fingerprints:
                     - "a7:ad:aa:89:31:ab:4e:fd:89:c4:b4:7a:df:bb:e0:c41"   
             - run:
-                name: Setup Environment Variables
-                command: |
-                        "export GRPC_ADDR=$GRPC_ADDR" >> $GRPC_ADDR
-                        "export RESULT_ADDR=$SERVICE_ADDR" >> $RESULT_ADDR
-                        "export SERVICE_ADDR=$SERVICE_ADDR" >> $SERVICE_ADDR
-                        "export DATASET=$DATASET" >> $DATASET
-                        "export RESULT_DIR=$RESULT_DIR" >> $RESULT_DIR
-                        "export SNET_CERT=$SNET_CERT" >> $SNET_CERT
-                        "export SSL_CERT=$SSL_CERT" >> $SSL_CERT
-            - run:
                   name: Deploy over SSH
                   command: |
                       ssh $SSH_USER@$SERVER bash << EOF
