@@ -24,8 +24,6 @@ services:
       - frontend
 
     volumes:
-     - $SSL_CERT:/etc
-     - $SNET_CERT:/ssl
      - $HOME/.mozi/prod:/opt
      - $DATASET:/root/mozi_annotation_service/datasets
      - $RESULT_DIR:/root/result
