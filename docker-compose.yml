@@ -37,7 +37,7 @@ services:
       dockerfile: Dockerfile
       args:
         - GRPC_ADDR=$GRPC_ADDR
-        - RESULT_ADDR=$SERVICE_ADDR
+        - RESULT_ADDR=$RESULT_ADDR
     ports:
       - "3003:80" #annotation ui port
 
