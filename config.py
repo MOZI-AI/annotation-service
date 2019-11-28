@@ -22,6 +22,8 @@ CSV_TEST_FOLDER = os.path.join(TEST_FOLDER,"csv")
 
 RESULT_DIR = "/root/result/"
 
+PLN_RULE = "scheme/annotation/pln_rule.scm"
+
 try:
     DATASET_PATHs = [os.path.join(DATASET_FOLDER, dataset) for dataset in os.listdir(DATASET_FOLDER) if
                  os.path.isfile(os.path.join(DATASET_FOLDER, dataset))]
