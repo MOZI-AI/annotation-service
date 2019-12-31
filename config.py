@@ -20,7 +20,7 @@ TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
 CSV_TEST_FOLDER = os.path.join(TEST_FOLDER,"csv")
 
-RESULT_DIR = "/root/result/"
+RESULT_DIR = "/tmp/result/"
 
 PLN_RULE = os.path.join(PROJECT_ROOT, "scheme/annotation/pln_rule.scm")
 
