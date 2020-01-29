@@ -20,6 +20,7 @@ def load_atomspace():
     scheme_eval(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
     print("initial atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     atomspace = load_datasets(atomspace)
+    atomspace = apply_pln(atomspace)
     print("after datasets:" +scheme_eval(atomspace, "(count-all)").decode("utf-8"))
     print("done")
     logger.info("Atoms loaded!")
@@ -43,3 +44,13 @@ def load_datasets(atomspace):
         logger.info("In Dev Mode")
         scheme_eval(atomspace, '(primitive-load "{}")'.format(config.TEST_DATASET))
         return atomspace
+
+def apply_pln(atomspace):
+    """
+    Apply PLN rules to get rid of outdated gene symbols and create a link to the current ones.
+    :param atomspace: atomspace instance that a PLN rules will be applied.
+    :return: an atomspace instance enriched with additional links 
+    """
+    logger.info("Applying PLN rules")
+    scheme_eval(atomspace, '(primitive-load "{}")'.format(config.PLN_RULE))
+    return atomspace
