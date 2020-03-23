@@ -18,14 +18,16 @@ services:
       - REDIS_URI=redis://redis:6379/0
       - MONGODB_URI=mongodb://mongo:27017/
       - SERVICE_ADDR=$SERVICE_ADDR
-    working_dir: /root/mozi_annotation_service/
+      - RESULT_DIR=/root/result
+    working_dir: /root/annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
     links:
       - frontend
+      - mongo
 
     volumes:
      - $HOME/.mozi/prod:/opt
-     - $DATASET:/root/mozi_annotation_service/datasets
+     - $DATASET:/root/annotation_service/datasets
      - $RESULT_DIR:/root/result
 
   frontend:
