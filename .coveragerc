@@ -1,6 +1,6 @@
 [run]
 source=
-    /home/root/mozi_annotation_service
+    /home/root/annotation_service
 omit=
     *site-packages*
     tests/*
