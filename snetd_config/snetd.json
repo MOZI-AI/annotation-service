@@ -15,8 +15,8 @@
   "metering_end_point": "https://mainnet-marketplace.singularitynet.io/metering",
   "pvt_key_for_metering": "adc2b3ba3f8880323d6112ea490528217d1b42139723b6e907f08b71c9d2d008",
   "ethereum_json_rpc_endpoint": "https://mainnet.infura.io/v3/e7732e1f679e461b9bb4da5653ac3fc2",
-  "burst_size": 1,
-  "rate_limit_per_minute": 0.5,
+  "burst_size": 15,
+  "rate_limit_per_minute": 1,
   "log": {
     "level": "debug",
     "output": {
