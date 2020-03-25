@@ -64,8 +64,6 @@ RUN rm snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
 RUN wget -O grpc-proxy.zip https://github.com/improbable-eng/grpc-web/releases/download/v0.9.5/grpcwebproxy-v0.9.5-linux-x86_64.zip
 RUN unzip grpc-proxy.zip && mv dist/grpcwebproxy-v0.9.5-linux-x86_64 ./grpc-proxy
 RUN chmod 755 grpc-proxy
-COPY install.sh $CODE/install
-RUN chmod 755 install && ./install
 
 # Setup Directories
 RUN apt-get install -y python3-pip
@@ -93,3 +91,5 @@ RUN autoreconf -vif && \
     make install
 
 WORKDIR $CODE
+
+RUN chmod 755 ./install.sh && ./install.sh
