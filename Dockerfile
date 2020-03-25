@@ -22,8 +22,8 @@ RUN cd /tmp && git clone https://github.com/opencog/cogutil.git && \
     ldconfig /usr/local/lib/opencog
 
 #Install atomspace
-RUN cd /tmp && git clone https://github.com/ngeiswei/atomspace.git && \
-    cd atomspace && git checkout bio-as-xp && \
+RUN cd /tmp && git clone https://github.com/opencog/atomspace.git && \
+    cd atomspace && \
     mkdir build && \
     cd build && \
     cmake .. && \
@@ -41,6 +41,14 @@ RUN cd /tmp && git clone https://github.com/opencog/agi-bio.git && \
     make install && \
     ldconfig /usr/local/lib/opencog
 
+
+RUN cd /tmp && git clone https://github.com/aconchillo/guile-json && \
+    cd guile-json && \
+    autoreconf -vif && \
+    ./configure --prefix=/usr GUILE=$(which guile)  && \
+    make && \
+    make install
+
 WORKDIR $HOME
 
 #create scheme result page
@@ -53,7 +61,7 @@ RUN mkdir $CODE
 WORKDIR $CODE
 
 #Install snet daemon
-ENV SNET_DAEMON_V 2.0.2
+ENV SNET_DAEMON_V 3.1.3
 RUN mkdir snet-daemon-v$SNET_DAEMON_V
 RUN wget https://github.com/singnet/snet-daemon/releases/download/v$SNET_DAEMON_V/snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
 RUN tar -xzf snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz -C snet-daemon-v$SNET_DAEMON_V --strip-components 1
@@ -74,15 +82,6 @@ COPY requirements.txt $CODE/requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY . $CODE
-# Install the annotation scheme dependencies
-
-WORKDIR $HOME
-RUN git clone https://github.com/aconchillo/guile-json && \
-    cd guile-json && \
-    autoreconf -vif && \
-    ./configure --prefix=/usr GUILE=$(which guile)  && \
-    make && \
-    make install
 
 WORKDIR $CODE/scheme
 RUN autoreconf -vif && \

@@ -12,6 +12,7 @@ from models.dbmodels import Session
 from utils.scm2csv.scm2csv import to_csv
 from opencog.scheme_wrapper import scheme_eval
 from utils.multi_level import multi_level_layout
+import traceback
 
 # celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
 atomspace = load_atomspace()
@@ -73,6 +74,7 @@ def start_annotation(**kwargs):
         session.update_session(db)
         session.message = msg
         logger.error(msg)
+        traceback.print_exc()
         return False
 
     finally:
