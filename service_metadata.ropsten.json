@@ -18,7 +18,9 @@
             "endpoints": [
                 "https://mozi.ai:8002"
             ],
-            "group_id": "vLChk1qhqxH9vFgcHHha3C62uo7GyEMq16nqkeYnrvw="
+            "group_id": "vLChk1qhqxH9vFgcHHha3C62uo7GyEMq16nqkeYnrvw=",
+            "free_calls": 25,
+            "free_call_signer_address": "0x7DF35C98f41F3Af0df1dc4c7F7D4C19a71Dd059F"
         }
     ],
     "assets": {},
