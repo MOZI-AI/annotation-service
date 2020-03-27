@@ -15,7 +15,7 @@ _attrs = dict(name='name', ident='id')
 def multi_level_layout(path):
     t0 = time.time()
     with open(path) as fp:
-        graph_dict = json.load(fp)
+        graph_dict = json.loads(json.loads(fp.read()))
 
     graph = nx.Graph()
 
