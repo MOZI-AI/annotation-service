@@ -47,21 +47,16 @@ def start_annotation(**kwargs):
         if not os.path.exists(path):
             os.makedirs(path)
         logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
-        response, file_name = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
+        annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
                                        session.mnemonic)
-        logger.info("Filename: " + file_name)
-        if file_name is None:
-            logger.warning("The following genes were not found in the atomspace %s", response)
-            msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
-            raise ValueError(msg)
+        scm_dir = "/root/result/{session}".format(session=session.mnemonic)
+        json_file = "/root/result/{session}/{session}.json".format(session=session.mnemonic)
+        logger.info("Result dir: " + scm_dir)
         session.status = 2
-        file = os.path.join(path, "{session}.json".format(session=session.mnemonic))
-        with open(file, "w") as f:
-            f.write(response)
-        session.result = file
+        session.result = json_file
         logger.info("Applying Multi-level Layout")
-        multi_level_layout(file)
-        session.results_file = file_name
+        multi_level_layout(json_file)
+        session.results_file = scm_dir
         csv_file = to_csv(session.mnemonic)
         logger.info(csv_file)
         session.csv_file = csv_file

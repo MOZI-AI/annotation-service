@@ -42,7 +42,6 @@ def annotate(atomspace, annotations, genes, session_id):
     parse_function = "(annotate-genes {genes} \"{session}\" \"{request}\")".format(
         genes=genes_list, request=json.dumps(annotations).replace('"', '\\"'), session=session_id)
     logger.info(parse_function)
-    response = scheme_eval(atomspace, parse_function).decode("utf-8")
+    scheme_eval(atomspace, parse_function).decode("utf-8")
     file_name = "/root/result/{session}/{session}.scm".format(session=session_id)
     logger.info("saving result in file : " + file_name)
-    return response, file_name
