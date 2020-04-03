@@ -21,12 +21,8 @@ def check_gene_availability(atomspace, genes):
     logger.info(genes)
     genes_fn = "(find-genes {gene_list})".format(gene_list=genes)
     gene_result = scheme_eval(atomspace, genes_fn).decode('utf-8')
-    logger.warning("result : " + gene_result[0])
-
-    if int(gene_result[0]) == 1:
-        return gene_result[2:], False
-
-    return gene_result, True
+    gene_dict = json.loads(gene_result)
+    return gene_result, len(gene_dict) == 0
 
 
 def annotate(atomspace, annotations, genes, session_id):
