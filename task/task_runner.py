@@ -1,18 +1,21 @@
-__author__ = "Enku Wendwosen<enku@singularitynet.io>"
+__author__ = "Enku Wendwosen<enku@singularitynet.io> & Abdulrahman Semrie<xabush@singularitynet.io>"
 
-from config import CELERY_OPTS, RESULT_DIR, PROJECT_ROOT,MONGODB_URI, DB_NAME, setup_logging
-from core.annotation import annotate , check_gene_availability
-from utils.atomspace_setup import load_atomspace
-import logging
 import base64
+import json
+import logging
 import os
-import pymongo
 import time
-from models.dbmodels import Session
-from utils.scm2csv.scm2csv import to_csv
-from opencog.scheme_wrapper import scheme_eval
-from utils.multi_level import multi_level_layout
 import traceback
+
+import pymongo
+from opencog.scheme_wrapper import scheme_eval
+
+from config import RESULT_DIR, MONGODB_URI, DB_NAME, setup_logging
+from core.annotation import annotate, check_gene_availability
+from models.dbmodels import Session
+from utils.atomspace_setup import load_atomspace
+from utils.multi_level import multi_level_layout
+from utils.scm2csv.scm2csv import to_csv
 
 # celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
 atomspace = load_atomspace()
@@ -55,7 +58,9 @@ def start_annotation(**kwargs):
         session.status = 2
         session.result = json_file
         logger.info("Applying Multi-level Layout")
-        multi_level_layout(json_file)
+        out_dict = multi_level_layout(json_file)
+        with open(json_file, "w") as fp:
+            json.dump({"elements": out_dict}, fp)
         session.results_file = scm_dir
         csv_file = to_csv(session.mnemonic)
         logger.info(csv_file)

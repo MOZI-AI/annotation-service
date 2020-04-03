@@ -20,7 +20,6 @@ TEST_FOLDER = os.path.join(PROJECT_ROOT, "tests/data")
 
 CSV_TEST_FOLDER = os.path.join(TEST_FOLDER,"csv")
 
-RESULT_DIR = "/root/result/"
 
 PLN_RULE = os.path.join(PROJECT_ROOT, "scheme/annotation/pln_rule.scm")
 
@@ -40,6 +39,7 @@ try:
     MONGODB_URI = os.environ["MONGODB_URI"]
     MOZI_RESULT_URI = os.environ["SERVICE_ADDR"]
     SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
+    RESULT_DIR = os.environ["RESULT_DIR"]
 except KeyError:
     PRODUCTION_MODE = False
     MONGODB_URI = "http://localhost:27017"
@@ -47,7 +47,7 @@ except KeyError:
     REDIS_URI = "redis://localhost:6379/0"
     MOZI_RESULT_URI = "http://localhost:3004"
     SERVICE_URL = "localhost"
-
+    RESULT_DIR = "/tmp/result/"
 
 
 DB_NAME = "snet_annotation"

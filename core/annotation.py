@@ -3,6 +3,7 @@ __author__ = "Abdulrahman Semrie & Enku Wendwosen"
 from opencog.scheme_wrapper import scheme_eval
 import logging
 import json
+from config import RESULT_DIR
 
 
 def generate_gene_function(genes):
@@ -43,5 +44,5 @@ def annotate(atomspace, annotations, genes, session_id):
         genes=genes_list, request=json.dumps(annotations).replace('"', '\\"'), session=session_id)
     logger.info(parse_function)
     scheme_eval(atomspace, parse_function).decode("utf-8")
-    file_name = "/root/result/{session}/{session}.scm".format(session=session_id)
+    file_name = "/root/{result}/{session}/{session}.scm".format(session=session_id, result=RESULT_DIR)
     logger.info("saving result in file : " + file_name)

@@ -53,11 +53,10 @@ def multi_level_layout(path):
     for edge in graph_dict["edges"]:
         edge["data"]["id"] = str(uuid.uuid4())
 
-    with open(path, "w") as fp:
-        json.dump({"elements": graph_dict}, fp)
-
     t1 = time.time()
     logger.info("Total time: {0} seconds".format(t1 - t0))
+
+    return graph_dict
 
 
 def cytoscape_data(G, OG, attrs=None):
