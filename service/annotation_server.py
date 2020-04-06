@@ -93,10 +93,9 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
                     return annotation_pb2.AnnotationResponse(result=msg)
             else:
                 self.logger.warning("The following genes were not found in the atomspace %s", response)
-                msg = "Invalid Argument `{g}` : Gene Doesn't exist in the Atomspace".format(g=response)
-                context.set_details(msg)
+                context.set_details(response)
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                return annotation_pb2.AnnotationResponse(result=msg)
+                return annotation_pb2.AnnotationResponse(result=response)
 
         except Exception as ex:
             self.logger.exception(traceback.format_exc())
