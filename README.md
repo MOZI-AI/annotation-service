@@ -51,11 +51,10 @@
 
     ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
 
-    ```git checkout development```
 
 5. Go the project directory and Start the services
 
-        docker-compose up --build
+        docker-compose -f docker-compose-dev.yml up --build
 
 6.  You should be able to access the annotation service UI at
 
