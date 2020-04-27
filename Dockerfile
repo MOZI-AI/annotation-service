@@ -61,7 +61,7 @@ RUN mkdir $CODE
 WORKDIR $CODE
 
 #Install snet daemon
-ENV SNET_DAEMON_V 3.1.3
+ENV SNET_DAEMON_V 3.1.5
 RUN mkdir snet-daemon-v$SNET_DAEMON_V
 RUN wget https://github.com/singnet/snet-daemon/releases/download/v$SNET_DAEMON_V/snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
 RUN tar -xzf snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz -C snet-daemon-v$SNET_DAEMON_V --strip-components 1
