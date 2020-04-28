@@ -63,10 +63,10 @@ def send_result_file(mnemonic):
     session = Session.get_session(db, mnemonic=mnemonic)
     if session:
         if session.status == 2 and not session.expired:
-            path = "{result}{id}/*.scm".format(result=RESULT_DIR, id=mnemonic)
+            path = "{result}/{id}/*.scm".format(result=RESULT_DIR, id=mnemonic)
             files = glob.glob(path)
             logger.info(files)
-            z_path = "{result}{id}/{id}.zip".format(result=RESULT_DIR, id=mnemonic)
+            z_path = "{result}/{id}/{id}.zip".format(result=RESULT_DIR, id=mnemonic)
             zFile = zipfile.ZipFile(z_path, "w")
             # zFile.write(os.path.join(RESULT_DIR, mnemonic, "{session}.json".format(session=mnemonic)), arcname=mnemonic, compress_type=zipfile.ZIP_STORED)
             for file in files:
