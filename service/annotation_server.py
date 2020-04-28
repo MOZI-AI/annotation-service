@@ -155,7 +155,7 @@ if __name__ == '__main__':
                 target=_run_server, args=(address,)
             )
             worker.start()
-            workers.append(workers)
+            workers.append(worker)
 
         for worker in workers:
             worker.join()
