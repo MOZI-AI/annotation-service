@@ -95,7 +95,7 @@ COPY . $CODE
 
 WORKDIR $CODE/scheme
 RUN autoreconf -vif && \
-    ./configure --prefix=/usr GUILE=$(which guile)  && \
+    ./configure  && \
     make && \
     make install
 
