@@ -15,17 +15,12 @@
 
 ### Local Setup & Development
 
-    
-1. Create `datasets` folder in your home directory and download the Datasets
+0. Download the datasets from https://mozi.ai/datasets
 
-    ```
-    cd $HOME
-    mkdir datasets 
-    wget -r --no-parent https://mozi.ai/datasets/
-    mv mozi.ai/datasets/* datasets
-    rm -rf mozi.ai
-    rm datasets/index.html
-    ```
+
+    **Note**: The datasets are compressed and you have to extract the files before using them.
+
+1. Create `datasets` folder in your home directory and move the extracted datasets to that directory
 
 2. Create `results` folder in your home directory and define a `RESULT_DIR` environment variable that points to the directory. This is where the scheme results will be stored. 
 
