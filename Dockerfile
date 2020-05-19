@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get install -y git ssh cmake libboost-all-dev cython dh-autoreconf unzip gdb vim
 
 #Install Guile dependecies
-RUN apt-get install -y libgmp-dev libltdl-dev libunistring-dev libffi-dev libgc-dev flex texinfo  libreadline-dev
+RUN apt-get install -y libgmp-dev libltdl-dev libunistring-dev libffi-dev libgc-dev flex texinfo  libreadline-dev pkg-config
 
 ENV HOME /root
 
