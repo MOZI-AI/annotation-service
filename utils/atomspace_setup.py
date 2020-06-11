@@ -15,15 +15,7 @@ def load_atomspace():
     :return: atomspace instance
     """
     atomspace = AtomSpace()
-    logger.info("Loading Atoms")
-    print("loading atoms")
-    scheme_eval(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
-    print("initial atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
-    atomspace = load_datasets(atomspace)
-    atomspace = apply_pln(atomspace)
-    print("after datasets:" +scheme_eval(atomspace, "(count-all)").decode("utf-8"))
-    print("done")
-    logger.info("Atoms loaded!")
+    scheme_eval(atomspace, '(primitive-load "{}")'.format("(use-modules (annotation main))"))
     return atomspace
 
 

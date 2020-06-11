@@ -13,15 +13,11 @@ from opencog.scheme_wrapper import scheme_eval
 from config import RESULT_DIR, MONGODB_URI, DB_NAME, setup_logging
 from core.annotation import annotate, check_gene_availability
 from models.dbmodels import Session
-from utils.atomspace_setup import load_atomspace
 from utils.multi_level import multi_level_layout
 from utils.scm2csv.scm2csv import to_csv
 
-# celery = Celery('annotation_snet',broker=CELERY_OPTS["CELERY_BROKER_URL"])
-atomspace = load_atomspace()
-# celery.conf.update(CELERY_OPTS)
 setup_logging()
-# sio = socketio.RedisManager(REDIS_URI, write_only=True)
+
 
 def read_file(location):
     with open(location, "rb") as fp:
@@ -29,14 +25,10 @@ def read_file(location):
 
     return base64.b64encode(content)
 
-# @celery.task(name="task.task_runner.check_genes")
-def check_genes(**kwargs):
-    logger = logging.getLogger("annotation-service")
+def check_genes(atomspace, **kwargs):
     return check_gene_availability(atomspace , kwargs["payload"]["genes"])
 
-
-# @celery.task(name="task.task_runner.start_annotation")
-def start_annotation(**kwargs):
+def start_annotation(atomspace, **kwargs):
     logger = logging.getLogger("annotation-service")
     session = Session(id=kwargs["session_id"], mnemonic=kwargs["mnemonic"],
                       annotations=kwargs["payload"]["annotations"], genes=kwargs["payload"]["genes"])
@@ -49,9 +41,10 @@ def start_annotation(**kwargs):
         path = os.path.join(RESULT_DIR, session.mnemonic)
         if not os.path.exists(path):
             os.makedirs(path)
-        logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
+
         annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
                                        session.mnemonic)
+        logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
         scm_dir = "/root/result/{session}".format(session=session.mnemonic)
         json_file = "/root/result/{session}/{session}.json".format(session=session.mnemonic)
         logger.info("Result dir: " + scm_dir)

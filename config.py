@@ -42,7 +42,7 @@ try:
     RESULT_DIR = os.environ["RESULT_DIR"]
 except KeyError:
     PRODUCTION_MODE = False
-    MONGODB_URI = "http://localhost:27017"
+    MONGODB_URI = "mongodb://localhost:27017"
     SERVICE_PORT = 3000
     REDIS_URI = "redis://localhost:6379/0"
     MOZI_RESULT_URI = "http://localhost:3004"
