@@ -2,7 +2,6 @@ grpcio-tools
 pyyaml
 pandas==0.24.2
 circus
-pymongo
 flask
 flask-cors
 gunicorn

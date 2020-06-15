@@ -15,7 +15,7 @@ def load_atomspace():
     :return: atomspace instance
     """
     atomspace = AtomSpace()
-    scheme_eval(atomspace, '(primitive-load "{}")'.format("(use-modules (annotation main))"))
+    scheme_eval(atomspace, '(use-modules (annotation main))')
     return atomspace
 
 

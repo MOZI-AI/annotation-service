@@ -2,21 +2,17 @@ __author__ = "Abdulrahman Semrie<xabush@singularitynet.io & Enku Wendwosen<enku@
 
 import base64
 import logging
-import time
+import multiprocessing
+import traceback
 import uuid
 from concurrent import futures
-import contextlib
-import multiprocessing
-import socket
-
-import traceback
-from utils.atomspace_setup import load_atomspace
 
 import grpc
-from service_specs import annotation_pb2, annotation_pb2_grpc
 
-from config import SERVICE_PORT, setup_logging, MOZI_RESULT_URI
+from config import setup_logging, MOZI_RESULT_URI
+from service_specs import annotation_pb2, annotation_pb2_grpc
 from task.task_runner import start_annotation, check_genes
+from utils.atomspace_setup import load_atomspace
 from utils.url_encoder import encode
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24

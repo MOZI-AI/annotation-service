@@ -15,8 +15,8 @@ services:
       - SCM_DIR=/root/scm_result
       - PROD_MODE=1
       - SERVICE_PORT=3000
-      - REDIS_URI=redis://redis:6379/0
-      - MONGODB_URI=mongodb://mongo:27017/
+      - ATOM_SERVER=localhost
+      - ATOM_ID=prod-atom
       - SERVICE_ADDR=$SERVICE_ADDR
       - RESULT_DIR=/root/result
     working_dir: /root/annotation_service/
@@ -39,9 +39,3 @@ services:
         - RESULT_ADDR=$RESULT_ADDR
     ports:
       - "3003:80" #annotation ui port
-
-  redis:
-    image: redis
-
-  mongo:
-    image: mongo
