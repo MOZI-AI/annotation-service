@@ -37,9 +37,7 @@ def start_annotation(atomspace, **kwargs):
         annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
                                        mnemonic)
         logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
-        scm_dir = "/root/result/{session}".format(session=mnemonic)
-        json_file = "/root/result/{session}/{session}.json".format(session=mnemonic)
-        logger.info("Result dir: " + scm_dir)
+        json_file = os.path.join(path, mnemonic + ".json")
         logger.info("Applying Multi-level Layout")
         out_dict = multi_level_layout(json_file)
         with open(json_file, "w") as fp:
