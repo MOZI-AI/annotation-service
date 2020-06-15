@@ -29,7 +29,7 @@ def start_annotation(atomspace, **kwargs):
     logger = logging.getLogger("annotation-service")
 
     try:
-        mnemonic = mnemonic = kwargs["mnemonic"]
+        mnemonic  = kwargs["mnemonic"]
         path = os.path.join(RESULT_DIR, mnemonic)
         if not os.path.exists(path):
             os.makedirs(path)
@@ -51,6 +51,6 @@ def start_annotation(atomspace, **kwargs):
     except Exception as ex:
         msg = "Error: " + ex.__str__()
         logger.error(msg)
-        traceback.print_exc()
+        print(traceback._cause_message)
         return False
 
