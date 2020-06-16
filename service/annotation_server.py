@@ -31,7 +31,7 @@ def parse_payload(annotations, genes):
     annotation_payload = []
     for a in annotations:
         annotation = dict()
-        annotation["function_name"] = a.functionName
+        annotation["functionName"] = a.functionName
         if not (a.filters is None):
             filters = []
             for f in a.filters:

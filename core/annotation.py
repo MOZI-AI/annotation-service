@@ -9,7 +9,7 @@ from config import RESULT_DIR
 def generate_gene_function(genes):
     genes_comp = '(list '
     for gene in genes:
-        genes_comp += '"{gene}" '.format(gene=gene["gene_name"])
+        genes_comp += '"{gene}" '.format(gene=gene["geneName"])
     genes_comp += ')'
     return genes_comp
 
@@ -25,7 +25,7 @@ def check_gene_availability(atomspace, genes):
     return gene_result, len(gene_dict) == 0
 
 
-def annotate(atomspace, annotations, genes, session_id):
+def annotate(atomspace, annotations, genes, mnemonic):
     """
     Performs annotation according to a list of annotations given on a list of genes
     :param atomspace: the atomspace that contains the loaded knowledge bases where the annotations will be performed from
@@ -37,8 +37,7 @@ def annotate(atomspace, annotations, genes, session_id):
     logger.info(annotations)
     genes_list = generate_gene_function(genes)
     parse_function = "(annotate-genes {genes} \"{session}\" \"{request}\")".format(
-        genes=genes_list, request=json.dumps(annotations).replace('"', '\\"'), session=session_id)
+        genes=genes_list, request=json.dumps(annotations).replace('"', '\\"'), session=mnemonic)
     logger.info(parse_function)
     scheme_eval(atomspace, parse_function).decode("utf-8")
-    file_name = "/root/{result}/{session}/{session}.scm".format(session=session_id, result=RESULT_DIR)
-    logger.info("saving result in file : " + file_name)
+    logger.info("Finished annotation")

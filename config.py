@@ -33,13 +33,11 @@ except FileNotFoundError: #For testing
 
 
 try:
-    PRODUCTION_MODE = True if int(os.environ["PROD_MODE"]) == 1 else False
     SERVICE_PORT = os.environ["SERVICE_PORT"]
     MOZI_RESULT_URI = os.environ["SERVICE_ADDR"]
     SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
     RESULT_DIR = os.environ["RESULT_DIR"]
 except KeyError:
-    PRODUCTION_MODE = False
     SERVICE_PORT = 3000
     MOZI_RESULT_URI = "http://localhost:3004"
     SERVICE_URL = "localhost"
