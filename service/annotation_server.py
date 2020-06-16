@@ -41,7 +41,7 @@ def parse_payload(annotations, genes):
             annotation_payload.append(annotation)
     genes_payload = []
     for g in genes:
-        genes_payload.append({"gene_name": g.geneName})
+        genes_payload.append({"geneName": g.geneName})
 
     return {"annotations": annotation_payload, "genes": genes_payload}
 
