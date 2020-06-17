@@ -12,7 +12,6 @@ import grpc
 from config import setup_logging, MOZI_RESULT_URI
 from service_specs import annotation_pb2, annotation_pb2_grpc
 from task.task_runner import start_annotation, check_genes
-from utils.atomspace_setup import load_atomspace
 from utils.url_encoder import encode
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
@@ -57,7 +56,6 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         constructor
         :param atomspace: atomspace that has a loaded list of knowledge bases
         """
-        # self.atomspace = atomspace
 
     def Annotate(self, request, context):
         """
@@ -71,13 +69,12 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         mnemonic = encode(session_id)
 
         try:
-            atomspace = load_atomspace()
             payload = parse_payload(request.annotations, request.genes)
-            response, check = check_genes(atomspace, payload=payload)
+            response, check = check_genes(payload=payload)
             self.logger.warning(response)
 
             if check:
-                response = start_annotation(atomspace, session_id=session_id, mnemonic=mnemonic, payload=payload)
+                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload)
                 if response:
                     url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI, mnemonic=mnemonic)
                     return annotation_pb2.AnnotationResponse(result=url)
