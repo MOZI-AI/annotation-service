@@ -22,9 +22,6 @@ services:
       - RESULT_DIR=/root/result
     working_dir: /root/annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
-    links:
-      - frontend
-      - mongo
 
     volumes:
      - $HOME/.mozi/prod:/opt
