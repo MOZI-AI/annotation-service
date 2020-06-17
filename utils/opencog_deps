@@ -6,4 +6,7 @@
 (use-modules (opencog exec))
 (use-modules (opencog bioscience))
 (use-modules (opencog persist-file))
-(use-modules (annotation) (annotation main))
+(use-modules 
+    (annotation util)
+    (annotation functions) 
+    (annotation main))

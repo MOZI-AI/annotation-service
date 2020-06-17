@@ -25,7 +25,7 @@ def read_file(location):
 
     return base64.b64encode(content)
 
-def check_genes(atomspace, **kwargs):
+def check_genes(**kwargs):
     return check_gene_availability(atomspace , kwargs["payload"]["genes"])
 
 def start_annotation(**kwargs):

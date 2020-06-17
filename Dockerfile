@@ -68,14 +68,6 @@ RUN cd /tmp && git clone https://github.com/wingo/fibers && \
     make && \
     make install
 
-RUN cd /tmp && git clone https://git.dthompson.us/guile-websocket.git && \
-    cd guile-websocket  && \
-    autoreconf -vif && \
-    ./configure && \
-    make && \
-    make install
-
-
 WORKDIR $HOME
 
 #create scheme result page
