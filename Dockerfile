@@ -61,7 +61,7 @@ RUN cd /tmp && git clone https://github.com/aconchillo/guile-json && \
 
 
 
-RUN cd /tmp && git clone https://github.com/wingo/fibers && \
+RUN cd /tmp && git clone https://github.com/Habush/fibers && \
     cd fibers && \
     autoreconf -vif && \
     ./configure  && \
