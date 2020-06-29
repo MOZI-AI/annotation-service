@@ -1,21 +1,16 @@
-__author__ = "Enku Wendwosen<enku@singularitynet.io>"
+__author__ = "Abdulrahman Semrie<xabush@singularitynet.io & Enku Wendwosen<enku@singularitynet.io>"
 
 import base64
 import logging
-import time
+import multiprocessing
+import traceback
 import uuid
 from concurrent import futures
-import contextlib
-import multiprocessing
-import socket
-
-import traceback
-import os
 
 import grpc
-from service_specs import annotation_pb2, annotation_pb2_grpc
 
-from config import SERVICE_PORT, setup_logging, MOZI_RESULT_URI
+from config import setup_logging, MOZI_RESULT_URI
+from service_specs import annotation_pb2, annotation_pb2_grpc
 from task.task_runner import start_annotation, check_genes
 from utils.url_encoder import encode
 
@@ -35,7 +30,7 @@ def parse_payload(annotations, genes):
     annotation_payload = []
     for a in annotations:
         annotation = dict()
-        annotation["function_name"] = a.functionName
+        annotation["functionName"] = a.functionName
         if not (a.filters is None):
             filters = []
             for f in a.filters:
@@ -45,7 +40,7 @@ def parse_payload(annotations, genes):
             annotation_payload.append(annotation)
     genes_payload = []
     for g in genes:
-        genes_payload.append({"gene_name": g.geneName})
+        genes_payload.append({"geneName": g.geneName})
 
     return {"annotations": annotation_payload, "genes": genes_payload}
 
@@ -61,7 +56,6 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         constructor
         :param atomspace: atomspace that has a loaded list of knowledge bases
         """
-        # self.atomspace = atomspace
 
     def Annotate(self, request, context):
         """
@@ -75,8 +69,6 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
         mnemonic = encode(session_id)
 
         try:
-            pid = os.getpid()
-            self.logger.info("Current PID: " + str(pid))
             payload = parse_payload(request.annotations, request.genes)
             response, check = check_genes(payload=payload)
             self.logger.warning(response)
@@ -104,58 +96,17 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
             return annotation_pb2.AnnotationResponse(result="url")
 
 
-def _wait_forever(server):
-    try:
-        while True:
-            time.sleep(_ONE_DAY_IN_SECONDS)
-    except KeyboardInterrupt:
-        server.stop(None)
-
-
-@contextlib.contextmanager
-def _reserve_port():
-    """Find and reserve a port for all subprocesses to use."""
-    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-    if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT) == 0:
-        raise RuntimeError("Failed to set SO_REUSEPORT.")
-    sock.bind(('', int(SERVICE_PORT)))
-    try:
-        yield sock.getsockname()[1]
-    finally:
-        sock.close()
-
-
 def _run_server(bind_address):
     """Start a server in a subprocess"""
-    options = (("grpc.so_reuseport", 1),)
-    # WARNING: This example takes advantage of SO_REUSEPORT. Due to the
-    # limitations of manylinux1, none of our precompiled Linux wheels currently
-    # support this option. (https://github.com/grpc/grpc/issues/18210). To take
-    # advantage of this feature, install from source with
-    # `pip install grpcio --no-binary grpcio`.
-
     server = grpc.server(
-        futures.ThreadPoolExecutor(max_workers=_THREAD_CONCURRENCY),
-        options=options
+        futures.ThreadPoolExecutor(max_workers=_THREAD_CONCURRENCY)
     )
     annotation_pb2_grpc.add_AnnotateServicer_to_server(AnnotationService(), server)
     server.add_insecure_port(bind_address)
     server.start()
-    _wait_forever(server)
+    server.wait_for_termination()
 
 
 if __name__ == '__main__':
     setup_logging()
-    with _reserve_port() as port:
-        address = "0.0.0.0:{}".format(port)
-        workers = []
-        for _ in range(_PROCESS_COUNT):
-            worker = multiprocessing.Process(
-                target=_run_server, args=(address,)
-            )
-            worker.start()
-            workers.append(worker)
-
-        for worker in workers:
-            worker.join()
+    _run_server("[::]:3000")

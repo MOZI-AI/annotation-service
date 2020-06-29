@@ -33,33 +33,21 @@ except FileNotFoundError: #For testing
 
 
 try:
-    PRODUCTION_MODE = True if int(os.environ["PROD_MODE"]) == 1 else False
     SERVICE_PORT = os.environ["SERVICE_PORT"]
-    REDIS_URI = os.environ["REDIS_URI"]
-    MONGODB_URI = os.environ["MONGODB_URI"]
     MOZI_RESULT_URI = os.environ["SERVICE_ADDR"]
     SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
     RESULT_DIR = os.environ["RESULT_DIR"]
 except KeyError:
-    PRODUCTION_MODE = False
-    MONGODB_URI = "http://localhost:27017"
     SERVICE_PORT = 3000
-    REDIS_URI = "redis://localhost:6379/0"
     MOZI_RESULT_URI = "http://localhost:3004"
     SERVICE_URL = "localhost"
     RESULT_DIR = "/tmp/result/"
 
 
-DB_NAME = "snet_annotation"
-
-EXPIRY_SPAN = 7
-
-CELERY_OPTS = {'CELERY_BROKER_URL': REDIS_URI, 'CELERY_RESULT_BACKEND': REDIS_URI}
-
 def setup_logging(default_path='logging.yml', default_level=logging.INFO):
     """Setup logging configuration
     """
-    LOG_DIR = "/opt/annotation-service/log"
+    LOG_DIR = "/tmp/annotation-service/log"
     if not os.path.exists(LOG_DIR):
         os.makedirs(LOG_DIR)
     if os.path.exists(default_path):

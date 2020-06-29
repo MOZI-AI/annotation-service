@@ -59,6 +59,15 @@ RUN cd /tmp && git clone https://github.com/aconchillo/guile-json && \
     make && \
     make install
 
+
+
+RUN cd /tmp && git clone https://github.com/Habush/fibers && \
+    cd fibers && \
+    autoreconf -vif && \
+    ./configure  && \
+    make && \
+    make install
+
 WORKDIR $HOME
 
 #create scheme result page
