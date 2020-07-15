@@ -47,7 +47,7 @@ def send_result_file(mnemonic):
 
 
 @app.route("/csv/<mnemonic>", methods=["GET"])
-def send_csv_files(mnemonic):
+def send_csv_info(mnemonic):
     path = os.path.join(RESULT_DIR, mnemonic)
     result = []
     for file in os.listdir(path):
@@ -56,7 +56,7 @@ def send_csv_files(mnemonic):
     return jsonify({"response": result}), 200
 
 
-@app.route("/csv_file/<mnemonic>/<file_name>", methods=["GET"])
+@app.route("/csv/<mnemonic>/<file_name>", methods=["GET"])
 def send_csv_files(mnemonic, file_name):
     path = os.path.join(RESULT_DIR, mnemonic, file_name.lower() + ".csv")
     if os.path.exists(path):
