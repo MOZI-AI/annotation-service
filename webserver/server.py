@@ -21,7 +21,7 @@ logger = logging.getLogger("annotation-service")
 app = Flask(__name__)
 CORS(app)
 
-
+csv_dict = {"gene-go.csv": "GO", "gene-pathway.csv": "PATHWAY", "biogrid.csv" : "BIOGRID", "rna.csv": "RNA"}
 
 @app.route("/<mnemonic>", methods=["GET"])
 def send_result(mnemonic):
@@ -43,6 +43,17 @@ def send_result_file(mnemonic):
         zFile.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
     zFile.close()
     return send_file(z_path, as_attachment=True, mimetype="application/x-lisp"), 200
+
+
+
+@app.route("/csv_file/<mnemonic>", methods=["GET"])
+def send_csv_files(mnemonic):
+    path = os.path.join(RESULT_DIR, mnemonic)
+    result = []
+    for file in os.listdir(path):
+        if file.endswith(".csv") and file in csv_dict:
+            result.append({"displayName" : csv_dict[file], "fileName": file})
+    return jsonify({"response": result}), 200
 
 
 @app.route("/csv_file/<mnemonic>/<file_name>", methods=["GET"])
