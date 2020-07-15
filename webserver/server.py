@@ -46,7 +46,7 @@ def send_result_file(mnemonic):
 
 
 
-@app.route("/csv_file/<mnemonic>", methods=["GET"])
+@app.route("/csv/<mnemonic>", methods=["GET"])
 def send_csv_files(mnemonic):
     path = os.path.join(RESULT_DIR, mnemonic)
     result = []
