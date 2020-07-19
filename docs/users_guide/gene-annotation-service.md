@@ -115,7 +115,6 @@ For feature requests and queries you can use [this template][feature-template].
 
 ## Authors
 * **Michael Duncan** - *michael@singularitynet.io*
-* **Hedra Seid** - *hedra@singularitynet.io*
 * **Enkuselassie Wondeson** - *enku@singularitynet.io*
 * **Abdulrahman Semrie** - *xabush@singularitynet.io*
 * **Yisehak Abreham** - *abrehamy@singularitynet.io* 
