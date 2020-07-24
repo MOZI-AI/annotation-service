@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
 MAINTAINER Abdulrahman Semrie <xabush@singularitynet.io>
 
 #Run apt-get in NONINTERACTIVE mode
