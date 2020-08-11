@@ -16,6 +16,7 @@ services:
       - SERVICE_PORT=3000
       - SERVICE_ADDR=$SERVICE_ADDR
       - RESULT_DIR=/root/result
+      - ATOM_SERVER=localhost:50051
     working_dir: /root/annotation_service/
     command: bash -c "circusd --log-level debug circus-dev.ini"
 
