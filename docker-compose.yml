@@ -17,6 +17,7 @@ services:
       - REDIS_URI=redis://redis:6379/0
       - SERVICE_ADDR=$SERVICE_ADDR
       - RESULT_DIR=/root/result
+      - ATOM_SERVER=mozi.ai:5005
     working_dir: /root/annotation_service/
     command: bash -c "circusd --log-level debug circus.ini"
 

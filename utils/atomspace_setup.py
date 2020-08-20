@@ -16,8 +16,6 @@ def load_atomspace():
     """
     atomspace = AtomSpace()
     scheme_eval(atomspace, '(primitive-load "{}")'.format(config.OPENCOG_DEPS_PATH))
-    atomspace = load_datasets(atomspace)
-    atomspace = apply_pln(atomspace)
     return atomspace
 
 
