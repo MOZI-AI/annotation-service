@@ -57,16 +57,6 @@ RUN cd /tmp && git clone https://github.com/opencog/atomspace.git && \
     make install && \
     ldconfig /usr/local/lib/opencog
 
-#Install agi-bio
-RUN cd /tmp && git clone https://github.com/opencog/agi-bio.git && \
-    cd agi-bio && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make -j4 && \
-    make install && \
-    ldconfig /usr/local/lib/opencog
-
 
 RUN cd /tmp && git clone https://github.com/aconchillo/guile-json && \
     cd guile-json && \
@@ -83,6 +73,16 @@ RUN cd /tmp && git clone https://github.com/wingo/fibers && \
     ./configure  && \
     make && \
     make install
+
+#Install agi-bio
+RUN cd /tmp && git clone https://github.com/opencog/agi-bio.git && \
+    cd agi-bio && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j4 && \
+    make install && \
+    ldconfig /usr/local/lib/opencog
 
 RUN cd /tmp && git clone https://github.com/Habush/atomspace-rpc && \
     cd atomspace-rpc && mkdir build && cd build && \
@@ -101,7 +101,7 @@ RUN mkdir $CODE
 WORKDIR $CODE
 
 #Install snet daemon
-ENV SNET_DAEMON_V 3.1.5
+ENV SNET_DAEMON_V 4.0.0
 RUN mkdir snet-daemon-v$SNET_DAEMON_V
 RUN wget https://github.com/singnet/snet-daemon/releases/download/v$SNET_DAEMON_V/snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
 RUN tar -xzf snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz -C snet-daemon-v$SNET_DAEMON_V --strip-components 1
