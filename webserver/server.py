@@ -48,12 +48,15 @@ def send_result_file(mnemonic):
 
 @app.route("/csv/<mnemonic>", methods=["GET"])
 def send_csv_info(mnemonic):
-    path = os.path.join(RESULT_DIR, mnemonic)
-    result = []
-    for file in os.listdir(path):
-        if file.endswith(".csv") and file in csv_dict:
-            result.append({"displayName" : csv_dict[file], "fileName": file})
-    return jsonify({"response": result}), 200
+    path = "{result}/{id}/*.csv".format(result=RESULT_DIR, id=mnemonic)
+    files = glob.glob(path)
+    logger.info(files)
+    z_path = "{result}/{id}/{id}-csv.zip".format(result=RESULT_DIR, id=mnemonic)
+    zFile = zipfile.ZipFile(z_path, "w")
+    for file in files:
+        zFile.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
+    zFile.close()
+    return send_file(z_path, as_attachment=True, mimetype="text/csv"), 200
 
 
 @app.route("/csv/<mnemonic>/<file_name>", methods=["GET"])
