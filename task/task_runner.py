@@ -37,21 +37,29 @@ def start_annotation(**kwargs):
         if not os.path.exists(path):
             os.makedirs(path)
 
-        annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
+        response = annotate(atomspace, kwargs["payload"]["annotations"], kwargs["payload"]["genes"],
                                        mnemonic)
-        logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
-        json_file = os.path.join(path, mnemonic + ".json")
-        logger.info("Applying Multi-level Layout")
-        out_dict = multi_level_layout(json_file)
-        with open(json_file, "w") as fp:
-            json.dump({"elements": out_dict}, fp)
-        csv_file = to_csv(mnemonic)
-        logger.info(csv_file)
-        return True
+        if "#f" in response:
+            not_found = response[4:].split(" ")
+            res = []
+            for n in not_found:
+                res.append({"symbol": n, "current": "", "similar": ""})
+            return False, json.dumps(res)
+        else:
+
+            logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
+            json_file = os.path.join(path, mnemonic + ".json")
+            logger.info("Applying Multi-level Layout")
+            out_dict = multi_level_layout(json_file)
+            with open(json_file, "w") as fp:
+                json.dump({"elements": out_dict}, fp)
+            csv_file = to_csv(mnemonic)
+            logger.info(csv_file)
+            return True, None
 
     except Exception as ex:
         msg = "Error: " + ex.__str__()
         logger.error(msg)
         print(traceback._cause_message)
-        return False
+        return False, msg
 

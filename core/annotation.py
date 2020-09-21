@@ -39,5 +39,6 @@ def annotate(atomspace, annotations, genes, mnemonic):
     parse_function = "(annotate-genes {genes} \"{session}\" \"{request}\")".format(
         genes=genes_list, request=json.dumps(annotations).replace('"', '\\"'), session=mnemonic)
     logger.info(parse_function)
-    scheme_eval(atomspace, parse_function).decode("utf-8")
+    response = scheme_eval(atomspace, parse_function).decode("utf-8")
     logger.info("Finished annotation")
+    return response
