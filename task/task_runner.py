@@ -6,7 +6,7 @@ import logging
 import os
 import traceback
 
-from opencog.scheme_wrapper import scheme_eval
+from opencog.scheme import scheme_eval
 
 from config import RESULT_DIR, setup_logging
 from core.annotation import annotate, check_gene_availability

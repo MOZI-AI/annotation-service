@@ -1,6 +1,6 @@
 __author__ = "Abdulrahman Semrie & Enku Wendwosen"
 
-from opencog.scheme_wrapper import scheme_eval
+from opencog.scheme import scheme_eval
 import logging
 import json
 from config import RESULT_DIR
