@@ -25,11 +25,25 @@ csv_dict = {"gene-go.csv": "GO", "gene-pathway.csv": "PATHWAY", "biogrid.csv" : 
 
 @app.route("/<mnemonic>", methods=["GET"])
 def send_result(mnemonic):
-    path = os.path.join(RESULT_DIR, mnemonic, "{session}.json".format(session=mnemonic))
+    go_path = os.path.join(RESULT_DIR, mnemonic, "go.json")
+    nongo_path = os.path.join(RESULT_DIR, mnemonic, "nongo.json")
+    res = {"go": False, "nongo": False}
+    if os.path.exists(go_path):
+        res["go"] = True
+    if os.path.exists(nongo_path):
+        res["nongo"] = True
+
+    return jsonify(res), 200
+
+
+@app.route("/<mnemonic>/<filename>", methods=["GET"])
+def send_graph_file(mnemonic, filename):
+    path = os.path.join(RESULT_DIR, mnemonic, filename + ".json")
+    print("Requested file path " + path)
     if os.path.exists(path):
         return send_file(path, as_attachment=True), 200
     else:
-        return jsonify({"response": "File not found"}), 404
+        return jsonify({"response": "File Not Found"}), 400
 
 
 @app.route("/result_file/<mnemonic>", methods=["GET"])

@@ -13,6 +13,7 @@ from core.annotation import annotate, check_gene_availability
 from utils.multi_level import multi_level_layout
 from utils.scm2csv.scm2csv import to_csv
 from utils.atomspace_setup import load_atomspace
+from ann_graph import GraphProcessor
 
 setup_logging()
 
@@ -50,9 +51,8 @@ def start_annotation(**kwargs):
             logger.info("when executing atoms:" + scheme_eval(atomspace, "(count-all)").decode("utf-8"))
             json_file = os.path.join(path, mnemonic + ".json")
             logger.info("Applying Multi-level Layout")
-            out_dict = multi_level_layout(json_file)
-            with open(json_file, "w") as fp:
-                json.dump({"elements": out_dict}, fp)
+            graph_processor = GraphProcessor(json_file)
+            graph_processor.process()
             csv_file = to_csv(mnemonic)
             logger.info(csv_file)
             return True, None
