@@ -1,5 +1,10 @@
 version: "3"
 services:
+  docker-host:
+    image: qoomon/docker-host
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    mem_limit: 8M
+    restart: on-failure
   backend:
     container_name: annotation-service
     build:
@@ -16,7 +21,7 @@ services:
       - SERVICE_PORT=3000
       - SERVICE_ADDR=$SERVICE_ADDR
       - RESULT_DIR=/root/result
-      - ATOM_SERVER=localhost:50051
+      - ATOM_SERVER=docker-host:50051
     working_dir: /root/annotation_service/
     command: bash -c "circusd --log-level debug circus-dev.ini"
 
