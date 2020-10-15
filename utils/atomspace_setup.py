@@ -2,7 +2,7 @@ __author__ = "Enku Wendwosen & Abdulrahman Semrie"
 
 import logging
 from opencog.atomspace import AtomSpace
-from opencog.scheme_wrapper import scheme_eval
+from opencog.scheme import scheme_eval
 
 import config
 

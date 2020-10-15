@@ -25,15 +25,33 @@ csv_dict = {"gene-go.csv": "GO", "gene-pathway.csv": "PATHWAY", "biogrid.csv" : 
 
 @app.route("/<mnemonic>", methods=["GET"])
 def send_result(mnemonic):
-    path = os.path.join(RESULT_DIR, mnemonic, "{session}.json".format(session=mnemonic))
+    go_path = os.path.join(RESULT_DIR, mnemonic, "go.json")
+    nongo_path = os.path.join(RESULT_DIR, mnemonic, "nongo.json")
+    res = {"go": False, "nongo": False}
+    if os.path.exists(go_path):
+        res["go"] = True
+    if os.path.exists(nongo_path):
+        res["nongo"] = True
+
+    return jsonify(res), 200
+
+
+@app.route("/<mnemonic>/<filename>", methods=["GET"])
+def send_graph_file(mnemonic, filename):
+    path = os.path.join(RESULT_DIR, mnemonic, filename + ".json")
+    print("Requested file path " + path)
     if os.path.exists(path):
         return send_file(path, as_attachment=True), 200
     else:
-        return jsonify({"response": "File not found"}), 404
+        return jsonify({"response": "File Not Found"}), 400
 
 
 @app.route("/result_file/<mnemonic>", methods=["GET"])
 def send_result_file(mnemonic):
+    z_path = "{result}/{id}/{id}.zip".format(result=RESULT_DIR, id=mnemonic)
+    if os.path.exists(z_path):
+        return send_file(z_path, as_attachment=True, mimetype="application/x-lisp"), 200
+
     path = "{result}/{id}/*.scm".format(result=RESULT_DIR, id=mnemonic)
     files = glob.glob(path)
     logger.info(files)
@@ -48,12 +66,19 @@ def send_result_file(mnemonic):
 
 @app.route("/csv/<mnemonic>", methods=["GET"])
 def send_csv_info(mnemonic):
-    path = os.path.join(RESULT_DIR, mnemonic)
-    result = []
-    for file in os.listdir(path):
-        if file.endswith(".csv") and file in csv_dict:
-            result.append({"displayName" : csv_dict[file], "fileName": file})
-    return jsonify({"response": result}), 200
+    z_path = "{result}/{id}/{id}-csv.zip".format(result=RESULT_DIR, id=mnemonic)
+    if os.path.exists(z_path):
+        return send_file(z_path, as_attachment=True, mimetype="text/csv"), 200
+
+    path = "{result}/{id}/*.csv".format(result=RESULT_DIR, id=mnemonic)
+    files = glob.glob(path)
+    logger.info(files)
+    z_path = "{result}/{id}/{id}-csv.zip".format(result=RESULT_DIR, id=mnemonic)
+    zFile = zipfile.ZipFile(z_path, "w")
+    for file in files:
+        zFile.write(file, arcname=os.path.basename(file), compress_type=zipfile.ZIP_DEFLATED)
+    zFile.close()
+    return send_file(z_path, as_attachment=True, mimetype="text/csv"), 200
 
 
 @app.route("/csv/<mnemonic>/<file_name>", methods=["GET"])

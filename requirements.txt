@@ -7,3 +7,6 @@ flask-cors
 gunicorn
 openpyxl
 networkx
+pandas
+scipy
+pybind11

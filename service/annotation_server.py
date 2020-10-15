@@ -70,19 +70,12 @@ class AnnotationService(annotation_pb2_grpc.AnnotateServicer):
 
         try:
             payload = parse_payload(request.annotations, request.genes)
-            response, check = check_genes(payload=payload)
-            self.logger.warning(response)
+            check, response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload)
+            self.logger.info(response)
 
             if check:
-                response = start_annotation(session_id=session_id, mnemonic=mnemonic, payload=payload)
-                if response:
-                    url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI, mnemonic=mnemonic)
-                    return annotation_pb2.AnnotationResponse(result=url)
-                else:
-                    msg = "an internal error occured. please try again"
-                    context.set_details(msg)
-                    context.set_code(grpc.StatusCode.INTERNAL)
-                    return annotation_pb2.AnnotationResponse(result=msg)
+                url = "{MOZI_RESULT_URI}/?id={mnemonic}".format(MOZI_RESULT_URI=MOZI_RESULT_URI, mnemonic=mnemonic)
+                return annotation_pb2.AnnotationResponse(result=url)
             else:
                 self.logger.warning("The following genes were not found in the atomspace %s", response)
                 context.set_details(response)

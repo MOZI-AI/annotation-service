@@ -9,3 +9,6 @@
 [submodule "ui"]
 	path = ui
 	url = https://github.com/MOZI-AI/annotation-UI
+[submodule "utils/annotation_graph"]
+	path = utils/annotation_graph
+	url = https://github.com/Habush/annotation-graph
