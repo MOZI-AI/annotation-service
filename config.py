@@ -30,17 +30,21 @@ except FileNotFoundError: #For testing
     DATASET_PATHs = "/home/root"
 
 
-
-
 try:
     SERVICE_PORT = os.environ["SERVICE_PORT"]
-    MOZI_RESULT_URI = os.environ["SERVICE_ADDR"]
-    SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
-    RESULT_DIR = os.environ["RESULT_DIR"]
 except KeyError:
     SERVICE_PORT = 3000
+
+try:
+    MOZI_RESULT_URI = os.environ["SERVICE_ADDR"]
+    SERVICE_URL = "http://"+ os.environ["SERVICE_ADDR"]
+except KeyError:
     MOZI_RESULT_URI = "http://localhost:3004"
     SERVICE_URL = "localhost"
+
+try: 
+    RESULT_DIR = os.environ["RESULT_DIR"]
+except KeyError:
     RESULT_DIR = "/tmp/result/"
 
 

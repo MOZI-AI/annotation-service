@@ -108,10 +108,10 @@ RUN tar -xzf snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz -C snet-daemon-v$SNE
 RUN ln snet-daemon-v$SNET_DAEMON_V/snetd snetd
 RUN rm snet-daemon-v$SNET_DAEMON_V-linux-amd64.tar.gz
 
-#Install grpc proxy
-RUN wget -O grpc-proxy.zip https://github.com/improbable-eng/grpc-web/releases/download/v0.9.5/grpcwebproxy-v0.9.5-linux-x86_64.zip
-RUN unzip grpc-proxy.zip && mv dist/grpcwebproxy-v0.9.5-linux-x86_64 ./grpc-proxy
-RUN chmod 755 grpc-proxy
+#Install grpcwebproxy
+RUN wget -O grpcwebproxy.zip https://github.com/improbable-eng/grpc-web/releases/download/v0.9.5/grpcwebproxy-v0.9.5-linux-x86_64.zip
+RUN unzip grpcwebproxy.zip && mv dist/grpcwebproxy-v0.9.5-linux-x86_64 ./grpcwebproxy
+RUN chmod 755 grpcwebproxy && mv grpcwebproxy /usr/local/bin
 
 # Setup Directories
 RUN apt-get install -y python3-pip
