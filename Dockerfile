@@ -38,6 +38,19 @@ RUN cd /tmp &&  git clone -b v1.31.0 https://github.com/grpc/grpc && \
 ##Install nlohmann json
 RUN mkdir -p /usr/local/include/nlohmann && wget -O /usr/local/include/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.9.1/json.hpp
 
+RUN wget \
+    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && mkdir /root/.conda \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh
+
+ENV PATH="/root/miniconda3/bin:${PATH}"
+
+RUN conda config --add channels conda-forge && \
+    conda config --set channel_priority strict
+ 
+
+
 RUN cd /tmp && git clone https://github.com/singnet/cogutil.git && \
     cd cogutil && \
     mkdir build && \
@@ -53,14 +66,9 @@ RUN cd /tmp && git clone https://github.com/singnet/atomspace.git && \
     mkdir build && \
     cd build && \
     cmake .. && \
-    make -j4 && \
+    make  && \
     make install && \
     ldconfig /usr/local/lib/opencog
-
-#Install OGF
-RUN cd /tmp && wget https://ogdf.uos.de/wp-content/uploads/2020/02/ogdf.v2020.02.zip && \
-    unzip ogdf.v2020.02.zip && cd OGDF && cmake . && \
-    make -j && make install
 
 #Downlaod rapid json
 RUN wget -O rapidjson.tar.gz https://github.com/Tencent/rapidjson/archive/v1.1.0.tar.gz && \
@@ -98,6 +106,15 @@ RUN cd /tmp && git clone https://github.com/Habush/atomspace-rpc && \
     cmake .. && make && make install && \
     ldconfig
 
+#Install OGF
+RUN cd /tmp && wget https://ogdf.uos.de/wp-content/uploads/2020/02/ogdf.v2020.02.zip && \
+    unzip ogdf.v2020.02.zip && cd OGDF && \ 
+    mkdir build && cd build && \
+    cmake -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS_INIT} -fPIC" .. && \
+    make -j && make install
+
+
+
 WORKDIR $HOME
 
 #create scheme result page
@@ -123,18 +140,16 @@ RUN unzip grpcwebproxy.zip && mv dist/grpcwebproxy-v0.9.5-linux-x86_64 ./grpcweb
 RUN chmod 755 grpcwebproxy && mv grpcwebproxy /usr/local/bin
 
 # Setup Directories
-RUN apt-get install -y python3-pip
-
-RUN pip3 install --upgrade pip && \
-       pip3 install grpcio --no-binary grpcio
+RUN conda install grpcio 
 COPY requirements.txt $CODE/requirements.txt
-RUN pip3 install -r requirements.txt
+
+RUN conda install --yes --file requirements.txt
 
 COPY . $CODE
 
 WORKDIR ${CODE}/utils/annotation_graph
 RUN mkdir build && cd build && \
-    cmake . && \
+    cmake .. && \
     make -j4 && make install
 
 WORKDIR $CODE/scheme
@@ -142,6 +157,8 @@ RUN autoreconf -vif && \
     ./configure  && \
     make && \
     make install
+
+ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
 WORKDIR $CODE
 
