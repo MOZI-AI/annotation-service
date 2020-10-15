@@ -47,7 +47,7 @@
     ```git clone --recursive https://github.com/MOZI-AI/annotation-service.git```
 
 5. Build & Run the **atomspace-rpc server**. You can get the instructions on the githup repo [here](https://github.com/Habush/atomspace-rpc). 
-
+    - Make sure you use `--host 0.0.0.0` option while starting the server
     - If you use a custom port (other than 50051), make sure to update the port in the `ATOM_SERVER` env variable in `docker-compose-dev.yml`
 
 6. Go the project directory and Start the services
