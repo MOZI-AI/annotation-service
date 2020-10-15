@@ -38,7 +38,7 @@ RUN cd /tmp &&  git clone -b v1.31.0 https://github.com/grpc/grpc && \
 ##Install nlohmann json
 RUN mkdir -p /usr/local/include/nlohmann && wget -O /usr/local/include/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.9.1/json.hpp
 
-RUN cd /tmp && git clone https://github.com/opencog/cogutil.git && \
+RUN cd /tmp && git clone https://github.com/singnet/cogutil.git && \
     cd cogutil && \
     mkdir build && \
     cd build && \
@@ -48,7 +48,7 @@ RUN cd /tmp && git clone https://github.com/opencog/cogutil.git && \
     ldconfig /usr/local/lib/opencog
 
 #Install atomspace
-RUN cd /tmp && git clone https://github.com/opencog/atomspace.git && \
+RUN cd /tmp && git clone https://github.com/singnet/atomspace.git && \
     cd atomspace && \
     mkdir build && \
     cd build && \
@@ -84,7 +84,7 @@ RUN cd /tmp && git clone https://github.com/wingo/fibers && \
     make install
 
 #Install agi-bio
-RUN cd /tmp && git clone https://github.com/opencog/agi-bio.git && \
+RUN cd /tmp && git clone https://github.com/singnet/agi-bio.git && \
     cd agi-bio && \
     mkdir build && \
     cd build && \
