@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y git ssh libssl-dev libboost-all-dev cython dh-autoreconf unzip gdb vim
+RUN apt-get install -y git ssh libssl-dev libboost-all-dev cython dh-autoreconf coinor-clp unzip gdb vim
 
 ##Install latest cmake - grpc complains for old cmake versions
 RUN cd /tmp && wget -O cmake.sh https://github.com/Kitware/CMake/releases/download/v3.18.1/cmake-3.18.1-Linux-x86_64.sh && \
@@ -56,6 +56,15 @@ RUN cd /tmp && git clone https://github.com/opencog/atomspace.git && \
     make -j4 && \
     make install && \
     ldconfig /usr/local/lib/opencog
+
+#Install OGF
+RUN cd /tmp && wget https://ogdf.uos.de/wp-content/uploads/2020/02/ogdf.v2020.02.zip && \
+    unzip ogdf.v2020.02.zip && cd OGDF && cmake . && \
+    make -j && make install
+
+#Downlaod rapid json
+RUN wget -O rapidjson.tar.gz https://github.com/Tencent/rapidjson/archive/v1.1.0.tar.gz && \
+    tar -xvzf rapidjson.tar.gz &&  mv rapidjson-1.1.0/include/rapidjson /usr/local/include
 
 
 RUN cd /tmp && git clone https://github.com/aconchillo/guile-json && \
@@ -122,6 +131,11 @@ COPY requirements.txt $CODE/requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY . $CODE
+
+WORKDIR ${CODE}/utils/annotation_graph
+RUN mkdir build && cd build && \
+    cmake . && \
+    make -j4 && make install
 
 WORKDIR $CODE/scheme
 RUN autoreconf -vif && \
