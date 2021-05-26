@@ -12,7 +12,7 @@
   "payment_channel_key_path": "/ssl/client-key.pem",
   "blockchain_network_selected": "main",
   "metering_end_point": "https://mainnet-marketplace.singularitynet.io",
-  "ethereum_json_rpc_endpoint": "https://mainnet.infura.io/v3/e7732e1f679e461b9bb4da5653ac3fc2",
+  "ethereum_json_rpc_endpoint": "https://mainnet.infura.io/v3/8840161bc7744446bb46c0124b63259c",
   "burst_size": 15,
   "rate_limit_per_minute": 1,
   "log": {
