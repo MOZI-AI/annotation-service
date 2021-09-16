@@ -160,6 +160,9 @@ RUN autoreconf -vif && \
 
 ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
+#Have to set PYTHONPATH manually to avoid issue of not find opencog module. See here: https://github.com/opencog/atomspace/issues/1782
+ENV PYTHONPATH=/usr/local/lib/python3.8/dist-packages
+
 WORKDIR $CODE
 
 RUN chmod 755 ./install.sh && ./install.sh
